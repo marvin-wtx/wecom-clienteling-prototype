@@ -1,0 +1,4 @@
+page,module,role,depth,source_flow,primary_action,secondary_action,data_needed,states,acceptance_note
+Home workbench,Home,[FA/SA/BA/advisor],A,Daily work execution,Start priority work,Open alerts,"tasks; metrics; alerts","normal; empty; loading","Shows daily priorities and entry points"
+Client list,Client,[FA/SA/BA/advisor],A,Find customer,Open C360,Search/filter,"customer list; ownership; tags","normal; empty; no permission","Supports client discovery"
+C360 overview,Client,[FA/SA/BA/advisor],A,Understand customer,Start action,Edit note/tag,"profile; tags; history; wishlist","registered; unregistered; transferred","Connects customer insight to action"
