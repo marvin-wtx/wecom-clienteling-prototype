@@ -2,6 +2,8 @@
 
 Use this when creating an HTML or clickable review prototype. The default pattern is a mobile mini-program experience inside a desktop review stage, plus a full-screen mobile mode.
 
+For HTML prototypes, first read `prototype-shell-contract.md` and start from `../assets/prototype-shell/index.html` or port that shell directly into the chosen framework.
+
 ## Required Presentation Modes
 
 ### Desktop Review Stage
@@ -12,11 +14,11 @@ Include:
 - Stage header with prototype title, version, and optional update note.
 - Stage controls above the phone frame.
 - Phone frame sized around a mobile mini-program viewport, commonly 390 x 844 or comparable.
-- Optional device-frame toggle.
 - Role selector.
 - Mode switch between **Free Browse** and **Journey Demo**.
 - Preset journey selector and reset button when journey mode is active.
 - URL parameters for reproducible review links when feasible, such as `view=desktop`, `view=mobile`, `role=...`, `date=...`, and optional journey state.
+- No visible mobile/desktop selector inside the prototype. Viewport mode must be automatic or URL-driven for QA.
 
 ### Mobile Full-Screen Mode
 
@@ -25,14 +27,14 @@ Purpose: approximate actual mobile/WebView usage.
 Rules:
 - Hide desktop stage header and stage controls.
 - Hide decorative phone frame/status shell unless explicitly needed.
-- Use `100vw` and `100vh`/`100dvh` behavior.
+- Use `100vw` and `100dvh` behavior where supported.
 - Keep the mini-program navigation and app UI visible.
 - Preserve the same business pages and role/page behavior as desktop stage.
+- Do not hide the phone, screen, body, or mini-program container in mobile mode.
 
 ## Stage Controls
 
 Use stage controls only in desktop review mode:
-- Device frame: show/hide phone shell.
 - Role: switch between configured roles, such as frontline advisor, manager development, manager/global, or client-specific roles.
 - Mode: free browse vs journey demo.
 - Journey selector: choose a preset journey.
@@ -92,8 +94,11 @@ For app UI visibility:
 ## Responsive QA
 
 Verify:
+- `scripts/check_prototype_shell.py` passes for generated HTML.
 - Desktop stage scales the phone frame without changing the designed mobile layout.
 - Mobile mode removes stage controls and fills the viewport.
+- Mobile mode is nonblank and still shows mini-program top navigation, body content, and expected bottom navigation or sticky action.
+- No visible viewport selector appears in the app or stage controls.
 - Stage controls do not wrap awkwardly in English or Chinese.
 - Long mini-program titles fit around native safe areas.
 - Text and actions fit in both desktop-stage phone and mobile full-screen modes.

@@ -20,9 +20,11 @@ Do not assume:
 
 Reflect these constraints in prototype planning:
 - Use a mini-program-style top navigation area with title, back affordance, and right-side safe area where relevant.
+- Preserve a WeCom-style capsule/safe area in clickable prototypes. In HTML output, reuse the shell from `assets/prototype-shell/index.html`.
 - Keep long page titles safe from right-side native controls by truncating or constraining title width.
 - Use bottom navigation only for top-level pages; hide it on deep detail, creation, confirmation, or full-screen operational pages when it conflicts with action bars.
 - Use sticky bottom action bars for primary completion actions.
+- Keep role selectors, journey selectors, review controls, and QA controls outside the mini-program screen.
 - Avoid exposing technical backend steps as user-facing pages unless they are meaningful to business users.
 - Treat loading, empty, no-permission, success, failed, and processing states as part of page behavior, not separate decorative pages.
 
@@ -57,6 +59,9 @@ For any CRM/CDP/MA/member/service/content integration, document:
 ## Prototype QA
 
 Check:
+- The prototype is inside a mini-program shell with title bar, capsule, body, and correct top-level tab behavior.
+- Desktop/mobile presentation is responsive code behavior, not a visible selector.
+- Mobile full-screen mode does not hide the app shell or produce a blank screen.
 - Primary actions respect WeCom contact and identity state.
 - Mini-program card send flows have result states.
 - Native WeCom send/broadcast replicas are included when source material or flow requirements call for them.

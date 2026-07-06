@@ -1,0 +1,1140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>WeCom Clienteling Prototype Shell</title>
+  <style>
+    :root {
+      --phone-w: 390px;
+      --phone-h: 844px;
+      --top-h: 96px;
+      --tab-h: 72px;
+      --desktop-phone-scale: 1;
+      --bg: #f6f5f1;
+      --surface: #ffffff;
+      --surface-soft: #f2eee6;
+      --line: #e4ded2;
+      --line-strong: #cfc5b7;
+      --text: #191714;
+      --muted: #71695f;
+      --subtle: #948a7e;
+      --brand: #8f6a3a;
+      --brand-strong: #6f4e26;
+      --accent: #315f75;
+      --success: #25765f;
+      --danger: #9b3c30;
+      --shadow: 0 20px 64px rgba(24, 21, 18, 0.18);
+      color-scheme: light;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: #ece8df;
+      color: var(--text);
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      color: inherit;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .stage {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      gap: 14px;
+      padding: 20px;
+    }
+
+    .stage-header,
+    .stage-controls {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .stage-title {
+      min-width: 0;
+    }
+
+    .stage-title strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .stage-title span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .stage-controls {
+      align-items: stretch;
+      flex-wrap: wrap;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.74);
+      backdrop-filter: blur(18px);
+    }
+
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .control-label {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .select,
+    .ghost-btn {
+      height: 34px;
+      border: 1px solid var(--line-strong);
+      border-radius: 7px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .ghost-btn svg,
+    .tab-icon svg,
+    .icon-btn svg,
+    .quick-icon svg,
+    .native-icon svg,
+    .wx-capsule svg,
+    .link svg,
+    .filter-btn svg,
+    .search svg,
+    .primary-btn svg,
+    .secondary-btn svg {
+      width: 1em;
+      height: 1em;
+      display: block;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .phone-wrap {
+      display: grid;
+      place-items: center;
+      min-height: 0;
+    }
+
+    .phone {
+      position: relative;
+      width: var(--phone-w);
+      height: var(--phone-h);
+      transform: scale(var(--desktop-phone-scale));
+      transform-origin: top center;
+      border: 12px solid #17120e;
+      border-radius: 46px;
+      background: #17120e;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .phone::before {
+      content: "";
+      position: absolute;
+      z-index: 20;
+      top: 0;
+      left: 50%;
+      width: 154px;
+      height: 32px;
+      transform: translateX(-50%);
+      border-radius: 0 0 22px 22px;
+      background: #17120e;
+    }
+
+    .screen {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      border-radius: 34px;
+      background: var(--bg);
+      display: grid;
+      grid-template-rows: var(--top-h) 1fr;
+    }
+
+    .statusbar {
+      position: absolute;
+      z-index: 15;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 700;
+      pointer-events: none;
+    }
+
+    .status-dots {
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .status-dots i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+      display: block;
+    }
+
+    .wx-nav {
+      position: relative;
+      z-index: 10;
+      height: var(--top-h);
+      padding: 38px 14px 8px;
+      background: rgba(246, 245, 241, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(228, 222, 210, 0.86);
+      display: grid;
+      grid-template-columns: 36px minmax(0, 1fr) 92px;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .wx-title {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .wx-capsule {
+      justify-self: end;
+      width: 88px;
+      height: 32px;
+      border: 1px solid rgba(25, 23, 20, 0.16);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.68);
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      align-items: center;
+      justify-items: center;
+      color: var(--text);
+    }
+
+    .wx-capsule span:nth-child(2) {
+      width: 1px;
+      height: 16px;
+      background: rgba(25, 23, 20, 0.14);
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      color: var(--text);
+    }
+
+    .body {
+      position: relative;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 14px 14px calc(var(--tab-h) + env(safe-area-inset-bottom) + 18px);
+      scrollbar-width: none;
+    }
+
+    .body::-webkit-scrollbar {
+      display: none;
+    }
+
+    .body.no-tab {
+      padding-bottom: calc(env(safe-area-inset-bottom) + 18px);
+    }
+
+    .hero {
+      margin: -14px -14px 14px;
+      padding: 24px 18px 20px;
+      color: #fff;
+      background: linear-gradient(135deg, #7d5b32 0%, #315f75 100%);
+    }
+
+    .hero-kicker,
+    .section-label,
+    .meta,
+    .small {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .hero-kicker {
+      color: rgba(255, 255, 255, 0.78);
+      font-weight: 600;
+    }
+
+    .hero-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .avatar {
+      flex: 0 0 auto;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.2);
+      font-weight: 800;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .stat-row {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .stat {
+      min-width: 0;
+      border-radius: 8px;
+      padding: 12px 8px;
+      background: rgba(255, 255, 255, 0.18);
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 21px;
+      line-height: 1.2;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 5px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .section {
+      margin-top: 14px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 0 0 10px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.3;
+      font-weight: 700;
+    }
+
+    .link {
+      color: var(--brand-strong);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: 0 1px 2px rgba(25, 23, 20, 0.04);
+    }
+
+    .client-card {
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 46px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: start;
+      margin-bottom: 10px;
+    }
+
+    .client-card .avatar {
+      width: 46px;
+      height: 46px;
+      background: var(--brand);
+      font-size: 18px;
+    }
+
+    .client-card h3,
+    .task-card h3,
+    .native-card h3 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .badge {
+      min-height: 24px;
+      padding: 3px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      color: var(--brand-strong);
+      background: var(--surface-soft);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .task-card {
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+
+    .task-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .progress {
+      margin-top: 12px;
+      height: 6px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: var(--surface-soft);
+    }
+
+    .progress i {
+      display: block;
+      height: 100%;
+      width: var(--p, 42%);
+      background: var(--brand);
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .quick-card {
+      min-width: 0;
+      display: grid;
+      justify-items: center;
+      gap: 6px;
+      padding: 10px 4px;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .quick-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      background: #eef2f3;
+      font-size: 22px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .search {
+      flex: 1;
+      min-width: 0;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--surface);
+      color: var(--muted);
+      padding: 0 11px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .filter-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--surface);
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-pill {
+      flex: 0 0 auto;
+      min-height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 12px;
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .tab-pill.active {
+      border-color: var(--brand);
+      color: var(--brand-strong);
+      background: #f4eadc;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric-card {
+      padding: 13px;
+    }
+
+    .metric-card strong {
+      display: block;
+      margin-top: 6px;
+      font-size: 21px;
+      line-height: 1.2;
+    }
+
+    .bar-list {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 72px 1fr 44px;
+      gap: 8px;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .bar {
+      height: 8px;
+      border-radius: 8px;
+      background: var(--surface-soft);
+      overflow: hidden;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      width: var(--w, 50%);
+      background: var(--accent);
+    }
+
+    .native-page {
+      margin: -14px -14px 0;
+      padding: 14px;
+      min-height: calc(100% + 14px);
+      background: #f7f7f7;
+    }
+
+    .native-card {
+      padding: 14px;
+      margin-bottom: 10px;
+      border-color: #dddddd;
+    }
+
+    .native-option {
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 13px 0;
+      border-top: 1px solid #eeeeee;
+    }
+
+    .native-option:first-child {
+      border-top: 0;
+    }
+
+    .native-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      background: #edf4f7;
+      color: #176078;
+      font-size: 20px;
+    }
+
+    .journey-hud {
+      position: absolute;
+      z-index: 30;
+      left: 12px;
+      right: 12px;
+      bottom: calc(var(--tab-h) + 10px);
+      border: 1px solid rgba(49, 95, 117, 0.25);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(18px);
+      padding: 10px 11px;
+      box-shadow: 0 10px 30px rgba(25, 23, 20, 0.12);
+      display: none;
+    }
+
+    .journey-hud.active {
+      display: block;
+    }
+
+    .journey-hud strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    .journey-hud span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .tabbar {
+      position: absolute;
+      z-index: 25;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      min-height: var(--tab-h);
+      padding-bottom: env(safe-area-inset-bottom);
+      background: rgba(255, 255, 255, 0.94);
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      backdrop-filter: blur(18px);
+    }
+
+    .tab-item {
+      min-width: 0;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .tab-item.active {
+      color: var(--brand);
+    }
+
+    .tab-icon {
+      font-size: 22px;
+    }
+
+    .sticky-bottom {
+      position: sticky;
+      bottom: 0;
+      z-index: 14;
+      margin: 14px -14px -14px;
+      padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+      background: rgba(246, 245, 241, 0.92);
+      backdrop-filter: blur(18px);
+      border-top: 1px solid var(--line);
+      display: flex;
+      gap: 10px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      min-height: 42px;
+      border-radius: 8px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      padding: 0 14px;
+      font-weight: 800;
+    }
+
+    .primary-btn {
+      flex: 1;
+      color: #fff;
+      background: var(--brand);
+    }
+
+    .secondary-btn {
+      color: var(--brand-strong);
+      background: var(--surface);
+      border: 1px solid var(--line);
+    }
+
+    body.mobile {
+      background: var(--bg);
+    }
+
+    body.mobile .stage {
+      min-height: 100dvh;
+      padding: 0;
+      display: block;
+    }
+
+    body.mobile .stage-header,
+    body.mobile .stage-controls {
+      display: none;
+    }
+
+    body.mobile .phone-wrap {
+      display: block;
+      min-height: 100dvh;
+    }
+
+    body.mobile .phone {
+      width: 100vw;
+      height: 100dvh;
+      transform: none;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      background: var(--bg);
+    }
+
+    body.mobile .phone::before,
+    body.mobile .statusbar {
+      display: none;
+    }
+
+    body.mobile .screen {
+      border-radius: 0;
+    }
+
+    body.mobile .wx-nav {
+      padding-top: max(12px, env(safe-area-inset-top));
+      height: calc(58px + env(safe-area-inset-top));
+      grid-template-columns: 36px minmax(0, 1fr) 92px;
+    }
+
+    @media (max-width: 740px) {
+      body:not(.desktop) .stage {
+        min-height: 100dvh;
+        padding: 0;
+        display: block;
+      }
+
+      body:not(.desktop) .stage-header,
+      body:not(.desktop) .stage-controls {
+        display: none;
+      }
+
+      body:not(.desktop) .phone-wrap {
+        display: block;
+        min-height: 100dvh;
+      }
+
+      body:not(.desktop) .phone {
+        width: 100vw;
+        height: 100dvh;
+        transform: none;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        background: var(--bg);
+      }
+
+      body:not(.desktop) .phone::before,
+      body:not(.desktop) .statusbar {
+        display: none;
+      }
+
+      body:not(.desktop) .screen {
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="stage">
+    <header class="stage-header">
+      <div class="stage-title">
+        <strong>WeCom Clienteling Prototype Shell</strong>
+        <span>Desktop frame, mobile mini-program frame, role switching, preset journeys, and native WeCom page replicas.</span>
+      </div>
+      <button class="ghost-btn" type="button" data-route="native-broadcast" aria-label="查看企微原生群发页">
+        <span data-icon="send"></span>
+        原生群发
+      </button>
+    </header>
+
+    <section class="stage-controls" aria-label="Prototype review controls">
+      <div class="control-group">
+        <span class="control-label">称呼</span>
+        <select class="select" id="roleSelect">
+          <option value="sa">SA 通用行业</option>
+          <option value="fa">FA Fashion</option>
+          <option value="ba">BA 美妆个护</option>
+          <option value="manager">店长</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <span class="control-label">Journey</span>
+        <select class="select" id="journeySelect">
+          <option value="">自由浏览</option>
+          <option value="new-client">新客入会跟进</option>
+          <option value="vip-care">高价值客户关怀</option>
+          <option value="native-broadcast">企微原生群发</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <span class="control-label">入口</span>
+        <button class="ghost-btn" type="button" data-route="home"><span data-icon="home"></span>首页</button>
+        <button class="ghost-btn" type="button" data-route="clients"><span data-icon="users"></span>客户</button>
+        <button class="ghost-btn" type="button" data-route="tasks"><span data-icon="list"></span>任务</button>
+        <button class="ghost-btn" type="button" data-route="dashboard"><span data-icon="grid"></span>看板</button>
+      </div>
+    </section>
+
+    <div class="phone-wrap">
+      <section class="phone" aria-label="WeCom mini-program prototype">
+        <div class="statusbar">
+          <span>9:41</span>
+          <span class="status-dots"><i></i><i></i><i></i><strong>5G</strong></span>
+        </div>
+        <div id="app" class="screen"></div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const state = {
+      route: location.hash.replace("#", "") || "home",
+      role: "ba",
+      journey: "",
+      previousRoute: "home"
+    };
+
+    const tabs = [
+      ["home", "首页", "home"],
+      ["clients", "客户", "users"],
+      ["tasks", "任务", "list"],
+      ["dashboard", "看板", "grid"],
+      ["me", "我的", "settings"]
+    ];
+
+    const roleCopy = {
+      sa: { label: "SA", title: "销售顾问", store: "门店客户运营" },
+      fa: { label: "FA", title: "Fashion Advisor", store: "精品门店" },
+      ba: { label: "BA", title: "Beauty Advisor", store: "美妆柜台" },
+      manager: { label: "店长", title: "门店管理者", store: "区域门店" }
+    };
+
+    const clients = [
+      { name: "王思琦", level: "高价值客户", profile: "生日 7/15", value: "近30日消费 ¥12k", task: "生日关怀 + 专属邀约", due: "截止 7/14" },
+      { name: "陈晓晓", level: "潜力客户", profile: "90 天未购", value: "历史消费 ¥24k", task: "复购唤醒 + 新品推荐", due: "截止 7/18" },
+      { name: "林嘉怡", level: "新客", profile: "入会 3 天", value: "首单 ¥1.8k", task: "入会欢迎 + 偏好补充", due: "今日" }
+    ];
+
+    const tasks = [
+      { channel: "1vN 群发", tag: "总部活动", title: "高价值客户复购提醒", detail: "18 位客户 · 话术与素材已就绪", cta: "开始", progress: 30 },
+      { channel: "朋友圈", tag: "新品内容", title: "重点单品种草素材", detail: "推荐文案 + 3 张素材已就绪", cta: "发布", progress: 0 },
+      { channel: "1v1 跟进", tag: "门店任务", title: "预约到店确认", detail: "6 位客户 · 需确认时间与顾问", cta: "处理", progress: 67 }
+    ];
+
+    const journeySteps = {
+      "new-client": { route: "clients", title: "新客入会跟进", note: "从客户列表进入详情，补充偏好，完成欢迎触达和下一次跟进提醒。" },
+      "vip-care": { route: "home", title: "高价值客户关怀", note: "从首页今日重点进入客户卡片，执行生日关怀、邀约、预约、结果回填。" },
+      "native-broadcast": { route: "native-broadcast", title: "企微原生群发", note: "进入原生新建群发复刻页，检查客户选择、内容编辑、预览确认与发送结果。" }
+    };
+
+    function icon(name) {
+      const paths = {
+        home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>',
+        users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+        list: '<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>',
+        calendar: '<path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/>',
+        grid: '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
+        settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-.4-1.1 1.7 1.7 0 0 0-1-.6 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.1-.4 1.7 1.7 0 0 0 .6-1A1.7 1.7 0 0 0 4.45 6.3l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 .4 1.1 1.7 1.7 0 0 0 1 .6 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.14.36.35.69.6 1 .31.27.71.42 1.1.4H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.1.4c-.26.31-.47.64-.6 1Z"/>',
+        send: '<path d="m22 2-7 20-4-9-9-4 20-7Z"/><path d="M22 2 11 13"/>',
+        search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>',
+        filter: '<path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/>',
+        chevron: '<path d="m9 18 6-6-6-6"/>',
+        plus: '<path d="M12 5v14"/><path d="M5 12h14"/>',
+        back: '<path d="m15 18-6-6 6-6"/>',
+        more: '<circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/>',
+        message: '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/>',
+        phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 3.08 5.18 2 2 0 0 1 5 3h3a2 2 0 0 1 2 1.72c.12.9.33 1.77.62 2.61a2 2 0 0 1-.45 2.11L9 10.61a16 16 0 0 0 4.4 4.4l1.17-1.17a2 2 0 0 1 2.11-.45c.84.29 1.71.5 2.61.62A2 2 0 0 1 22 16.92Z"/>',
+        user: '<path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="7" r="4"/>',
+        bag: '<path d="M6 7h12l1 14H5L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/>',
+        chart: '<path d="M3 3v18h18"/><path d="M7 15v2"/><path d="M12 10v7"/><path d="M17 6v11"/>',
+        lock: '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>'
+      };
+      return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (paths[name] || paths.home) + '</svg>';
+    }
+
+    function mountIcons(root = document) {
+      root.querySelectorAll("[data-icon]").forEach((node) => {
+        node.innerHTML = icon(node.dataset.icon);
+      });
+    }
+
+    function setRoute(route) {
+      state.previousRoute = state.route;
+      state.route = route;
+      location.hash = route;
+      render();
+    }
+
+    function detectViewportMode() {
+      const view = new URLSearchParams(location.search).get("view");
+      const requestedMobile = view === "mobile";
+      const requestedDesktop = view === "desktop";
+      const autoMobile = /iPhone|iPad|iPod|Android|Mobile|HarmonyOS|WeChat/i.test(navigator.userAgent) || window.innerWidth < 768;
+      document.body.classList.toggle("desktop", requestedDesktop);
+      document.body.classList.toggle("mobile", requestedMobile || (!requestedDesktop && autoMobile));
+    }
+
+    function fitDesktopPhone() {
+      if (document.body.classList.contains("mobile")) {
+        document.documentElement.style.setProperty("--desktop-phone-scale", "1");
+        return;
+      }
+      const reservedHeight = 132;
+      const scale = Math.min(1, Math.max(0.72, (window.innerHeight - reservedHeight) / 868));
+      document.documentElement.style.setProperty("--desktop-phone-scale", String(scale));
+    }
+
+    function wxNav(title, isHome) {
+      const left = isHome ? '<span></span>' : '<button class="icon-btn" type="button" data-back aria-label="返回">' + icon("back") + '</button>';
+      return '<nav class="wx-nav">' + left + '<div class="wx-title">' + title + '</div><div class="wx-capsule" aria-label="微信小程序胶囊按钮"><span>' + icon("more") + '</span><span></span><span>' + icon("home") + '</span></div></nav>';
+    }
+
+    function tabbar(active) {
+      return '<footer class="tabbar" aria-label="小程序底部导航">' + tabs.map(([route, label, iconName]) => {
+        const activeClass = active === route ? " active" : "";
+        return '<button class="tab-item' + activeClass + '" type="button" data-route="' + route + '"><span class="tab-icon">' + icon(iconName) + '</span><span>' + label + '</span></button>';
+      }).join("") + '</footer>';
+    }
+
+    function journeyHud() {
+      if (!state.journey || !journeySteps[state.journey]) return "";
+      const step = journeySteps[state.journey];
+      return '<aside class="journey-hud active"><strong>' + step.title + '</strong><span>' + step.note + '</span></aside>';
+    }
+
+    function appShell(options) {
+      const { title, isHome = false, tab = state.route, showTabbar = true, body = "" } = options;
+      return wxNav(title, isHome) + '<main class="body' + (showTabbar ? "" : " no-tab") + '">' + body + '</main>' + journeyHud() + (showTabbar ? tabbar(tab) : "");
+    }
+
+    function clientCard(client) {
+      return '<article class="card client-card"><div class="avatar">' + client.name.slice(0, 1) + '</div><div><h3>' + client.name + '</h3><div class="meta">' + client.value + '</div><div class="badge-row"><span class="badge">' + client.level + '</span><span class="badge">' + client.task + '</span></div><div class="meta" style="margin-top:8px">' + client.due + '</div></div><div class="meta">' + client.profile + '</div></article>';
+    }
+
+    function taskCard(task) {
+      return '<article class="card task-card"><div class="task-top"><div><div class="badge-row" style="margin-top:0"><span class="badge">' + task.channel + '</span><span class="badge">' + task.tag + '</span></div><h3 style="margin-top:10px">' + task.title + '</h3><div class="meta" style="margin-top:8px">' + task.detail + '</div></div><button class="link" type="button">' + task.cta + ' ' + icon("chevron") + '</button></div><div class="progress" aria-label="任务进度"><i style="--p:' + task.progress + '%"></i></div><div class="meta" style="display:flex;justify-content:space-between;margin-top:8px"><span>已处理 ' + task.progress + '%</span><span>今日</span></div></article>';
+    }
+
+    function homePage() {
+      const role = roleCopy[state.role] || roleCopy.sa;
+      return appShell({
+        title: "工作台",
+        isHome: true,
+        tab: "home",
+        body: '<section class="hero"><div class="hero-kicker">' + role.store + '</div><div class="hero-main"><h1>今日待办<br>' + role.label + ' 客户经营</h1><div class="avatar">' + role.label + '</div></div><div class="stat-row"><div class="stat"><strong>6</strong><span>今日任务</span></div><div class="stat"><strong>3</strong><span>重点邀约</span></div><div class="stat"><strong>¥38k</strong><span>跟进金额</span></div></div></section><section class="section"><div class="section-head"><h2>重点客户（3）</h2><button class="link" type="button" data-route="clients">查看全部 ' + icon("chevron") + '</button></div>' + clients.slice(0, 2).map(clientCard).join("") + '</section><section class="section"><div class="section-head"><h2>今日任务（6）</h2><button class="link" type="button" data-route="tasks">查看全部 ' + icon("chevron") + '</button></div>' + tasks.slice(0, 2).map(taskCard).join("") + '</section><section class="section"><div class="section-head"><h2>快捷入口</h2></div><div class="quick-grid card">' + quickAction("客户", "users", "clients") + quickAction("素材", "bag", "tasks") + quickAction("预约", "calendar", "appointment") + quickAction("看板", "chart", "dashboard") + '</div></section>'
+      });
+    }
+
+    function quickAction(label, iconName, route) {
+      return '<button class="quick-card" type="button" data-route="' + route + '"><span class="quick-icon">' + icon(iconName) + '</span><span>' + label + '</span></button>';
+    }
+
+    function clientsPage() {
+      return appShell({
+        title: "客户",
+        tab: "clients",
+        body: '<div class="toolbar"><div class="search">' + icon("search") + '<span>搜索客户姓名、标签、手机号后四位</span></div><button class="filter-btn" type="button" aria-label="筛选">' + icon("filter") + '</button></div><div class="tabs"><button class="tab-pill active">全部</button><button class="tab-pill">高价值客户</button><button class="tab-pill">待跟进</button><button class="tab-pill">新客</button></div>' + clients.map(clientCard).join("") + '<div class="sticky-bottom"><button class="secondary-btn" type="button">' + icon("filter") + '批量筛选</button><button class="primary-btn" type="button">' + icon("plus") + '新建跟进</button></div>'
+      });
+    }
+
+    function tasksPage() {
+      return appShell({
+        title: "任务",
+        tab: "tasks",
+        body: '<div class="tabs"><button class="tab-pill active">全部任务</button><button class="tab-pill">1v1</button><button class="tab-pill">1vN</button><button class="tab-pill">朋友圈</button><button class="tab-pill">预约</button></div>' + tasks.map(taskCard).join("") + '<section class="card native-card"><h3>需要企微原生能力</h3><p class="meta">群发、朋友圈、客户选择等能力应进入原生页面复刻，不在自定义小程序页面里伪造。</p><button class="primary-btn" type="button" data-route="native-broadcast" style="width:100%;margin-top:12px">' + icon("send") + '查看原生群发</button></section>'
+      });
+    }
+
+    function appointmentPage() {
+      return appShell({
+        title: "预约",
+        tab: "tasks",
+        body: '<section class="card task-card"><div class="task-top"><div><h3>到店预约确认</h3><div class="meta" style="margin-top:8px">选择客户、服务内容、门店与时间后生成跟进记录。</div></div><span class="badge">门店协同</span></div></section><section class="card native-card"><div class="native-option"><span class="native-icon">' + icon("calendar") + '</span><div><h3>今日预约</h3><div class="meta">4 个待确认，2 个待回填</div></div>' + icon("chevron") + '</div><div class="native-option"><span class="native-icon">' + icon("users") + '</span><div><h3>客户选择</h3><div class="meta">按会员等级、偏好、最近互动筛选</div></div>' + icon("chevron") + '</div></section>'
+      });
+    }
+
+    function dashboardPage() {
+      return appShell({
+        title: "看板",
+        tab: "dashboard",
+        body: '<section class="dashboard-grid"><article class="card metric-card"><span class="meta">任务完成率</span><strong>72%</strong></article><article class="card metric-card"><span class="meta">触达客户</span><strong>186</strong></article><article class="card metric-card"><span class="meta">预约转化</span><strong>24%</strong></article><article class="card metric-card"><span class="meta">沉睡唤醒</span><strong>18</strong></article></section><section class="section"><div class="section-head"><h2>渠道表现</h2></div><div class="card bar-list">' + barRow("1v1 跟进", 82) + barRow("1vN 群发", 64) + barRow("朋友圈", 48) + barRow("预约", 35) + '</div></section>'
+      });
+    }
+
+    function barRow(label, value) {
+      return '<div class="bar-row"><span>' + label + '</span><div class="bar"><i style="--w:' + value + '%"></i></div><strong>' + value + '%</strong></div>';
+    }
+
+    function mePage() {
+      const role = roleCopy[state.role] || roleCopy.sa;
+      return appShell({
+        title: "我的",
+        tab: "me",
+        body: '<section class="card task-card"><div class="task-top"><div><h3>' + role.title + '</h3><div class="meta" style="margin-top:8px">角色、权限和可见客户范围应由项目实际组织架构确认。</div></div><span class="badge">' + role.label + '</span></div></section><section class="card native-card"><div class="native-option"><span class="native-icon">' + icon("lock") + '</span><div><h3>权限说明</h3><div class="meta">总部、店长、导购视图需要分别校验</div></div>' + icon("chevron") + '</div><div class="native-option"><span class="native-icon">' + icon("settings") + '</span><div><h3>原型设置</h3><div class="meta">仅演示控制区展示，移动端隐藏</div></div>' + icon("chevron") + '</div></section>'
+      });
+    }
+
+    function nativeBroadcastPage() {
+      return appShell({
+        title: "新建群发",
+        showTabbar: false,
+        body: '<section class="native-page"><article class="card native-card"><h3>选择发送对象</h3><div class="native-option"><span class="native-icon">' + icon("users") + '</span><div><strong>客户</strong><div class="meta">按企微客户范围选择，支持标签筛选</div></div>' + icon("chevron") + '</div><div class="native-option"><span class="native-icon">' + icon("user") + '</span><div><strong>客户群</strong><div class="meta">选择群聊并校验发送频次</div></div>' + icon("chevron") + '</div></article><article class="card native-card"><h3>编辑群发内容</h3><div class="native-option"><span class="native-icon">' + icon("message") + '</span><div><strong>文本内容</strong><div class="meta">话术、商品信息、活动说明</div></div>' + icon("chevron") + '</div><div class="native-option"><span class="native-icon">' + icon("bag") + '</span><div><strong>素材附件</strong><div class="meta">图片、链接、小程序卡片</div></div>' + icon("chevron") + '</div></article><div class="sticky-bottom"><button class="secondary-btn" type="button" data-route="tasks">' + icon("back") + '返回任务</button><button class="primary-btn" type="button">' + icon("send") + '预览并发送</button></div></section>'
+      });
+    }
+
+    function render() {
+      const step = journeySteps[state.journey];
+      if (step && state.route !== step.route && state.route === "home") {
+        state.route = step.route;
+      }
+      const pages = {
+        home: homePage,
+        clients: clientsPage,
+        tasks: tasksPage,
+        appointment: appointmentPage,
+        dashboard: dashboardPage,
+        me: mePage,
+        "native-broadcast": nativeBroadcastPage
+      };
+      const app = document.getElementById("app");
+      app.innerHTML = (pages[state.route] || homePage)();
+      mountIcons(app);
+      app.querySelectorAll("[data-route]").forEach((button) => {
+        button.addEventListener("click", () => setRoute(button.dataset.route));
+      });
+      app.querySelectorAll("[data-back]").forEach((button) => {
+        button.addEventListener("click", () => setRoute(state.previousRoute || "home"));
+      });
+      fitDesktopPhone();
+    }
+
+    document.querySelectorAll("[data-route]").forEach((button) => {
+      button.addEventListener("click", () => setRoute(button.dataset.route));
+    });
+
+    document.getElementById("roleSelect").addEventListener("change", (event) => {
+      state.role = event.target.value;
+      render();
+    });
+
+    document.getElementById("journeySelect").addEventListener("change", (event) => {
+      state.journey = event.target.value;
+      const step = journeySteps[state.journey];
+      if (step) state.route = step.route;
+      render();
+    });
+
+    window.addEventListener("hashchange", () => {
+      state.route = location.hash.replace("#", "") || "home";
+      render();
+    });
+
+    window.addEventListener("resize", () => {
+      detectViewportMode();
+      fitDesktopPhone();
+    });
+
+    detectViewportMode();
+    mountIcons(document);
+    render();
+  </script>
+</body>
+</html>

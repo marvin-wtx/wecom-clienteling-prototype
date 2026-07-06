@@ -94,9 +94,11 @@ Ask when tasks are in scope:
 ## Prototype Presentation
 
 For HTML/clickable prototypes, ask:
+- Should I use the bundled WeCom mini-program prototype shell as the hard implementation base?
 - Should the prototype use a desktop review stage with a mobile phone frame?
 - Should it also support mobile full-screen mode where stage controls are hidden?
-- Should the stage include device-frame toggle, role selector, free browse / journey mode switch, journey selector, and reset?
+- Should the stage include role selector, free browse / journey mode switch, journey selector, and reset?
+- Should viewport mode be automatic with optional QA URL parameters, rather than a visible mobile/desktop selector?
 - Which roles should be switchable?
 - Should journey mode control the role and disable manual role switching while active?
 - Which preset journeys should be included?

@@ -17,6 +17,7 @@ Classify every request into one or more work modes:
 - **Interaction standardization**: convert search, filter, sort, tab, bottom-sheet, and page-state details into reusable cross-page rules.
 - **Task execution modeling**: define how 1v1, 1vN, Moments, native broadcast, appointment, content, and feedback actions execute.
 - **Prototype execution**: write an execution brief for HTML, Figma, slides, or another prototype surface, with WeCom mini-program and demo-shell constraints.
+- **Prototype shell implementation**: produce or revise an HTML/clickable prototype by reusing the bundled mini-program shell source, not by inventing a new container.
 - **Prototype presentation**: specify desktop review stage, mobile full-screen mode, role switching, control visibility, free browsing, and preset journey demo behavior.
 - **WeCom native replication**: decide when to replicate native WeCom pages, such as 新建群发, instead of designing a custom clienteling page.
 - **Visual direction**: define industry-appropriate naming, prototype style references, brand fit, and reusable visual direction before implementation.
@@ -33,12 +34,14 @@ Classify every request into one or more work modes:
 7. Read `references/task-execution-patterns.md` when specifying task list/detail behavior, execution methods, target handling, native send handoff, or completion feedback.
 8. Read `references/wecom-mini-program-constraints.md` when designing pages, flows, interactions, integrations, or prototype implementation.
 9. Read `references/wecom-native-page-replication.md` when a flow enters WeCom native compose, broadcast, recipient, or send-result behavior, or when source material mentions 新建群发, 群发, 原生企微页面, native WeCom, broadcast, or mass send.
-10. Read `references/prototype-presentation-spec.md` when producing an HTML/clickable prototype, demo shell, or prototype execution brief.
-11. Read `references/terminology.md` when role naming, industry vocabulary, customer/member field names, or Chinese/English labels affect credibility.
-12. Read `references/visual-design-reference.md` when producing or briefing a visual prototype.
-13. Read `references/intake-questionnaire.md` when source material is missing actors, integration scope, page depth, demo goals, visual direction, terminology, WeCom mini-program constraints, native page replication, presentation mode, interaction standards, task execution details, or acceptance criteria.
-14. Read `references/qa-rubric.md` when reviewing coverage or validating an existing prototype.
-15. Use `assets/templates/` files as output skeletons when the user wants a structured deliverable.
+10. Read `references/prototype-shell-contract.md` before producing, revising, or reviewing an HTML/clickable prototype.
+11. Use `assets/prototype-shell/index.html` as the starting source for HTML prototypes unless the user explicitly requires another stack.
+12. Read `references/prototype-presentation-spec.md` when producing an HTML/clickable prototype, demo shell, or prototype execution brief.
+13. Read `references/terminology.md` when role naming, industry vocabulary, customer/member field names, or Chinese/English labels affect credibility.
+14. Read `references/visual-design-reference.md` when producing or briefing a visual prototype.
+15. Read `references/intake-questionnaire.md` when source material is missing actors, integration scope, page depth, demo goals, visual direction, terminology, WeCom mini-program constraints, native page replication, presentation mode, interaction standards, task execution details, or acceptance criteria.
+16. Read `references/qa-rubric.md` when reviewing coverage or validating an existing prototype.
+17. Use `assets/templates/` files as output skeletons when the user wants a structured deliverable.
 
 ## Domain Rule
 
@@ -58,10 +61,14 @@ Keep Opportunity Follow-Up separate from the default core model. Only consider i
 - Preserve local terminology from the user's materials, including module names, role names, field labels, and industry-specific sales-associate terms.
 - Do not default to project-specific customer/member field names. If source material does not confirm field labels, use neutral business labels such as customer identifier, member identifier, contact method, customer grouping, member level, profile label, and lifecycle state.
 - For prototypes, separate **full-detail pages**, **structural pages**, and **navigation/skeleton pages**.
-- For HTML/clickable prototypes, specify both desktop review stage and mobile full-screen behavior, including which controls appear only in desktop stage.
+- For HTML/clickable prototypes, start from `assets/prototype-shell/index.html` or port its classes and behavior directly. Do not recreate the phone frame, WeCom mini-program container, top bar, capsule, or bottom tabbar from scratch.
+- For HTML/clickable prototypes, implement desktop review stage and mobile full-screen mode as code-level responsive behavior. Do not expose a visible mobile/desktop selector in the product UI.
 - Include role switching, permission-driven show/hide rules, free-browse mode, and preset journey mode when the user asks for an interactive review prototype.
+- Keep desktop-only review controls, role controls, and preset journey controls outside the mini-program screen; hide them in mobile presentation.
 - Preserve required WeCom native replicas, including 新建群发, recipient summary, message/content payload, asset selection entry, send action, frequency note, and return-to-business result state when the flow requires them.
+- Use SVG icons or an approved icon library. Do not use emoji for tabbar icons, quick entrances, task markers, page states, or placeholder illustrations.
 - Standardize reusable page interactions, including search fields, filter groups, sort behavior, tab usage, bottom sheets, disabled-action reasons, and empty/loading/error/no-permission states.
 - Standardize task execution by separating task source, task type, target grain, execution channel, native handoff, completion feedback, and measurable result.
 - Define visual direction before implementation: brand fit, industry convention, reference sources, density, tone, component style, and what should remain generic.
+- Run `scripts/check_prototype_shell.py` on generated HTML prototypes before considering them complete, then visually verify desktop and mobile render paths.
 - Validate that each important flow has an actor, trigger, customer state, system state, action, result, and recovery/exception path.

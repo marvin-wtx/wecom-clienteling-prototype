@@ -16,6 +16,8 @@ Ask only what is needed for the current fidelity:
 
 For product UI work, use real references first when available. If Lazyweb or another design-reference tool is available, search relevant patterns before designing: client list, C360, task detail, appointment calendar, content library, dashboard, transfer flow, or industry-specific workbench.
 
+For HTML/clickable prototypes, the bundled shell already defines a neutral operational base. Keep that base unless the user provides a stronger design system.
+
 ## Style Direction Templates
 
 Choose one direction as a starting point, then adapt to the client's brand and prototype goal.
@@ -35,6 +37,7 @@ Avoid:
 - Marketing-style hero sections.
 - Overly decorative cards.
 - Heavy gradients or lifestyle imagery that makes business logic harder to review.
+- Emoji icons or consumer-app decoration in operational navigation.
 
 ### 2. Luxury Fashion Clienteling
 
@@ -54,6 +57,7 @@ Avoid:
 - Loud SaaS colors.
 - Generic stock imagery.
 - Overly playful icons or round app-like visuals.
+- Turning the entire prototype into one gold, brown, black, or beige palette because the brand is luxury.
 
 ### 3. Beauty BA Workbench
 
@@ -71,6 +75,7 @@ Use role naming:
 Avoid:
 - Calling BA users FA/SA.
 - Making the UI feel like a consumer shopping app when it is an advisor workbench.
+- Emoji for product categories, tabs, metrics, or quick actions.
 
 ### 4. Branded Executive Demo
 
@@ -109,6 +114,8 @@ When briefing a prototype, include:
 - Color/typography/image constraints.
 - Page density target.
 - Component conventions: cards, lists, tabs, filter bars, status chips, modals, bottom navigation.
+- Icon rule: SVG or approved icon library only; no emoji in app UI.
+- Color rule: neutral WeCom/workbench base plus controlled brand accents; avoid one-hue themes.
 - What is intentionally not designed in this round.
 
 ## QA Checks
@@ -119,3 +126,5 @@ When briefing a prototype, include:
 - Are extension modules visually distinguished without looking disconnected?
 - Are references traceable to provided material or real pattern research?
 - Are generic templates clearly adapted to the client instead of copied verbatim?
+- Are tabbar, quick entrance, task, and state icons implemented as SVG/library icons rather than emoji?
+- Does the palette preserve operational contrast and avoid overusing a single brand hue?

@@ -29,6 +29,8 @@ Use this to review prototype coverage and readiness.
 
 ## Prototype Quality Checks
 
+- HTML/clickable prototypes start from `assets/prototype-shell/index.html` or directly port its shell structure and behavior.
+- `scripts/check_prototype_shell.py` passes for generated HTML.
 - Navigation matches the page inventory.
 - Page depth matches A/B/C commitments.
 - Sample data demonstrates real decisions, not filler.
@@ -40,13 +42,18 @@ Use this to review prototype coverage and readiness.
 - Search and filter states include no result, cleared query, selected filters, role-limited filters, and source failures when relevant.
 - Tabs, segmented controls, status filters, and filter chips are used consistently according to hierarchy.
 - Mini-program navigation, safe areas, bottom-tab visibility, and sticky action bars match the page depth and flow.
+- The WeCom mini-program shell is present on every custom app page: title bar, capsule/safe area, body container, and correct top-level tabbar.
 - Native WeCom replicas, such as 新建群发, hide clienteling bottom navigation and unrelated app tools.
 - Native replicas carry recipient count, message copy, attachment, frequency/compliance note, send/cancel path, and return-to-business result state.
 - Desktop review stage and mobile full-screen behavior are both verified when the prototype is HTML/clickable.
+- Desktop/mobile behavior is code-level responsive or URL-driven for QA, not a visible selector.
+- Mobile full-screen mode is nonblank and does not hide the phone/screen/body container.
 - Stage controls are hidden in mobile full-screen mode and separated from production app UI.
 - Role switching changes permissions, data scope, and available tools.
 - Free browse and preset journey modes both work when scoped.
 - Journey mode controls role when the journey requires a role-specific path.
+- Emoji are absent from tabbars, quick entries, task cards, page states, and placeholder illustrations.
+- Brand color is used as an accent unless the user provides a full design system.
 
 ## Output Checks
 

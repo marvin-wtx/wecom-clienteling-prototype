@@ -1,6 +1,6 @@
 # WeCom Clienteling Prototype Skill
 
-An AI-readable skill package for turning WeCom / WeChat Work mini-program clienteling materials into reusable prototype plans, capability maps, interaction standards, task-execution models, and prototype QA checklists.
+An AI-readable skill package for turning WeCom / WeChat Work mini-program clienteling materials into reusable prototype plans, capability maps, interaction standards, task-execution models, prototype shell implementations, and prototype QA checklists.
 
 This repository is designed to be usable by AI agents that can read structured instruction files. Codex can install it as a native skill. Other AI assistants can use it as a workflow package by reading `SKILL.md` and the referenced files.
 
@@ -12,6 +12,8 @@ This repository is designed to be usable by AI agents that can read structured i
 - Standardizes search, filter, sort, tabs, page states, and disabled-action reasons.
 - Models task execution for 1v1, 1vN, Moments, native WeCom broadcast, appointment, content, and offline follow-up flows.
 - Preserves WeCom mini-program constraints and native WeCom page replicas such as `新建群发` when relevant.
+- Provides a reusable HTML prototype shell with WeCom mini-program frame, desktop review stage, mobile full-screen behavior, role switching, preset journeys, and native page replica structure.
+- Checks generated HTML prototypes for shell-contract issues such as missing container, visible viewport selector, mobile blank-screen risk, and emoji icons.
 - Guides visual direction, industry terminology, FA/SA/BA role naming, and customer/member field vocabulary.
 - Produces coverage QA checks for business logic, interactions, permissions, and presentation behavior.
 
@@ -23,13 +25,19 @@ This repository is designed to be usable by AI agents that can read structured i
 ├── agents/
 │   └── openai.yaml
 ├── assets/
+│   ├── prototype-shell/
+│   │   └── index.html
 │   └── templates/
-└── references/
+├── references/
+└── scripts/
+    └── check_prototype_shell.py
 ```
 
 - `SKILL.md` is the main instruction file.
 - `references/` contains detailed domain and workflow references loaded as needed.
+- `assets/prototype-shell/index.html` is the reusable HTML base for clickable WeCom mini-program prototypes.
 - `assets/templates/` contains reusable output skeletons.
+- `scripts/check_prototype_shell.py` validates generated HTML prototypes against shell guardrails.
 - `agents/openai.yaml` provides optional UI metadata for skill-aware clients.
 
 ## Use With Codex
@@ -63,6 +71,8 @@ Start by reading SKILL.md.
 Follow the Required Workflow in SKILL.md.
 Load files from references/ only when the current task calls for them.
 Use assets/templates/ as output skeletons when creating structured deliverables.
+Use assets/prototype-shell/index.html as the implementation base for HTML/clickable prototypes.
+Run scripts/check_prototype_shell.py before considering an HTML prototype complete.
 Do not treat the repository as source material for a specific client project.
 ```
 
@@ -82,9 +92,13 @@ Use this skill to build a baseline WeCom Clienteling mini-program prototype fram
 Use this skill to review whether my WeCom Clienteling prototype covers core modules, task execution, WeCom native pages, role switching, and desktop/mobile presentation behavior.
 ```
 
+```text
+Use this skill to create an HTML prototype. Start from assets/prototype-shell/index.html, adapt the business data and journeys, then run scripts/check_prototype_shell.py on the generated index.html.
+```
+
 ## Notes
 
-- This is a methodology and instruction package, not an executable app.
+- This is a methodology and instruction package with a reusable HTML shell asset and QA script. It is not a production app.
 - It does not include client project files, private business documents, screenshots, credentials, or real customer data.
 - Project-specific terminology, field names, member-system integrations, and visual references should be confirmed per project.
 - Opportunity follow-up is conditional and should be added only when the user's material indicates a real opportunity lifecycle.

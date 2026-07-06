@@ -95,7 +95,7 @@ Before briefing or building a prototype, define:
 - Desktop review stage vs mobile full-screen behavior.
 - Stage controls, free browse, preset journeys, and URL parameters.
 
-Read `references/wecom-mini-program-constraints.md`, `references/wecom-native-page-replication.md` when relevant, and `references/prototype-presentation-spec.md`.
+Read `references/wecom-mini-program-constraints.md`, `references/wecom-native-page-replication.md` when relevant, `references/prototype-shell-contract.md` for HTML/clickable prototypes, and `references/prototype-presentation-spec.md`.
 
 Output: channel and presentation spec.
 
@@ -138,19 +138,24 @@ Use `assets/templates/prototype-brief-template.md`.
 ## 8. Prototype Production
 
 When implementing:
+- For HTML/clickable prototypes, copy `assets/prototype-shell/index.html` first or port its shell into the chosen framework.
 - Build the actual usable experience first, not a marketing page.
 - Preserve business density and operational scanning.
 - Use realistic sample data, states, and role-specific content.
 - Keep navigation and flow traceable to the page inventory.
 - Make extension modules visible only if they are in scope.
 - Implement WeCom mini-program/container constraints before adding decorative UI.
+- Preserve the shell's WeCom title bar, capsule, page body, bottom tabbar, desktop review frame, mobile full-screen behavior, role controls, and journey controls.
 - Implement reusable search, filter, sort, tab, page-state, and disabled-action behavior consistently across A-level pages.
 - Implement task execution by type and channel, not as a generic static task page.
 - Implement native WeCom replicas, such as 新建群发, when the flow requires native send/broadcast behavior.
 - Implement desktop review stage and mobile full-screen behavior when the output is an HTML/clickable review prototype.
+- Do not expose mobile/desktop switching as a visible selector. Use responsive detection and optional URL parameters for QA.
 - Keep review controls outside the production app UI and hide them in mobile full-screen mode.
 - Support free browse and preset journey mode when an interactive review prototype is requested.
+- Use SVG icons or an approved icon library instead of emoji.
 - Apply the chosen visual direction consistently; do not default to FA/SA/BA naming without industry confirmation.
+- Run `python3 scripts/check_prototype_shell.py path/to/index.html` before final review.
 
 ## 9. Coverage QA
 
@@ -164,6 +169,7 @@ Validate:
 - Search, filter, sort, tabs, page states, and disabled-action reasons are standardized where they appear.
 - Task execution distinguishes source, type, target, channel, native handoff, completion feedback, and metrics.
 - Desktop/mobile presentation behavior and stage control visibility are verified.
+- Static shell QA passes, and mobile full-screen is visually verified as nonblank.
 - Role switching, free browsing, and preset journeys work as scoped.
 - Prototype language matches the client's terminology.
 - Visual style matches the industry, fidelity target, and available references.

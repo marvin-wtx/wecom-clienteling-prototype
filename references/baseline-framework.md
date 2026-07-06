@@ -180,9 +180,11 @@ Base interactions:
 ## Baseline Prototype Presentation
 
 When the output includes an HTML/clickable prototype, include:
-- Desktop review stage with phone frame, title/version, role selector, device-frame toggle, free-browse/journey mode switch, journey selector, and reset.
+- Reuse `assets/prototype-shell/index.html` or port its shell into the chosen framework.
+- Desktop review stage with phone frame, title/version, role selector, free-browse/journey mode switch, journey selector, and reset.
 - Mobile full-screen mode that hides all stage controls and fills the viewport.
-- URL parameters or equivalent controls for view and role when useful for review links.
+- URL parameters for view and role when useful for QA/review links.
+- No visible mobile/desktop selector in the app or review stage.
 - Role switching for frontline and manager/supervisor scenarios when permissions are in scope.
 - Free browse mode for unguided exploration.
 - Preset journey mode for guided demos.

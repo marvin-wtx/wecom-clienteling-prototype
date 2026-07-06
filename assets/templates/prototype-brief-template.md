@@ -132,9 +132,11 @@ Native replica rules:
 
 ## Prototype Presentation
 
+- Shell source: `assets/prototype-shell/index.html` / framework port / other
 - Desktop review stage: included / not included
 - Mobile full-screen mode: included / not included
-- Device frame toggle:
+- Viewport behavior: automatic responsive / URL QA parameter / other
+- Visible mobile/desktop selector: no
 - Role selector:
 - Free browse mode:
 - Preset journey mode:
@@ -143,6 +145,17 @@ Native replica rules:
 - URL parameters:
 - Stage controls hidden in mobile mode:
 - Role-controlled show/hide rules:
+
+## Shell QA
+
+- Static checker command:
+- Desktop screenshot reviewed:
+- Mobile screenshot reviewed:
+- Mini-program title bar and capsule present:
+- Bottom tabbar behavior verified:
+- Native replicas separated from clienteling pages:
+- Emoji icons absent:
+- Brand color used as controlled accent:
 
 ## Interaction Requirements
 
@@ -159,4 +172,6 @@ Native replica rules:
 - [ ] A/B/C page depth is clear.
 - [ ] Roles and permissions are represented.
 - [ ] Extension integrations are separated from core modules.
+- [ ] HTML prototype shell static QA passes when HTML is in scope.
+- [ ] Desktop and mobile render paths are visually verified when HTML is in scope.
 - [ ] Open questions are listed.
