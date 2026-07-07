@@ -4,6 +4,14 @@
 
 [State the business and prototype goal.]
 
+## Start Mode
+
+- Mode: source-backed / research-led / baseline / hybrid
+- Reason:
+- Evidence level: confirmed source / public research / inferred assumption / generic baseline
+- Immediate output target: plan / HTML prototype / Figma / PPT / QA review
+- Research dimensions, if any:
+
 ## Channel Premise
 
 - Product surface: WeCom ecosystem mini-program / embedded mobile workbench
@@ -14,6 +22,12 @@
 
 - [Authoritative file/source]
 - [Supporting file/source]
+
+## Evidence And Assumptions
+
+| Item | Type | Source / Reason | Prototype Impact |
+|---|---|---|---|
+| [Fact or assumption] | confirmed / public research / inferred / baseline default | [Source] | [Impact] |
 
 ## In Scope
 
@@ -67,6 +81,21 @@
 |---|---|---:|---|---|---|
 | [Page] | [Module] | A/B/C | [Action] | [Data] | [Note] |
 
+## Baseline Page Blueprint Coverage
+
+Use this section when source material is sparse or when generating a baseline HTML prototype.
+
+| Blueprint Area | Included | Depth | Distinct Page Structure | Key States / Actions |
+|---|---|---:|---|---|
+| Home workbench | yes/no | A/B/C | [Structure] | [States/actions] |
+| Customer list and C360 | yes/no | A/B/C | [Structure] | [States/actions] |
+| Task execution | yes/no | A/B/C | [Structure] | [States/actions] |
+| Appointment/service | yes/no | A/B/C | [Structure] | [States/actions] |
+| Content library | yes/no | A/B/C | [Structure] | [States/actions] |
+| Dashboard/tracking | yes/no | A/B/C | [Structure] | [States/actions] |
+| Transfer/ownership | yes/no | A/B/C | [Structure] | [States/actions] |
+| Native WeCom replica | yes/no | A/B/C | [Structure] | [States/actions] |
+
 ## WeCom Mini-Program Constraints
 
 - Native/container navigation:
@@ -114,11 +143,14 @@ Native replica rules:
 ## Sample Data
 
 - Customers:
+- WeCom-only contacts:
 - Frontline advisors / stores:
 - Tasks:
 - Opportunities, only if confirmed:
 - Appointments:
 - Content:
+- Dashboard metric groups:
+- Cross-page data links:
 
 ## Visual Direction
 
@@ -134,6 +166,8 @@ Native replica rules:
 
 - Shell source: `assets/prototype-shell/index.html` / framework port / other
 - Desktop review stage: included / not included
+- Desktop phone viewport: 390px by 844px before scaling
+- Desktop shell fit: full phone visible, no cropped tabbar/top bar
 - Mobile full-screen mode: included / not included
 - Viewport behavior: automatic responsive / URL QA parameter / other
 - Visible mobile/desktop selector: no
@@ -156,6 +190,7 @@ Native replica rules:
 - Native replicas separated from clienteling pages:
 - Emoji icons absent:
 - Brand color used as controlled accent:
+- Baseline pages have distinct layouts and connected data:
 
 ## Interaction Requirements
 

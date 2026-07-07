@@ -7,12 +7,14 @@ This repository is designed to be usable by AI agents that can read structured i
 ## What This Skill Does
 
 - Extracts WeCom Clienteling business capabilities from rough or detailed source material.
-- Builds a reusable baseline framework when source material is sparse.
+- Routes work into source-backed, research-led, baseline, or hybrid modes depending on what the user has.
+- Builds a reusable baseline framework with page-level blueprints and connected sample data when source material is sparse.
 - Maps capabilities to IA, page inventories, demo journeys, and prototype briefs.
 - Standardizes search, filter, sort, tabs, page states, and disabled-action reasons.
 - Models task execution for 1v1, 1vN, Moments, native WeCom broadcast, appointment, content, and offline follow-up flows.
 - Preserves WeCom mini-program constraints and native WeCom page replicas such as `新建群发` when relevant.
 - Provides a reusable HTML prototype shell with WeCom mini-program frame, desktop review stage, mobile full-screen behavior, role switching, preset journeys, and native page replica structure.
+- Provides hard shell constraints for a compact desktop review console around a 390px by 844px mobile mini-program viewport, plus automatic mobile full-screen behavior.
 - Checks generated HTML prototypes for shell-contract issues such as missing container, visible viewport selector, mobile blank-screen risk, and emoji icons.
 - Guides visual direction, industry terminology, FA/SA/BA role naming, and customer/member field vocabulary.
 - Produces coverage QA checks for business logic, interactions, permissions, and presentation behavior.
@@ -69,6 +71,7 @@ Give the assistant this instruction:
 Use the GitHub repository marvin-wtx/wecom-clienteling-prototype as an AI skill package.
 Start by reading SKILL.md.
 Follow the Required Workflow in SKILL.md.
+First choose source-backed, research-led, baseline, or hybrid mode.
 Load files from references/ only when the current task calls for them.
 Use assets/templates/ as output skeletons when creating structured deliverables.
 Use assets/prototype-shell/index.html as the implementation base for HTML/clickable prototypes.
@@ -86,6 +89,10 @@ Use the WeCom Clienteling Prototype skill to turn these rough business notes int
 
 ```text
 Use this skill to build a baseline WeCom Clienteling mini-program prototype framework. We do not have a solid BRD yet, so start with generic assumptions and list customization questions.
+```
+
+```text
+Use this skill in hybrid mode. Research the public brand/category context first, then create a WeCom Clienteling mini-program prototype brief and HTML prototype using the baseline page blueprints.
 ```
 
 ```text

@@ -39,10 +39,10 @@ Required structure:
 - Content section:
   - Label: 将发送以下内容.
   - Secondary action: 从素材库选择, if content selection is in scope.
-  - Message card containing the text copy to send.
-  - Attachment line showing mini-program card, H5, image, video, or content asset if present.
+  - Large white message card containing the text copy to send.
+  - Attachment line at the bottom of the message card showing mini-program card, H5, image, video, or content asset if present.
 - Primary send action:
-  - Button: 发送.
+  - Centered blue button: 发送.
 - Native rule note:
   - Example: 每位客户每天可接收1条群发消息.
 
@@ -77,6 +77,7 @@ Use only if relevant:
 ## QA Checks
 
 - The native page is visually and structurally distinct from clienteling business pages.
+- The native page should look like a system/native compose page: pale gray background, plain header, white recipient row, large white message editor, attachment row, centered blue send button, and bottom frequency note.
 - Required labels and actions match the native behavior the prototype is trying to emulate.
 - Recipient count and content payload are carried from the business page.
 - Frequency/compliance limits are visible if they affect business decisions.

@@ -3,6 +3,7 @@
 Use this when creating an HTML or clickable review prototype. The default pattern is a mobile mini-program experience inside a desktop review stage, plus a full-screen mobile mode.
 
 For HTML prototypes, first read `prototype-shell-contract.md` and start from `../assets/prototype-shell/index.html` or port that shell directly into the chosen framework.
+When source material is sparse, also read `reference-page-blueprints.md` before deciding navigation, page depth, and sample data.
 
 ## Required Presentation Modes
 
@@ -12,8 +13,9 @@ Purpose: let stakeholders review, switch roles, use preset journeys, and inspect
 
 Include:
 - Stage header with prototype title, version, and optional update note.
-- Stage controls above the phone frame.
-- Phone frame sized around a mobile mini-program viewport, commonly 390 x 844 or comparable.
+- Compact stage controls above the phone frame.
+- Phone frame sized around a 390 x 844 mobile mini-program viewport before scaling.
+- Code-level desktop scaling so the full phone, top bar, body, and bottom tabbar remain visible without cropping.
 - Role selector.
 - Mode switch between **Free Browse** and **Journey Demo**.
 - Preset journey selector and reset button when journey mode is active.
@@ -100,6 +102,7 @@ Verify:
 - Mobile mode is nonblank and still shows mini-program top navigation, body content, and expected bottom navigation or sticky action.
 - No visible viewport selector appears in the app or stage controls.
 - Stage controls do not wrap awkwardly in English or Chinese.
+- Stage controls stay compact and outside the phone frame.
 - Long mini-program titles fit around native safe areas.
 - Text and actions fit in both desktop-stage phone and mobile full-screen modes.
 - Free browse and every preset journey still work after switching role, language, and viewport.

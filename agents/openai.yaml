@@ -1,4 +1,4 @@
 interface:
   display_name: "WeCom Clienteling Prototype"
-  short_description: "Plan and shell WeCom clienteling prototypes"
-  default_prompt: "Use $wecom-clienteling-prototype to turn my WeCom Clienteling materials into a reusable prototype plan, interaction standard, task execution model, and shell-based HTML prototype brief."
+  short_description: "Route, plan, and shell WeCom clienteling prototypes"
+  default_prompt: "Use $wecom-clienteling-prototype to choose source-backed, research-led, baseline, or hybrid mode, then turn my WeCom Clienteling context into a reusable capability map, page blueprint, interaction standard, task execution model, and shell-based HTML prototype brief."

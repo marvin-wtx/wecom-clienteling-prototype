@@ -18,6 +18,27 @@ For product UI work, use real references first when available. If Lazyweb or ano
 
 For HTML/clickable prototypes, the bundled shell already defines a neutral operational base. Keep that base unless the user provides a stronger design system.
 
+## Shell Versus Page Design
+
+Do not confuse shell consistency with visual sameness.
+
+Protected shell layer:
+- Desktop review stage and external role/journey controls.
+- Mobile full-screen behavior and automatic responsive mode.
+- WeCom mini-program container, top title bar, capsule, bottom tabs, and safe-area behavior.
+- Secondary-page bottom CTA anchoring.
+- Native WeCom page replicas such as 新建群发.
+- QA guardrails such as no emoji UI, no runtime FA/SA/BA selector, and no duplicated quick tools.
+
+Adaptable page layer:
+- Brand accent colors, typography weight, information density, card/list/table choices, section rhythm, and icon style.
+- Module-specific layouts for home, customer list, C360, tasks, appointment, content library, dashboard, transfer, and extension modules.
+- Visual hierarchy and copy tone based on the target industry and provided references.
+- Data fields and labels, as long as project-specific names are not invented without source evidence.
+- High-fidelity brand moments, product images, campaign assets, or executive-demo polish when the user provides enough material.
+
+If the user provides screenshots, brand references, or a design system, adapt the page layer to those references while preserving the protected shell. If there is no visual reference, use the neutral operational shell and vary page content through business structure, not decoration.
+
 ## Style Direction Templates
 
 Choose one direction as a starting point, then adapt to the client's brand and prototype goal.

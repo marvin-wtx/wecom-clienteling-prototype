@@ -1,6 +1,6 @@
 ---
 name: wecom-clienteling-prototype
-description: Convert WeCom/WeChat Work ecosystem mini-program clienteling tool materials, or sparse early ideas, into reusable baseline frameworks, capability maps, page inventories, page-level interaction standards, task-execution models, field-vocabulary mapping, prototype briefs, WeCom native replicas such as 新建群发, visual direction, responsive prototype shells, and coverage QA. Use when the user asks to analyze BRDs, feature lists, screenshots, workflows, search/filter/tab/page-state details, task execution, 1v1/1vN/Moments/native broadcast flows, role/permission notes, CRM/CDP/MA/member-system integrations, FA/SA/BA terminology, customer/member field naming, visual references, opportunity logic, or existing prototypes for WeCom mini-program Clienteling, retail clienteling, private-domain sales assistant, C360, appointment, content sharing, or dashboard prototype work.
+description: Convert WeCom/WeChat Work ecosystem mini-program clienteling tool materials, or sparse early ideas, into reusable baseline frameworks, capability maps, page inventories, page-level interaction standards, task-execution models, field-vocabulary mapping, prototype briefs, WeCom native replicas such as 新建群发, visual direction, responsive prototype shells, and coverage QA. Use when the user asks to analyze BRDs, feature lists, screenshots, workflows, search/filter/tab/page-state details, task execution, 1v1/1vN/Moments/native broadcast flows, management dashboards, by-staff performance drilldowns, role/permission notes, CRM/CDP/MA/member-system integrations, FA/SA/BA terminology, customer/member field naming, visual references, opportunity logic, or existing prototypes for WeCom mini-program Clienteling, retail clienteling, private-domain sales assistant, C360, appointment, content sharing, or dashboard prototype work.
 ---
 
 # WeCom Clienteling Prototype
@@ -9,7 +9,14 @@ Use this skill to turn clienteling inputs into a prototype-ready product plan. T
 
 ## First Split
 
-Classify every request into one or more work modes:
+First route the request by input state:
+
+- **Source-backed mode**: the user has existing materials such as BRDs, decks, screenshots, field lists, notes, or prototypes.
+- **Research-led mode**: the user has a brand, industry, market, or objective and needs the assistant to research the context.
+- **Baseline mode**: the user has little or no solid material and wants a reusable WeCom Clienteling starter framework.
+- **Hybrid mode**: the user has a rough prompt and needs public research plus the reusable baseline.
+
+Then classify the deliverable into one or more work modes:
 
 - **Business extraction**: derive capability modules, actors, objects, states, permissions, and unresolved questions from messy source material.
 - **Baseline framework**: build a reusable starter IA, page inventory, and interaction chain from generic WeCom Clienteling capabilities when the user has little or no solid source material.
@@ -25,23 +32,25 @@ Classify every request into one or more work modes:
 
 ## Required Workflow
 
-1. Inspect the user's source material before inventing structure.
-2. If source material is weak or missing, read `references/baseline-framework.md` and propose a generic baseline with assumptions.
-3. Read `references/capability-map.md` for the reusable WeCom Clienteling capability model.
-4. Read `references/prototype-pipeline.md` when turning business inputs into prototype outputs.
-5. Read `references/module-to-page-patterns.md` when creating page inventories, IA, demo flows, or prototype briefs.
-6. Read `references/interaction-patterns.md` when specifying search, filter, sort, tabs, page states, list controls, or reusable page-level interactions.
-7. Read `references/task-execution-patterns.md` when specifying task list/detail behavior, execution methods, target handling, native send handoff, or completion feedback.
-8. Read `references/wecom-mini-program-constraints.md` when designing pages, flows, interactions, integrations, or prototype implementation.
-9. Read `references/wecom-native-page-replication.md` when a flow enters WeCom native compose, broadcast, recipient, or send-result behavior, or when source material mentions 新建群发, 群发, 原生企微页面, native WeCom, broadcast, or mass send.
-10. Read `references/prototype-shell-contract.md` before producing, revising, or reviewing an HTML/clickable prototype.
-11. Use `assets/prototype-shell/index.html` as the starting source for HTML prototypes unless the user explicitly requires another stack.
-12. Read `references/prototype-presentation-spec.md` when producing an HTML/clickable prototype, demo shell, or prototype execution brief.
-13. Read `references/terminology.md` when role naming, industry vocabulary, customer/member field names, or Chinese/English labels affect credibility.
-14. Read `references/visual-design-reference.md` when producing or briefing a visual prototype.
-15. Read `references/intake-questionnaire.md` when source material is missing actors, integration scope, page depth, demo goals, visual direction, terminology, WeCom mini-program constraints, native page replication, presentation mode, interaction standards, task execution details, or acceptance criteria.
-16. Read `references/qa-rubric.md` when reviewing coverage or validating an existing prototype.
-17. Use `assets/templates/` files as output skeletons when the user wants a structured deliverable.
+1. Read `references/start-mode-router.md` before choosing a workflow path for an open-ended request.
+2. Inspect the user's source material before inventing structure when source-backed mode is selected.
+3. If source material is weak or missing, read `references/baseline-framework.md` and `references/reference-page-blueprints.md` before proposing a generic baseline.
+4. Read `references/capability-map.md` for the reusable WeCom Clienteling capability model.
+5. Read `references/prototype-pipeline.md` when turning business inputs into prototype outputs.
+6. Read `references/module-to-page-patterns.md` when creating page inventories, IA, demo flows, or prototype briefs.
+7. Read `references/reference-page-blueprints.md` when defining baseline page content, sample data, page-level states, or HTML prototype page structure.
+8. Read `references/interaction-patterns.md` when specifying search, filter, sort, tabs, page states, list controls, or reusable page-level interactions.
+9. Read `references/task-execution-patterns.md` when specifying task list/detail behavior, execution methods, target handling, native send handoff, or completion feedback.
+10. Read `references/wecom-mini-program-constraints.md` when designing pages, flows, interactions, integrations, or prototype implementation.
+11. Read `references/wecom-native-page-replication.md` when a flow enters WeCom native compose, broadcast, recipient, or send-result behavior, or when source material mentions 新建群发, 群发, 原生企微页面, native WeCom, broadcast, or mass send.
+12. Read `references/prototype-shell-contract.md` before producing, revising, or reviewing an HTML/clickable prototype.
+13. Use `assets/prototype-shell/index.html` as the starting source for HTML prototypes unless the user explicitly requires another stack.
+14. Read `references/prototype-presentation-spec.md` when producing an HTML/clickable prototype, demo shell, or prototype execution brief.
+15. Read `references/terminology.md` when role naming, industry vocabulary, customer/member field names, or Chinese/English labels affect credibility.
+16. Read `references/visual-design-reference.md` when producing or briefing a visual prototype.
+17. Read `references/intake-questionnaire.md` when source material is missing actors, integration scope, page depth, demo goals, visual direction, terminology, WeCom mini-program constraints, native page replication, presentation mode, interaction standards, task execution details, or acceptance criteria.
+18. Read `references/qa-rubric.md` when reviewing coverage or validating an existing prototype.
+19. Use `assets/templates/` files as output skeletons when the user wants a structured deliverable.
 
 ## Domain Rule
 
@@ -57,13 +66,18 @@ Keep Opportunity Follow-Up separate from the default core model. Only consider i
 
 - Produce business-first artifacts before screens: capability map, flow matrix, page inventory, and open questions.
 - If the user has little source material, produce a baseline framework first, then mark assumptions and customization questions.
+- In baseline mode, use `references/reference-page-blueprints.md` to create distinct page structures, connected sample data, and meaningful state/action logic. Do not produce repeated card pages with generic filler.
 - Make assumptions explicit when the user has not provided enough material.
 - Preserve local terminology from the user's materials, including module names, role names, field labels, and industry-specific sales-associate terms.
+- Determine FA/SA/BA during intake or from industry context. Do not expose FA/SA/BA as a runtime selector in the prototype shell.
 - Do not default to project-specific customer/member field names. If source material does not confirm field labels, use neutral business labels such as customer identifier, member identifier, contact method, customer grouping, member level, profile label, and lifecycle state.
 - For prototypes, separate **full-detail pages**, **structural pages**, and **navigation/skeleton pages**.
 - For HTML/clickable prototypes, start from `assets/prototype-shell/index.html` or port its classes and behavior directly. Do not recreate the phone frame, WeCom mini-program container, top bar, capsule, or bottom tabbar from scratch.
+- For HTML/clickable prototypes, keep the desktop review shell as a compact console around a 390px by 844px mini-program viewport, scaled to fit the desktop window without cropping.
 - For HTML/clickable prototypes, implement desktop review stage and mobile full-screen mode as code-level responsive behavior. Do not expose a visible mobile/desktop selector in the product UI.
+- Preserve the protected shell layer, but adapt the page design layer to user-provided business materials, brand references, visual references, and fidelity goals so different projects do not look identical.
 - Include role switching, permission-driven show/hide rules, free-browse mode, and preset journey mode when the user asks for an interactive review prototype.
+- For manager, regional, or HQ roles, include a management dashboard structure and a by-frontline-role performance drilldown when dashboard/tracking is in scope. Reuse generic metric groups such as sales or contribution, customer operation, appointment/service conversion, task execution, and WeCom connection; adapt names and formulas to the user's source material.
 - Keep desktop-only review controls, role controls, and preset journey controls outside the mini-program screen; hide them in mobile presentation.
 - Preserve required WeCom native replicas, including 新建群发, recipient summary, message/content payload, asset selection entry, send action, frequency note, and return-to-business result state when the flow requires them.
 - Use SVG icons or an approved icon library. Do not use emoji for tabbar icons, quick entrances, task markers, page states, or placeholder illustrations.

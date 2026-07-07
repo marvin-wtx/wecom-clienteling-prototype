@@ -77,10 +77,13 @@ Purpose: make clienteling work measurable for frontline advisors and managers.
 Typical scope:
 - Personal sales/clienteling dashboard, task performance, customer follow-up, appointment, content, conversion, store/region overview.
 - Different visibility for frontline advisor, supervisor, store manager, regional manager, HQ.
+- Management dashboards for manager/regional/HQ roles should include period control, store/team scope, grouped KPI modules, progress or target attainment, and a route into by-frontline-role performance.
+- By-frontline-role performance can cover sales or contribution, customer operation, appointment/service conversion, task execution, and WeCom connection metrics. Rename these groups to match the user's business, but keep the multi-metric drilldown structure.
 
 Prototype implications:
 - Separate operational views from management views.
 - Tie metrics back to flows: add/bind, task, appointment, content, conversion, and advanced opportunity only if in scope.
+- Do not reduce management dashboards to a few generic cards. Show denominator, period, owner scope, progress/target state, and a drilldown path.
 
 ### 7. Transfer And Ownership
 

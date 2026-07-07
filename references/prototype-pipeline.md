@@ -2,6 +2,21 @@
 
 Use this workflow to convert source material into a prototype plan.
 
+## 0. Start Mode Routing
+
+Before source intake, read `references/start-mode-router.md` and choose:
+
+- Source-backed mode when authoritative materials exist.
+- Research-led mode when the user asks for public brand/category research.
+- Baseline mode when there is little material and speed matters.
+- Hybrid mode when a rough prompt should be combined with public research and reusable baseline assumptions.
+
+The chosen mode determines evidence handling:
+- Source-backed facts can become requirements.
+- Public research should be cited and labeled as context or inference.
+- Baseline defaults must be marked as assumptions.
+- Mixed outputs need a source table showing provided facts, researched facts, inferences, and generic defaults.
+
 ## 1. Source Intake
 
 Inputs may include BRD, feature list, deck, screenshots, field list, user journey, meeting notes, existing prototype, or raw stakeholder prompts.
@@ -23,7 +38,9 @@ Extract:
 - Task execution details: source, type, target grain, execution channel, native handoff, and completion evidence.
 - Visual fidelity, brand references, and design constraints.
 
-If little source material exists, switch to baseline framework mode and read `references/baseline-framework.md`.
+If little source material exists, switch to baseline framework mode and read `references/baseline-framework.md` plus `references/reference-page-blueprints.md`.
+
+If the user requests research, collect only the research dimensions needed for the output and use current public sources before treating brand/category facts as context.
 
 ## 2. Capability Decomposition
 
@@ -71,6 +88,7 @@ Assign page depth:
 Output: page inventory with depth, source, data, and acceptance notes.
 
 Read `references/interaction-patterns.md` for reusable search/filter/sort/tab/page-state rules.
+Read `references/reference-page-blueprints.md` when source material does not define page-level detail.
 
 ## 4A. Task Execution Model
 
@@ -121,6 +139,7 @@ Write an execution brief that contains:
 - Required demo flows.
 - Page inventory and depth.
 - Data model and sample data.
+- Baseline sample-data depth and cross-page data links when source data is sparse.
 - Field vocabulary mapping.
 - WeCom mini-program constraints.
 - Native WeCom page replicas and return states.
@@ -141,13 +160,14 @@ When implementing:
 - For HTML/clickable prototypes, copy `assets/prototype-shell/index.html` first or port its shell into the chosen framework.
 - Build the actual usable experience first, not a marketing page.
 - Preserve business density and operational scanning.
-- Use realistic sample data, states, and role-specific content.
+- Use realistic sample data, states, role-specific content, and cross-page links. A task target, customer card, C360 view, appointment, and content asset should not contradict each other.
 - Keep navigation and flow traceable to the page inventory.
 - Make extension modules visible only if they are in scope.
 - Implement WeCom mini-program/container constraints before adding decorative UI.
 - Preserve the shell's WeCom title bar, capsule, page body, bottom tabbar, desktop review frame, mobile full-screen behavior, role controls, and journey controls.
 - Implement reusable search, filter, sort, tab, page-state, and disabled-action behavior consistently across A-level pages.
 - Implement task execution by type and channel, not as a generic static task page.
+- Avoid repeated same-layout pages with only text swaps. Home, customer list, C360, task list/detail, appointment, content, and dashboard need distinct structure, data fields, and actions.
 - Implement native WeCom replicas, such as 新建群发, when the flow requires native send/broadcast behavior.
 - Implement desktop review stage and mobile full-screen behavior when the output is an HTML/clickable review prototype.
 - Do not expose mobile/desktop switching as a visible selector. Use responsive detection and optional URL parameters for QA.

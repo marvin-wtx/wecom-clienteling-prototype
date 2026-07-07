@@ -2,7 +2,7 @@
 
 Use these patterns when converting modules into IA, page inventory, and prototype screens.
 
-For reusable search, filter, sort, tab, and page-state behavior, read `interaction-patterns.md`. For task execution detail, read `task-execution-patterns.md`.
+For reusable search, filter, sort, tab, and page-state behavior, read `interaction-patterns.md`. For task execution detail, read `task-execution-patterns.md`. When the source does not define page-level detail, read `reference-page-blueprints.md`.
 
 ## Common App Frame
 
@@ -11,7 +11,7 @@ Typical mobile workbench structure:
 - Clients: client list, search/filter, C360.
 - Tasks: assigned work and follow-up.
 - Appointment/invitation: calendar, list, create flow, result.
-- Tools: content, dashboard, transfer, settings, extension modules.
+- Center quick-action entry or tools page: content, dashboard, transfer, settings, extension modules.
 - Advanced opportunity: add only when priority-customer or opportunity lifecycle is confirmed.
 
 Adjust labels to the user's context. Some projects may use bottom navigation; others may use enterprise app tabs, mini-program pages, desktop dashboards, or embedded WebViews.
@@ -108,11 +108,27 @@ Minimum pages:
 - Personal performance summary.
 - Metric detail.
 - Manager/store overview if in scope.
+- Management dashboard for manager/regional/HQ roles when role switching or management tools are in scope.
+- By-frontline-role performance drilldown from the management dashboard.
 
 Key interactions:
 - Date/store/advisor filter.
 - Drill down to task/customer/appointment/content details.
 - Compare target vs actual.
+
+Management dashboard structure:
+- Header with role scope, store/team/region scope, and business period.
+- Period control such as today, week-to-date, month-to-date, and year-to-date.
+- Grouped metric cards with progress/target state and supporting rows. Default groups: sales or contribution, customer operation, appointment/service conversion, task execution, and WeCom connection.
+- Staff/frontline preview list showing at least three people with sales or contribution, task completion, WeCom connection, and a "view performance" action.
+
+By-frontline-role performance detail:
+- Tabs or segmented control for each frontline person in the current manager scope.
+- Sales/contribution section with progress ring, value, target attainment, orders, average basket or equivalent.
+- Customer operation section with acquisition/activation, retention/returning, profile completion, or contact binding according to source material.
+- Appointment/service section with attended/completed count, conversion, contribution, and pending service items.
+- Task and WeCom operation section with completed/pending task counts, contact adds/binding, outreach, response, deletion/loss, or similar metrics.
+- Use the confirmed frontline term. For example, fashion can say FA performance, beauty can say BA performance, and generic projects can say advisor/frontline performance.
 
 ### Transfer
 

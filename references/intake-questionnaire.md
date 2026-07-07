@@ -2,6 +2,24 @@
 
 Ask only the questions needed to unblock the current deliverable. Prefer assumptions plus a short open-questions section when the user wants speed.
 
+## Start Mode
+
+Ask this before the detailed questionnaire when the user has not provided a clear path:
+
+1. Do you want to start from existing materials, public research, a no-material baseline, or a hybrid of research plus baseline?
+2. Should the immediate output be a written product plan/prototype brief, an HTML clickable prototype, a Figma/PPT handoff, or a QA review?
+3. What industry and role term should be used: `SA`, `FA`, `BA`, advisor, consultant, or a client-specific term?
+
+If the user has existing files, ask which source is authoritative. If the user wants research, ask which dimensions matter most. If the user wants baseline, read `references/reference-page-blueprints.md` and proceed with explicit assumptions.
+
+## Research Dimensions
+
+Ask when the user wants public research or gives only a brand/category:
+
+- Should research focus on brand positioning, product/category focus, service model, member/customer vocabulary, retail advisor workflow, visual style, or competitor/category examples?
+- Are public sources enough, or should the prototype stay deliberately generic because internal requirements are unknown?
+- Should researched facts become visible page content, or only inform sample data, tone, and visual direction?
+
 ## Minimum Questions
 
 1. What prototype format is expected: HTML, Figma, PPT, clickable image, or written specification?
@@ -111,6 +129,8 @@ If the user has no solid material, ask:
 - Which industry should the baseline assume?
 - Which core modules should be removed from the baseline?
 - Is Opportunity intentionally needed, or should it remain excluded until confirmed?
+- Should the baseline include a full page blueprint for Home, Customers/C360, Tasks, Appointment, Content, Dashboard, and role/permission states?
+- Should sample data use fully neutral field labels, or does the client already have preferred names for customer/member identifiers, member levels, profile labels, and lifecycle states?
 
 ## Data And Language
 

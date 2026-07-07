@@ -11,14 +11,28 @@ from pathlib import Path
 
 
 REQUIRED_TOKENS = [
+    "--phone-w: 390px",
+    "--phone-h: 844px",
+    "PROJECT.frontlineTerm",
     ".wx-nav",
     ".wx-capsule",
+    ".wx-capsule-dot",
+    ".wx-capsule-circle",
     ".tabbar",
     "body.mobile",
     "100dvh",
     "detectViewportMode",
+    "fitDesktopPhone",
     "appShell",
+    "has-actions",
     "journey-hud",
+    "管理看板",
+    "staffPerformance",
+    "staffPerformanceRows",
+    "managerPeriodPills",
+    "按\" + term + \"表现",
+    "native-send-wrap",
+    "native-brand-tile",
 ]
 
 FORBIDDEN_PATTERNS = {
@@ -35,6 +49,22 @@ FORBIDDEN_PATTERNS = {
     ),
     "legacy selector-based viewport class is not allowed": re.compile(
         r"mobile-fullscreen|desktop-preview",
+        re.IGNORECASE,
+    ),
+    "heavy decorative phone border is not allowed in the reusable shell": re.compile(
+        r"border\s*:\s*(?:1[0-9]|[2-9][0-9])px\s+solid",
+        re.IGNORECASE,
+    ),
+    "frontline terminology must not be exposed as a runtime selector": re.compile(
+        r"(termSelect|SA\s+通用|FA\s+Fashion|BA\s+美妆|value=[\"']fa[\"']|value=[\"']ba[\"']|<select[^>]+aria-label=[\"'][^\"']*称呼)",
+        re.IGNORECASE,
+    ),
+    "WeCom capsule must not use a home icon as the right-side control": re.compile(
+        r"wx-capsule[\s\S]{0,500}(data-icon=[\"']home[\"']|icon\([\"']home[\"']\))",
+        re.IGNORECASE,
+    ),
+    "quick tool panel must not duplicate primary tabs or page-local filters": re.compile(
+        r"toolCell\([\"'](?:tasks|appointment|filter)[\"']",
         re.IGNORECASE,
     ),
 }
@@ -58,6 +88,20 @@ def collect_errors(source: str, path: Path) -> list[str]:
 
     if re.search(r"<option[^>]+value=[\"']mobile[\"']", source, re.IGNORECASE):
         errors.append("viewport mode must not be exposed as an in-app select option")
+
+    if not re.search(
+        r"svg\s*\{[^}]*width\s*:\s*1em[^}]*height\s*:\s*1em[^}]*fill\s*:\s*none",
+        source,
+        re.IGNORECASE | re.DOTALL,
+    ):
+        errors.append("shell icons need a global svg size and fill guardrail")
+
+    if not re.search(
+        r"\.sticky-actions\s*\{[^}]*position\s*:\s*absolute[^}]*bottom\s*:\s*0",
+        source,
+        re.IGNORECASE | re.DOTALL,
+    ):
+        errors.append("secondary-page CTA bars must be absolutely pinned to the shell bottom")
 
     if re.search(r"<script[^>]+src=", source, re.IGNORECASE):
         errors.append("prototype shell must be portable and avoid external script dependencies")

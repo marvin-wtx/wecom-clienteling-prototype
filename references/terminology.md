@@ -11,6 +11,8 @@ Default rules:
 
 Do not blindly use FA across all projects. First infer from the industry, then confirm if the source material is ambiguous.
 
+The role term is a generation-time decision, not a prototype runtime switch. Do not put FA/SA/BA in an in-prototype selector. A beauty prototype should not allow reviewers to switch the same screen to FA; a fashion prototype should not allow BA; a generic prototype should avoid implying a final term before industry is confirmed.
+
 ## How To Ask
 
 Ask:
@@ -68,3 +70,4 @@ Use these as placeholders only until the user's source material confirms them:
 - If source material mixes business labels and backend field names, call it out as a field-vocabulary risk.
 - If the project has multiple business lines, allow role terms to vary by line only when the client explicitly does so.
 - Keep internal system roles separate from user-facing labels. For example, "owner advisor" may be a data relationship while "BA" is the user-facing role.
+- Keep industry terminology separate from permission roles. Prototype review controls may switch business roles such as frontline, store manager, regional manager, or HQ, but they must not switch the frontline term between FA/SA/BA.
