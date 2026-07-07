@@ -55,10 +55,11 @@ Use this to review prototype coverage and readiness.
 - Native WeCom replicas, such as 新建群发, hide clienteling bottom navigation and unrelated app tools.
 - Native replicas carry recipient count, message copy, attachment, frequency/compliance note, send/cancel path, and return-to-business result state.
 - Desktop review stage and mobile full-screen behavior are both verified when the prototype is HTML/clickable.
-- Desktop review stage shows a complete 390px by 844px mini-program frame scaled to fit; top bar and bottom tabbar are not cropped.
+- Desktop review stage shows a complete 390px by 844px mini-program frame with iPhone-style notch, scaled to fit; top bar and bottom tabbar are not cropped.
+- Desktop top shell has separated status and nav rows: `9:41` and `5G` sit in the status row, while the page title and WeCom capsule are centered in the nav row below it with no crowding.
 - Desktop review controls are compact and outside the phone, not a large rough control panel inside or around the app.
 - Desktop/mobile behavior is code-level responsive or URL-driven for QA, not a visible selector.
-- Mobile full-screen mode is nonblank and does not hide the phone/screen/body container.
+- Mobile full-screen mode is nonblank, hides decorative phone hardware such as notch/statusbar, and does not hide the phone/screen/body container.
 - Stage controls are hidden in mobile full-screen mode and separated from production app UI.
 - Role switching changes permissions, data scope, and available tools.
 - Role switching does not change the industry frontline term. It changes business roles only, such as frontline vs manager.

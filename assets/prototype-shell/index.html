@@ -9,6 +9,7 @@
       --phone-w: 390px;
       --phone-h: 844px;
       --top-h: 88px;
+      --status-h: 38px;
       --tab-h: 64px;
       --desktop-phone-scale: 1;
       --bg: #f5f6f4;
@@ -97,6 +98,19 @@
       box-shadow: var(--shadow);
       overflow: hidden;
     }
+    .phone::before {
+      content: "";
+      position: absolute;
+      z-index: 16;
+      left: 50%;
+      top: 0;
+      width: 110px;
+      height: 22px;
+      transform: translateX(-50%);
+      border-radius: 0 0 14px 14px;
+      background: #111;
+      pointer-events: none;
+    }
 
     .screen {
       position: absolute;
@@ -112,8 +126,8 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 36px;
-      padding: 0 24px;
+      height: var(--status-h);
+      padding: 0 22px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -122,8 +136,7 @@
       font-weight: 700;
       pointer-events: none;
     }
-    .status-dots { display: inline-flex; align-items: center; gap: 4px; }
-    .status-dots i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; display: block; }
+    .status-network { font-size: 14px; font-weight: 700; letter-spacing: 0; }
 
     .app-page { position: relative; height: 100%; display: flex; flex-direction: column; background: var(--bg); overflow: hidden; }
 
@@ -138,9 +151,9 @@
     .wx-nav-left {
       position: absolute;
       left: 0;
-      top: 0;
+      top: var(--status-h);
       width: 88px;
-      height: var(--top-h);
+      height: calc(var(--top-h) - var(--status-h));
       padding: 0 0 0 24px;
       display: flex;
       align-items: center;
@@ -160,11 +173,11 @@
     .wx-nav-title {
       position: absolute;
       left: 50%;
-      top: 0;
+      top: var(--status-h);
       width: calc(100% - 292px);
       max-width: 190px;
-      height: var(--top-h);
-      line-height: var(--top-h);
+      height: calc(var(--top-h) - var(--status-h));
+      line-height: calc(var(--top-h) - var(--status-h));
       transform: translateX(-50%);
       text-align: center;
       font-size: 16px;
@@ -178,7 +191,7 @@
     .wx-nav > .wx-capsule {
       position: absolute;
       right: 8px;
-      top: 50%;
+      top: calc(var(--status-h) + (var(--top-h) - var(--status-h)) / 2);
       transform: translateY(-50%);
       z-index: 1;
     }
@@ -681,7 +694,7 @@
       <section class="phone" aria-label="WeCom mini-program prototype">
         <div class="statusbar">
           <span>9:41</span>
-          <span class="status-dots"><i></i><i></i><i></i><strong>5G</strong></span>
+          <span class="status-network">5G</span>
         </div>
         <div id="app" class="screen"></div>
       </section>

@@ -27,10 +27,14 @@ For HTML prototypes, the desktop surface is a review console around a mobile min
 Required layout:
 - Phone viewport: 390px wide by 844px high before scaling.
 - Phone stays fully visible on desktop through code-level scale; do not crop the bottom tabbar or top frame.
+- Desktop phone frame includes an iPhone-style notch; keep it visible in desktop review mode.
+- Top shell uses protected mini-program spacing: 38px status bar, compact centered notch, nav title centered in the row below the status bar, and the 88px by 32px WeCom capsule aligned to that nav row.
+- Status bar copy is only `9:41` and `5G`; do not add signal-dot placeholders or crowd the nav title into the status row.
 - Desktop header and controls are outside the phone, centered, compact, and no wider than about 920px.
 - Controls are small operational review controls: role selector, journey selector, entry buttons, reset when needed.
 - Review controls are hidden in mobile full-screen mode.
 - Mobile mode fills the viewport with the mini-program screen and has no visible desktop frame.
+- Mobile mode hides decorative phone hardware such as the border, notch, and statusbar.
 - Do not expose a visible mobile/desktop selector. Use responsive behavior and optional QA URL parameters.
 - Use a WeCom-style top bar, title truncation, right capsule, body scroll area, and bottom tabbar.
 - Native WeCom replicas hide the custom tabbar and use native-style visual language.

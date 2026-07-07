@@ -74,6 +74,8 @@ Keep Opportunity Follow-Up separate from the default core model. Only consider i
 - For prototypes, separate **full-detail pages**, **structural pages**, and **navigation/skeleton pages**.
 - For HTML/clickable prototypes, start from `assets/prototype-shell/index.html` or port its classes and behavior directly. Do not recreate the phone frame, WeCom mini-program container, top bar, capsule, or bottom tabbar from scratch.
 - For HTML/clickable prototypes, keep the desktop review shell as a compact console around a 390px by 844px mini-program viewport, scaled to fit the desktop window without cropping.
+- For HTML/clickable prototypes, preserve the desktop phone frame including the iPhone-style notch. Hide decorative phone hardware only in mobile full-screen mode.
+- Preserve the protected top shell geometry: 38px status bar, nav title and WeCom capsule centered in the nav row below it, compact notch, and status text showing `9:41` and `5G` without decorative signal-dot placeholders.
 - For HTML/clickable prototypes, implement desktop review stage and mobile full-screen mode as code-level responsive behavior. Do not expose a visible mobile/desktop selector in the product UI.
 - Preserve the protected shell layer, but adapt the page design layer to user-provided business materials, brand references, visual references, and fidelity goals so different projects do not look identical.
 - Include role switching, permission-driven show/hide rules, free-browse mode, and preset journey mode when the user asks for an interactive review prototype.

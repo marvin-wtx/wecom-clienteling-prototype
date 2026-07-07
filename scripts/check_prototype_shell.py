@@ -13,7 +13,9 @@ from pathlib import Path
 REQUIRED_TOKENS = [
     "--phone-w: 390px",
     "--phone-h: 844px",
+    "--status-h: 38px",
     "PROJECT.frontlineTerm",
+    "status-network",
     ".wx-nav",
     ".wx-capsule",
     ".wx-capsule-dot",
@@ -67,6 +69,10 @@ FORBIDDEN_PATTERNS = {
         r"toolCell\([\"'](?:tasks|appointment|filter)[\"']",
         re.IGNORECASE,
     ),
+    "status bar must not use fake signal-dot placeholders": re.compile(
+        r"status-dots",
+        re.IGNORECASE,
+    ),
 }
 
 
@@ -102,6 +108,34 @@ def collect_errors(source: str, path: Path) -> list[str]:
         re.IGNORECASE | re.DOTALL,
     ):
         errors.append("secondary-page CTA bars must be absolutely pinned to the shell bottom")
+
+    if not re.search(
+        r"(?m)^\s*\.phone::before\s*\{[^}]*content\s*:\s*[\"'][\"'][^}]*background\s*:",
+        source,
+        re.IGNORECASE | re.DOTALL,
+    ):
+        errors.append("desktop phone frame must render an iPhone-style notch")
+
+    if not re.search(
+        r"(?m)^\s*\.wx-nav-title\s*\{[^}]*top\s*:\s*var\(--status-h\)[^}]*height\s*:\s*calc\(var\(--top-h\)\s*-\s*var\(--status-h\)\)",
+        source,
+        re.IGNORECASE | re.DOTALL,
+    ):
+        errors.append("mini-program nav title must be centered in the nav row below the status bar")
+
+    if not re.search(
+        r"(?m)^\s*\.wx-nav\s*>\s*\.wx-capsule\s*\{[^}]*top\s*:\s*calc\(var\(--status-h\)\s*\+\s*\(var\(--top-h\)\s*-\s*var\(--status-h\)\)\s*/\s*2\)",
+        source,
+        re.IGNORECASE | re.DOTALL,
+    ):
+        errors.append("WeCom capsule must be vertically centered in the nav row below the status bar")
+
+    if not re.search(
+        r"body\.mobile\s+\.phone::before[\s\S]{0,160}display\s*:\s*none",
+        source,
+        re.IGNORECASE,
+    ):
+        errors.append("mobile full-screen mode must hide the decorative phone notch")
 
     if re.search(r"<script[^>]+src=", source, re.IGNORECASE):
         errors.append("prototype shell must be portable and avoid external script dependencies")

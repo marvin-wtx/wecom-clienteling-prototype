@@ -15,6 +15,8 @@ Include:
 - Stage header with prototype title, version, and optional update note.
 - Compact stage controls above the phone frame.
 - Phone frame sized around a 390 x 844 mobile mini-program viewport before scaling.
+- Desktop phone frame includes an iPhone-style notch as a protected shell detail.
+- Desktop top shell keeps the status row and mini-program nav row separate: 38px status bar with `9:41` and `5G`, then the centered nav title and WeCom capsule below.
 - Code-level desktop scaling so the full phone, top bar, body, and bottom tabbar remain visible without cropping.
 - Role selector.
 - Mode switch between **Free Browse** and **Journey Demo**.
@@ -28,7 +30,7 @@ Purpose: approximate actual mobile/WebView usage.
 
 Rules:
 - Hide desktop stage header and stage controls.
-- Hide decorative phone frame/status shell unless explicitly needed.
+- Hide decorative phone frame, notch, and status shell unless explicitly needed.
 - Use `100vw` and `100dvh` behavior where supported.
 - Keep the mini-program navigation and app UI visible.
 - Preserve the same business pages and role/page behavior as desktop stage.
@@ -98,6 +100,7 @@ For app UI visibility:
 Verify:
 - `scripts/check_prototype_shell.py` passes for generated HTML.
 - Desktop stage scales the phone frame without changing the designed mobile layout.
+- Desktop stage shows the complete phone frame including the notch.
 - Mobile mode removes stage controls and fills the viewport.
 - Mobile mode is nonblank and still shows mini-program top navigation, body content, and expected bottom navigation or sticky action.
 - No visible viewport selector appears in the app or stage controls.

@@ -14,16 +14,20 @@ Use this contract whenever the output is an HTML or clickable prototype for a We
 - Desktop and mobile presentation must be code-level responsive.
 - On desktop, show a review frame with prototype controls outside the mini-program screen.
 - On desktop, the mini-program viewport should be 390px by 844px before scaling. Scale the phone wrapper to fit the available desktop height and width instead of changing the page content height.
-- The full phone must remain visible on desktop, including top frame, mini-program navigation, body, and bottom tabbar.
+- The full phone must remain visible on desktop, including top frame, iPhone-style notch, mini-program navigation, body, and bottom tabbar.
 - Desktop stage header and controls should be compact, centered, and no wider than about 920px. They are reviewer tools, not app chrome.
 - On mobile, the prototype must become a true full-screen mini-program view using viewport and user-agent detection.
 - URL parameters such as `?view=mobile` and `?view=desktop` may exist for QA, but do not expose a visible "mobile/desktop" selector in the product UI.
 - Mobile mode must never hide the phone, screen, page body, or mini-program container. A blank mobile screen is a release blocker.
+- Mobile full-screen mode should hide decorative desktop hardware details such as the phone border, notch, and statusbar so the mini-program fills the viewport cleanly.
 
 ## WeCom Mini-Program Frame
 
 - Every in-app page must sit inside the mini-program container.
-- Preserve a WeCom-style title bar and capsule area. Long titles must truncate before colliding with the capsule.
+- Desktop review mode must show the iPhone-style hardware notch as part of the protected phone frame. Do not remove it when adapting page design.
+- Preserve a WeCom-style title bar and capsule area. The protected top geometry is a 38px status row plus a nav row below it; the nav title and WeCom capsule must be vertically centered in that nav row instead of sharing the status-row space.
+- Status text should show `9:41` on the left and `5G` on the right without fake signal-dot placeholders. The compact notch should remain centered above the status row in desktop review mode.
+- Long titles must truncate before colliding with the capsule.
 - Bottom tabs appear only on top-level mini-program pages. Secondary flows may hide the tabbar and provide a back path.
 - Default top-level tabs should be Home, Customers, a center quick-action entry, Tasks, and Appointments unless the project source requires another structure.
 - Content library, dashboard, transfer, native broadcast, and manager tools can be reached through quick actions, task detail, or role-specific entries unless they are primary demo tabs.
@@ -59,7 +63,7 @@ Use this contract whenever the output is an HTML or clickable prototype for a We
 
 ## Visual Rules
 
-- Treat the bundled shell as a protected frame, not a frozen visual style. The protected layer is: desktop review stage, mobile/desktop responsive behavior, WeCom mini-program container, nav title/capsule, bottom tab system, role/journey controls, sticky CTA behavior, native WeCom replica structure, and QA guardrails.
+- Treat the bundled shell as a protected frame, not a frozen visual style. The protected layer is: desktop review stage, desktop phone frame and notch, mobile/desktop responsive behavior, WeCom mini-program container, nav title/capsule, bottom tab system, role/journey controls, sticky CTA behavior, native WeCom replica structure, and QA guardrails.
 - Treat page composition as an adaptable layer. A project may change page density, content hierarchy, card/list/table patterns, brand accents, typography scale within shell limits, icons, imagery, data fields, and module-specific layouts when source material or visual references justify it.
 - Adaptable page design must still pass the shell contract: no broken mobile full-screen mode, no in-app viewport selector, no FA/SA/BA runtime selector, no emoji UI, no duplicated quick tools, no floating secondary CTA, and no custom redesign of native WeCom pages.
 - Use SVG icons or an approved icon library. Do not use emoji in tabbars, quick entrances, status markers, empty states, or task cards.
@@ -87,7 +91,8 @@ Also visually verify:
 
 - Desktop frame loads and controls are outside the mini-program screen.
 - Mobile viewport shows a full-screen, nonblank mini-program.
-- Top bar, capsule, body content, bottom tabbar, and sticky actions do not overlap.
+- Desktop phone frame shows the notch; mobile full-screen hides decorative phone hardware.
+- Status bar, nav title, capsule, body content, bottom tabbar, notch, and sticky actions do not overlap.
 - Secondary-page CTAs sit at the bottom edge of the shell in filter, C360, task detail, create/edit, and result pages.
 - Emoji are absent from UI source and rendered screenshots.
 - Native WeCom pages and custom mini-program pages remain distinguishable.
