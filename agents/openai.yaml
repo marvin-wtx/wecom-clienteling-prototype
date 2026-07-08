@@ -1,4 +1,4 @@
 interface:
   display_name: "WeCom Clienteling Prototype"
-  short_description: "Plan, skin, and shell WeCom clienteling prototypes"
-  default_prompt: "Use $wecom-clienteling-prototype to choose source-backed, research-led, baseline, or hybrid mode, then turn my WeCom Clienteling context into a reusable capability map, page blueprint, interaction standard, task execution model, brand visual token, and shell-based HTML prototype brief."
+  short_description: "Build branded, information-rich WeCom clienteling prototypes"
+  default_prompt: "Use $wecom-clienteling-prototype to choose source-backed, research-led, baseline, or hybrid mode, then turn my WeCom Clienteling context into a reusable capability map, page blueprint, interaction standard, task execution model, brand visual token, information-rich page contracts, and shell-based HTML prototype."

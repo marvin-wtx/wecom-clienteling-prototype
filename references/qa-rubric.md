@@ -34,6 +34,7 @@ Use this to review prototype coverage and readiness.
 
 - HTML/clickable prototypes start from `assets/prototype-shell/index.html` or directly port its shell structure and behavior.
 - `scripts/check_prototype_shell.py` passes for generated HTML.
+- For branded HTML/clickable prototypes, `scripts/check_workbench_implementation.py` passes so token-level workbench balance is visible in the implemented pages.
 - Navigation matches the page inventory.
 - Page depth matches A/B/C commitments.
 - Sample data demonstrates real decisions, not filler.
@@ -44,6 +45,13 @@ Use this to review prototype coverage and readiness.
 - By-frontline-role performance pages include a selector or tabs for visible team members plus sales/contribution, customer operation, appointment/service, task execution, and WeCom connection sections.
 - Dashboard terminology uses the confirmed frontline role term. It should not hard-code FA, SA, BA, advisor, or 店员 when the user's industry calls for another term.
 - Operational screens are dense enough for work but still scannable.
+- Home metrics have visible labels, units where relevant, period/scope, and drilldowns. No KPI is rendered as a bare number or explained only by position/color.
+- HTML metric labels use `data-metric-label`, and A-level detail regions use truthful `data-info-region` markers for deterministic QA.
+- Metric labels are visibly rendered at the target viewport; CSS clipping, low contrast, overlap, or hidden overflow do not erase field semantics.
+- A-level C360 pages expose at least four distinct regions across identity/relationship, value/recency, operating context, customer knowledge, history, and actions.
+- A-level task detail pages expose at least five distinct regions across definition, progress, audience, guidance/assets, result capture, and channel-specific execution.
+- A-level appointment detail pages expose at least five distinct regions across schedule, people/place, service/resource, customer context, preparation/communication, outcome/follow-up, and actions/exceptions.
+- Detail-page density comes from decision-supporting dimensions, not repeated cards, decorative labels, or generic filler.
 - Chinese/English terminology matches the client source material.
 - Search placeholders, filters, C360 fields, sample data, dashboard dimensions, and task-targeting labels use the confirmed field vocabulary.
 - Visual direction matches the industry, prototype fidelity, and available reference sources.
@@ -54,6 +62,7 @@ Use this to review prototype coverage and readiness.
 - Brand skin does not alter native WeCom replica structure, mini-program top geometry, bottom tabs, role/journey controls, or sticky CTA anchoring.
 - Brand depth is present beyond palette changes: typography hierarchy, geometry, accent rule, and visual anchors are defined and visible where appropriate.
 - Workbench balance is explicit: brand intensity, hero policy, operational priority, accent budget, module differentiation, page-layer-only rule, and readability rules are documented.
+- Workbench balance is implemented: home first viewport shows at least two workbench signals, customer list shows search/filter, task list shows type/status controls and next actions, appointments show time/customer/service/status/action, dashboard shows metric/target/drilldown, and native WeCom handoff stays operational.
 - Expressive brand moments do not compete with search, filters, task due dates, target counts, appointment time/resource rows, dashboard drilldowns, or native WeCom handoff.
 - Strong brand color or high-contrast modules are limited by an accent budget and do not flood every card, chip, tab, or CTA.
 - Home, customer list, C360, task list/detail, appointment, content, dashboard, and transfer pages are visually adapted to their jobs, not only recolored from one repeated pattern.
@@ -70,6 +79,7 @@ Use this to review prototype coverage and readiness.
 - Desktop top shell has separated status and nav rows: `9:41` and `5G` sit in the status row, while the page title and WeCom capsule are centered in the nav row below it with no crowding.
 - Desktop review controls are compact and outside the phone, not a large rough control panel inside or around the app.
 - Desktop/mobile behavior is code-level responsive or URL-driven for QA, not a visible selector.
+- `scripts/check_page_information.py` passes for prototypes containing home metrics or A-level detail pages.
 - Mobile full-screen mode is nonblank, hides decorative phone hardware such as notch/statusbar, and does not hide the phone/screen/body container.
 - Stage controls are hidden in mobile full-screen mode and separated from production app UI.
 - Role switching changes permissions, data scope, and available tools.

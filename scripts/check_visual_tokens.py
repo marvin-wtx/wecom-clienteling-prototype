@@ -73,7 +73,9 @@ REQUIRED_WORKBENCH_BALANCE = [
     "moduleDifferentiation",
     "pageLayerOnly",
     "readabilityRules",
+    "pageContracts",
 ]
+REQUIRED_PAGE_CONTRACTS = ["home", "customers", "tasks", "appointments", "dashboard", "nativeWeCom"]
 
 HEX_RE = re.compile(r"^#[0-9a-fA-F]{6}$")
 
@@ -226,6 +228,14 @@ def validate(data: dict[str, Any]) -> list[str]:
             value = workbench.get(key)
             if not isinstance(value, list) or len(value) < 2:
                 errors.append(f"workbenchBalance.{key} should include at least two concrete rules")
+        page_contracts = workbench.get("pageContracts")
+        if not isinstance(page_contracts, dict):
+            errors.append("workbenchBalance.pageContracts must be an object (workbench balance check)")
+        else:
+            for page in REQUIRED_PAGE_CONTRACTS:
+                value = page_contracts.get(page)
+                if not isinstance(value, list) or len(value) < 2:
+                    errors.append(f"workbenchBalance.pageContracts.{page} should include at least two implementation rules")
     else:
         errors.append("workbenchBalance must be an object (workbench balance check)")
 

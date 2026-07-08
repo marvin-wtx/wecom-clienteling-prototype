@@ -54,7 +54,7 @@ Purpose: daily operating entry for frontline work.
 
 Page content:
 - Advisor identity, role label, store/team, date or business period.
-- Two or three compact metric cards, usually task progress, appointment/service progress, and business contribution.
+- Two or three compact metric cards, usually task progress, appointment/service progress, and business contribution. Every value needs a visible label, period/scope, and drilldown; rates should show denominator or target context when available.
 - Today appointment/service queue with status, time, customer, resource or owner, and missing action.
 - Today task list with type, priority, source, target count, progress, due time, and next action.
 - Quick entries for customers, tasks, appointment, content, dashboard, and native send when in scope.
@@ -90,6 +90,7 @@ C360 content:
 - Current todo and appointment/service status.
 - Detail tabs: profile, transactions, interactions, preferences, wishlist/interests, notes, tasks, appointment/service history.
 - Sticky actions: send WeCom message, invite/register, create task, create appointment, share content, add note, or transfer depending on role and state.
+- For A-level fidelity, organize the page into at least four distinct regions from identity/relationship, value/recency, current operating context, customer knowledge, history, and action layer. Do not treat one summary card plus a short timeline as complete.
 
 Interactions:
 - Local search and exact/global lookup are separate when identifiers are in scope.
@@ -114,6 +115,7 @@ Task detail content:
 - Target customer list with per-customer contact state, result state, and next action.
 - Execution action: open WeCom chat, enter native broadcast, share content, publish Moments, create appointment, record offline result, complete/skip.
 - Result capture: sent, replied, no response, appointment created, declined, skipped reason, next follow-up date.
+- For A-level fidelity, expose at least five distinct regions from definition, execution progress, audience, guidance/assets, result capture, and execution action.
 
 Execution rules:
 - 1v1 sends from one customer context and records per-customer outcome.
@@ -133,6 +135,7 @@ Pages:
 - Create/edit wizard: select customer, service/resource, time, owner/support, notes, and confirmation channel.
 - Confirmation/success state.
 - Completion capture: arrived, completed, no-show, canceled, result note, next follow-up.
+- For A-level appointment detail, expose at least five distinct regions from schedule, people/place, service/resource, customer context, preparation/communication, outcome/follow-up, and actions/exceptions.
 
 Interactions:
 - Conflict detection for time/resource.
@@ -250,6 +253,8 @@ Before delivering a baseline prototype or brief, verify:
 
 - Every A-level module has a distinct page layout, not only a repeated card list.
 - Every important page has business object, state, action, and result.
+- Every visible number has a field label, unit where relevant, and period/scope when ambiguous.
+- A-level C360, task detail, and appointment detail pages satisfy `page-information-contract.md`; thin summary-card pages are explicitly marked B-level instead of presented as complete.
 - Sample data is connected across pages.
 - Search/filter/sort/tab controls are meaningful and mapped to real fields.
 - Task execution differs by channel and target grain.

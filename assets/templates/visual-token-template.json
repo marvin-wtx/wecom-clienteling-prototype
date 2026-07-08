@@ -130,7 +130,35 @@
       "no clipped Chinese labels",
       "no brand treatment that hides disabled, error, no-permission, or success states",
       "no decorative imagery where business data is missing"
-    ]
+    ],
+    "pageContracts": {
+      "home": [
+        "first viewport includes at least two workbench signals: priority clients, tasks, appointments, dashboard KPI, or campaign-to-task entry",
+        "brand hero or campaign module does not consume the entire first viewport unless an adjacent workbench summary remains visible"
+      ],
+      "customers": [
+        "search input is visible before customer rows",
+        "filter or segment controls are visible before customer rows",
+        "each row shows customer identity, status/segment, next action or reason, and due/priority signal"
+      ],
+      "tasks": [
+        "task filters or tabs are visible before task rows",
+        "each task row shows source/type, target grain, due/progress, and primary next action",
+        "native WeCom handoff task is visually distinct when present"
+      ],
+      "appointments": [
+        "time, customer, service/resource, owner, and status are aligned and legible",
+        "create/confirm/follow-up action is visible when the page is interactive"
+      ],
+      "dashboard": [
+        "KPI groups preserve metric, target/trend, period, and drilldown entry",
+        "dashboard does not use decorative hero analytics as the primary structure"
+      ],
+      "nativeWeCom": [
+        "native compose/send pages stay structurally neutral",
+        "recipient count, message, attachment, frequency note, send/cancel, and return state remain visible"
+      ]
+    }
   },
   "imageryRules": {
     "allowedAssets": [

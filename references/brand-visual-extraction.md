@@ -55,6 +55,14 @@ If a token is saved as JSON, run:
 python3 scripts/check_visual_tokens.py path/to/visual-token.json
 ```
 
+For branded HTML prototypes, also run:
+
+```bash
+python3 scripts/check_workbench_implementation.py path/to/index.html
+```
+
+Passing the token check means the brand plan is complete. Passing the workbench implementation check means the prototype has not lost core workbench affordances while applying the brand plan.
+
 ## Brand Depth And Workbench Balance
 
 Color swapping alone is not a brand prototype. Before implementation, answer these depth questions and write the answers into the visual token:
@@ -64,6 +72,7 @@ Color swapping alone is not a brand prototype. Before implementation, answer the
 3. **Accent rule**: list concrete `useCases` and `avoid` cases. Strong brand colors should mark priority, urgency, premium states, campaign modules, or selection states. They should not flood every card, hide filters, or weaken primary task actions.
 4. **Visual anchors**: define `primaryAnchor` and `secondaryAnchor`. Anchors may be typography, imagery, a product/campaign module, a metric display, spacing, material detail, or controlled color blocks. Do not assume black blocks, large numbers, or clipped cards are universal.
 5. **Workbench balance**: define `brandIntensity`, `heroPolicy`, `operationalPriority`, `accentBudget`, `moduleDifferentiation`, `pageLayerOnly`, and `readabilityRules`.
+6. **Page contracts**: define `workbenchBalance.pageContracts` for home, customers, tasks, appointments, dashboard, and native WeCom handoff. These are implementation promises, not prose decoration.
 
 The target balance is not neutral blandness. A high-fidelity brand prototype can be expressive, but brand expression must help the reviewer understand the work. If a branded hero, campaign block, or product image competes with search, filters, task due dates, target grain, appointment time, or KPI drilldown, reduce the brand treatment or move it to a lower-priority module.
 
@@ -72,6 +81,18 @@ Use this intensity guide:
 - **Restrained**: business alignment, IT review, early scope validation, weak brand evidence.
 - **Balanced**: default for branded workbench prototypes. Brand is recognizable, but daily work remains faster to scan than visual moments.
 - **Expressive**: executive demo, launch journey, strong evidence and assets. Still keep customer lists, task execution, appointments, dashboards, and native WeCom replicas operational.
+
+## Token Promise To Prototype Proof
+
+Every strong brand decision must produce visible proof in the prototype:
+
+- If `pageContracts.customers` says search and filters are visible, the customer page must include a search field and filter/segment controls before the rows.
+- If `pageContracts.tasks` says task execution stays clear, task rows must show source/type, target grain, due/progress, and a primary next action.
+- If `pageContracts.home` says the first viewport balances brand and workbench, the home first viewport must show at least two workbench signals such as priority clients, tasks, appointments, dashboard KPI, or campaign-to-task entry.
+- If `accentBudget` limits strong accents, the implementation must not flood every card, chip, tab, or CTA with the brand accent.
+- If `moduleDifferentiation` claims distinct page structures, customers, tasks, appointments, dashboard, and C360 must differ because of their job, not only through typography or color.
+
+For fashion/editorial brands, do not confuse a consumer campaign home page with a clienteling workbench. Editorial hero language belongs in a priority module, campaign/content module, or executive journey; it must not remove the everyday workbench summary.
 
 ## Matching Modes
 
@@ -119,3 +140,4 @@ Before delivery, check:
 - Product/campaign imagery is used only when provided, public, or clearly marked as placeholder.
 - Module layouts are visually adapted to their job; the prototype is not the same card repeated with new colors.
 - Brand intensity is balanced with workbench clarity: search/filter, task execution, appointment timing, dashboard drilldown, and native handoff stay faster to understand than decorative elements.
+- Token promises are implemented in the prototype, not just written in the token.

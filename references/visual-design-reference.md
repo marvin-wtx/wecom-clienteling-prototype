@@ -27,8 +27,9 @@ Use this sequence for brand-aware prototypes:
 3. Deconstruct evidence: identify color, typography, component shape, imagery, density, copy tone, and navigation behavior.
 4. Produce a brand visual token using `assets/templates/visual-token-template.json` when fidelity is branded or higher.
 5. Define workbench balance: brand intensity, hero policy, accent budget, operational priority, module differentiation, and readability rules.
-6. Apply the token only to the adaptable page layer. Keep the WeCom shell and native replicas protected.
-7. Run visual QA and, when a JSON token is saved, `scripts/check_visual_tokens.py`.
+6. Define page contracts for home, customers, tasks, appointments, dashboard, and native WeCom handoff.
+7. Apply the token only to the adaptable page layer. Keep the WeCom shell and native replicas protected.
+8. Run visual QA and, when a JSON token is saved, `scripts/check_visual_tokens.py`. For branded HTML prototypes, also run `scripts/check_workbench_implementation.py`.
 
 If evidence is weak, do not overfit. Use a neutral operational base with a clearly labeled brand-adjacent accent.
 
@@ -102,6 +103,15 @@ For every branded page, ask:
 - Which brand treatment is deliberately avoided because it would slow scanning?
 - Is the page structurally different because of its job, or only recolored?
 
+Implementation proof checks:
+
+- Home first viewport: show at least two workbench signals, such as priority clients, tasks, appointments, dashboard KPI, or campaign-to-task entry. A campaign/editorial hero alone is not a workbench.
+- Customer list: keep search and filter/segment controls visible before customer rows.
+- Task list: keep task type/status filters visible and show source/type, target grain, due/progress, and primary next action.
+- Appointment: align time, customer, service/resource, owner/status, and action.
+- Dashboard: preserve metric grouping, target/trend/period, and drilldown entry.
+- Native WeCom handoff: keep native structure and recipient/message/frequency/send/return cues visible.
+
 ## Style Direction Templates
 
 Choose one direction as a starting point, then adapt to the client's brand and prototype goal.
@@ -142,6 +152,7 @@ Avoid:
 - Generic stock imagery.
 - Overly playful icons or round app-like visuals.
 - Turning the entire prototype into one gold, brown, black, or beige palette because the brand is luxury.
+- Copying consumer fashion campaign home screens so literally that the clienteling workbench summary disappears.
 
 ### 3. Beauty BA Workbench
 
@@ -274,3 +285,4 @@ When briefing a prototype, include:
 - Do high-frequency work surfaces remain dense, legible, and predictable?
 - Do module layouts differ because the modules do different jobs, not only because colors changed?
 - If a JSON visual token exists, does `scripts/check_visual_tokens.py` pass?
+- For branded HTML, does `scripts/check_workbench_implementation.py` pass?
