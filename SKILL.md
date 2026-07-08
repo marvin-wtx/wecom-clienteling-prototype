@@ -1,6 +1,6 @@
 ---
 name: wecom-clienteling-prototype
-description: Convert WeCom/WeChat Work ecosystem mini-program clienteling tool materials, or sparse early ideas, into reusable baseline frameworks, capability maps, page inventories, page-level interaction standards, task-execution models, field-vocabulary mapping, prototype briefs, WeCom native replicas such as 新建群发, visual direction, responsive prototype shells, and coverage QA. Use when the user asks to analyze BRDs, feature lists, screenshots, workflows, search/filter/tab/page-state details, task execution, 1v1/1vN/Moments/native broadcast flows, management dashboards, by-staff performance drilldowns, role/permission notes, CRM/CDP/MA/member-system integrations, FA/SA/BA terminology, customer/member field naming, visual references, opportunity logic, or existing prototypes for WeCom mini-program Clienteling, retail clienteling, private-domain sales assistant, C360, appointment, content sharing, or dashboard prototype work.
+description: Convert WeCom/WeChat Work ecosystem mini-program clienteling tool materials, or sparse early ideas, into reusable baseline frameworks, capability maps, page inventories, page-level interaction standards, task-execution models, field-vocabulary mapping, prototype briefs, WeCom native replicas such as 新建群发, brand visual evidence extraction, visual tokens, responsive prototype shells, and coverage QA. Use when the user asks to analyze BRDs, feature lists, screenshots, workflows, search/filter/tab/page-state details, task execution, 1v1/1vN/Moments/native broadcast flows, management dashboards, by-staff performance drilldowns, role/permission notes, CRM/CDP/MA/member-system integrations, FA/SA/BA terminology, customer/member field naming, brand visual references, UI restoration, opportunity logic, or existing prototypes for WeCom mini-program Clienteling, retail clienteling, private-domain sales assistant, C360, appointment, content sharing, or dashboard prototype work.
 ---
 
 # WeCom Clienteling Prototype
@@ -28,6 +28,7 @@ Then classify the deliverable into one or more work modes:
 - **Prototype presentation**: specify desktop review stage, mobile full-screen mode, role switching, control visibility, free browsing, and preset journey demo behavior.
 - **WeCom native replication**: decide when to replicate native WeCom pages, such as 新建群发, instead of designing a custom clienteling page.
 - **Visual direction**: define industry-appropriate naming, prototype style references, brand fit, and reusable visual direction before implementation.
+- **Brand visual extraction**: turn brand references, screenshots, public research, or style examples into evidence-backed visual tokens and page-layer design rules.
 - **Coverage QA**: check an existing prototype against the capability map, flows, states, permissions, and integration assumptions.
 
 ## Required Workflow
@@ -48,9 +49,11 @@ Then classify the deliverable into one or more work modes:
 14. Read `references/prototype-presentation-spec.md` when producing an HTML/clickable prototype, demo shell, or prototype execution brief.
 15. Read `references/terminology.md` when role naming, industry vocabulary, customer/member field names, or Chinese/English labels affect credibility.
 16. Read `references/visual-design-reference.md` when producing or briefing a visual prototype.
-17. Read `references/intake-questionnaire.md` when source material is missing actors, integration scope, page depth, demo goals, visual direction, terminology, WeCom mini-program constraints, native page replication, presentation mode, interaction standards, task execution details, or acceptance criteria.
-18. Read `references/qa-rubric.md` when reviewing coverage or validating an existing prototype.
-19. Use `assets/templates/` files as output skeletons when the user wants a structured deliverable.
+17. Read `references/brand-visual-extraction.md` when brand references, public brand research, screenshots, high-fidelity UI generation, UI restoration, or brand-skinned HTML prototypes are in scope.
+18. Use `assets/templates/visual-token-template.json` when producing a brand visual token. If the token is saved as JSON, run `scripts/check_visual_tokens.py` before implementation or delivery.
+19. Read `references/intake-questionnaire.md` when source material is missing actors, integration scope, page depth, demo goals, visual direction, terminology, WeCom mini-program constraints, native page replication, presentation mode, interaction standards, task execution details, or acceptance criteria.
+20. Read `references/qa-rubric.md` when reviewing coverage or validating an existing prototype.
+21. Use `assets/templates/` files as output skeletons when the user wants a structured deliverable.
 
 ## Domain Rule
 
@@ -78,6 +81,9 @@ Keep Opportunity Follow-Up separate from the default core model. Only consider i
 - Preserve the protected top shell geometry: 38px status bar, nav title and WeCom capsule centered in the nav row below it, compact notch, and status text showing `9:41` and `5G` without decorative signal-dot placeholders.
 - For HTML/clickable prototypes, implement desktop review stage and mobile full-screen mode as code-level responsive behavior. Do not expose a visible mobile/desktop selector in the product UI.
 - Preserve the protected shell layer, but adapt the page design layer to user-provided business materials, brand references, visual references, and fidelity goals so different projects do not look identical.
+- For high-fidelity branded prototypes or UI restoration, produce a compact evidence table and brand visual token before implementation. Map visual evidence into page-layer CSS variables, component rules, imagery rules, module-specific layout choices, and a workbench balance plan.
+- Strong brand visual expression is allowed and often desirable, but keep customer lists, task execution, appointment rows, dashboard drilldowns, search/filter controls, and native WeCom handoffs faster to scan than decorative brand moments.
+- Do not invent exact brand assets, proprietary UI details, product imagery, membership terms, or campaign copy. Use provided/public evidence, neutral defaults, or explicit assumptions.
 - Include role switching, permission-driven show/hide rules, free-browse mode, and preset journey mode when the user asks for an interactive review prototype.
 - For manager, regional, or HQ roles, include a management dashboard structure and a by-frontline-role performance drilldown when dashboard/tracking is in scope. Reuse generic metric groups such as sales or contribution, customer operation, appointment/service conversion, task execution, and WeCom connection; adapt names and formulas to the user's source material.
 - Keep desktop-only review controls, role controls, and preset journey controls outside the mini-program screen; hide them in mobile presentation.

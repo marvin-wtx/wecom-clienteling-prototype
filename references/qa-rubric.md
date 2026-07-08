@@ -47,6 +47,17 @@ Use this to review prototype coverage and readiness.
 - Chinese/English terminology matches the client source material.
 - Search placeholders, filters, C360 fields, sample data, dashboard dimensions, and task-targeting labels use the confirmed field vocabulary.
 - Visual direction matches the industry, prototype fidelity, and available reference sources.
+- High-fidelity branded prototypes include a compact evidence table and brand visual token before implementation.
+- Brand visual token decisions are applied through page-layer CSS variables and component rules, not by rebuilding the protected shell.
+- If a JSON visual token is produced, `scripts/check_visual_tokens.py` passes.
+- Brand references are traceable to user-provided materials, public sources, design-reference search, style templates, or explicit assumptions.
+- Brand skin does not alter native WeCom replica structure, mini-program top geometry, bottom tabs, role/journey controls, or sticky CTA anchoring.
+- Brand depth is present beyond palette changes: typography hierarchy, geometry, accent rule, and visual anchors are defined and visible where appropriate.
+- Workbench balance is explicit: brand intensity, hero policy, operational priority, accent budget, module differentiation, page-layer-only rule, and readability rules are documented.
+- Expressive brand moments do not compete with search, filters, task due dates, target counts, appointment time/resource rows, dashboard drilldowns, or native WeCom handoff.
+- Strong brand color or high-contrast modules are limited by an accent budget and do not flood every card, chip, tab, or CTA.
+- Home, customer list, C360, task list/detail, appointment, content, dashboard, and transfer pages are visually adapted to their jobs, not only recolored from one repeated pattern.
+- Quiet brands still have recognizable anchors through typography, spacing, imagery discipline, material/detail rhythm, or component shape.
 - Empty, loading, error, no-permission, and success states are covered for high-risk actions.
 - Search and filter states include no result, cleared query, selected filters, role-limited filters, and source failures when relevant.
 - Tabs, segmented controls, status filters, and filter chips are used consistently according to hierarchy.

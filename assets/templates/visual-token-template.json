@@ -1,0 +1,197 @@
+{
+  "brand": {
+    "name": "Example Brand",
+    "industry": "general retail",
+    "targetFidelity": "clean business prototype",
+    "frontlineTerm": "SA"
+  },
+  "referenceSources": [
+    {
+      "type": "user-provided screenshot",
+      "source": "replace with file path, URL, or note",
+      "observedDetails": [
+        "replace with observable color, component, density, imagery, or copy detail"
+      ],
+      "prototypeDecisions": [
+        "replace with token, layout, component, or content decision"
+      ]
+    }
+  ],
+  "palette": {
+    "primary": "#4f6d63",
+    "primaryStrong": "#304e45",
+    "accent": "#80653f",
+    "background": "#f5f6f4",
+    "surface": "#ffffff",
+    "surfaceSoft": "#eef2ef",
+    "text": "#1c211f",
+    "muted": "#68726c",
+    "line": "#dfe4df",
+    "danger": "#9b3c30",
+    "onPrimary": "#ffffff"
+  },
+  "typography": {
+    "fontFamily": "-apple-system, BlinkMacSystemFont, SF Pro Display, PingFang SC, Microsoft YaHei, sans-serif",
+    "titleWeight": 700,
+    "bodyWeight": 400,
+    "numericWeight": 700,
+    "hierarchyNotes": "Use compact operational hierarchy; reserve expressive brand display treatment for moments that do not reduce workbench scanning speed.",
+    "display": {
+      "size": "28-40px according to brand evidence and screen density",
+      "weight": "500-900 according to brand evidence",
+      "tracking": "brand-appropriate; avoid negative tracking for dense Chinese labels",
+      "lineHeight": "0.96-1.16 according to language and brand tone",
+      "transform": "none, uppercase, lowercase, or title case based on evidence",
+      "useCases": "only for page hero, campaign moment, executive-demo moment, or brand anchor; not for dense lists"
+    },
+    "h1": {
+      "size": "18-24px",
+      "weight": "600-800 according to brand evidence",
+      "tracking": "0 to -0.01em",
+      "useCases": "page titles, detail titles, important card titles"
+    },
+    "h2": {
+      "size": "15-18px",
+      "weight": "500-700 according to brand evidence",
+      "useCases": "section titles, task titles, list row titles"
+    },
+    "num": {
+      "size": "22-40px according to metric importance",
+      "weight": "600-900 according to brand evidence",
+      "tracking": "0 to -0.04em",
+      "feature": "tabular numbers where supported",
+      "useCases": "KPI numbers, money amounts, percentages, countdowns, queue counts"
+    },
+    "eyebrow": {
+      "size": "10-12px",
+      "weight": "500-700 according to brand evidence",
+      "tracking": "0.08em-0.18em when uppercase; 0 for dense Chinese labels",
+      "transform": "none or uppercase based on evidence",
+      "useCases": "kicker labels, category tags, source labels, status labels"
+    }
+  },
+  "componentStyle": {
+    "cardRadius": 8,
+    "controlRadius": 4,
+    "borderWeight": 1,
+    "shadow": "subtle",
+    "chipStyle": "outlined or soft filled, compact height",
+    "tabStyle": "segmented or chip tabs according to hierarchy",
+    "ctaStyle": "solid primary for main action, outline for secondary action",
+    "listStyle": "dense rows with clear metadata and status chips",
+    "filterStyle": "search first, then chips or bottom-sheet filters",
+    "geometry": {
+      "controlRadius": "brand-appropriate control radius with operational touch targets preserved",
+      "cardRadius": "brand-appropriate card radius; avoid changing radius just for decoration",
+      "useClipPath": false,
+      "clipCorner": "0 unless the brand evidence supports cut-corner geometry",
+      "borderWeight": "1px unless evidence supports stronger structure",
+      "description": "Choose the geometry system from evidence and industry fit. Sharp, clipped, soft, rounded, editorial, or precise geometry are all valid when justified; the default is compact and readable."
+    },
+    "accentRule": {
+      "useCases": [
+        "highest-priority business moment",
+        "urgent task or deadline",
+        "premium or special customer state",
+        "campaign or launch module",
+        "selected state or progress emphasis"
+      ],
+      "avoid": [
+        "flooding every card",
+        "weakening search/filter readability",
+        "changing native WeCom replicas",
+        "overpowering primary task actions",
+        "using one brand hue for the whole prototype"
+      ],
+      "description": "Define exactly where the accent is allowed. Strong brand accents should create hierarchy, not replace the workbench information system."
+    },
+    "anchor": {
+      "primaryAnchor": "choose the brand's main visual anchor: typography, imagery, color block, product module, metric display, spacing, or material detail",
+      "secondaryAnchor": "supporting visual anchor that can repeat across pages without becoming noise",
+      "fullWidthSection": false,
+      "numDisplay": false,
+      "description": "The anchor may be quiet or expressive. Use it to make the brand recognizable while preserving operational scanning."
+    }
+  },
+  "workbenchBalance": {
+    "brandIntensity": "balanced",
+    "heroPolicy": "Use expressive hero or campaign modules only when they clarify today's work, a launch, or an executive demo path.",
+    "operationalPriority": [
+      "search and filters remain immediately visible on list pages",
+      "task action, due date, progress, and target grain remain faster to scan than decorative brand elements",
+      "appointment time, customer, service, resource, and status remain aligned and legible",
+      "dashboard metrics preserve grouping, trend, target, and drilldown clarity"
+    ],
+    "accentBudget": "Reserve strong brand color or high-contrast blocks for one or two priority moments per page.",
+    "moduleDifferentiation": "At least home, customer list, task list/detail, appointment, and dashboard should have module-appropriate layout differences, not only recolored cards.",
+    "pageLayerOnly": "Brand skin applies to page-layer components and content modules only; protected shell and native WeCom replicas remain structurally neutral.",
+    "readabilityRules": [
+      "no text overlap",
+      "no clipped Chinese labels",
+      "no brand treatment that hides disabled, error, no-permission, or success states",
+      "no decorative imagery where business data is missing"
+    ]
+  },
+  "imageryRules": {
+    "allowedAssets": [
+      "provided product images",
+      "public campaign images when allowed",
+      "neutral placeholder blocks when assets are missing"
+    ],
+    "placement": [
+      "content cards",
+      "campaign modules",
+      "product-interest sections"
+    ],
+    "fallback": "Use text-led operational cards instead of stock-like images when no approved asset exists."
+  },
+  "layoutRhythm": {
+    "density": "compact",
+    "sectionSpacing": 14,
+    "cardPadding": 14,
+    "listRowHeight": "content-driven but stable",
+    "dashboardDensity": "grouped KPI modules with drilldowns"
+  },
+  "shellBoundary": {
+    "protectedShell": [
+      "desktop review stage",
+      "phone frame and notch",
+      "status bar",
+      "mini-program nav title and capsule",
+      "bottom tabbar",
+      "role and journey controls",
+      "mobile full-screen behavior",
+      "native WeCom replicas",
+      "sticky CTA behavior"
+    ],
+    "adaptablePageLayer": [
+      "colors through CSS variables",
+      "card/list/table rhythm",
+      "imagery in content areas",
+      "module-specific layout",
+      "copy tone and data labels"
+    ],
+    "nativeReplicaTreatment": "Keep native WeCom pages neutral and native-like; do not brand-redesign them."
+  },
+  "moduleAdaptation": {
+    "home": "Use brand skin on metrics, priority sections, and imagery only when it supports daily work.",
+    "customers": "Keep search/filter prominent; adapt chips and row rhythm to brand density.",
+    "c360": "Use brand tone for customer summary and preference/product-interest sections.",
+    "tasks": "Keep execution clarity first; brand only chips, progress, and supporting content cards.",
+    "appointments": "Show service/resource states with compact cards and clear CTAs.",
+    "content": "Use product or campaign imagery when approved.",
+    "dashboard": "Use operational KPI grouping; avoid decorative hero analytics.",
+    "transfer": "Keep ownership, permission, and result states clear.",
+    "extensions": "Visually distinguish extension modules without breaking shell consistency."
+  },
+  "avoid": [
+    "emoji icons",
+    "one-hue palette wash",
+    "consumer shopping app layout",
+    "brand-redesigned native WeCom pages",
+    "generic repeated cards with only color changes"
+  ],
+  "assumptions": [
+    "Replace with inferred choices and unresolved visual questions."
+  ]
+}

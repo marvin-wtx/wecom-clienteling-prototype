@@ -145,9 +145,17 @@ Ask:
 
 Ask:
 - Is the prototype expected to be wireframe, clean business prototype, high-fidelity branded prototype, or executive demo?
+- Should the visual work be tone match, component match, or close screenshot restoration?
 - Are there brand guidelines, app screenshots, WeCom/mini-program references, product images, content assets, logos, fonts, or colors to follow?
+- Which references are authoritative: user-provided files, official brand site, public app/mini-program screenshots, campaign/product pages, competitor/category examples, or design-reference search?
+- Are logo, product imagery, campaign imagery, and exact brand colors approved for prototype use, or should they be treated as directional only?
 - Should the style be neutral enterprise, luxury fashion, beauty BA workbench, branded executive demo, or another direction?
 - Should visual references be researched before design, and are there competitor or category examples to include?
+- Should I produce a brand visual token before implementation and mark weak/missing evidence as assumptions?
+- How strong should brand expression be: restrained, balanced, or expressive?
+- Which pages may carry stronger brand moments, such as home, campaign/content, dashboard highlight, or executive journey?
+- Which workbench surfaces must stay dense and fast to scan, such as customer list, task list/detail, appointment rows, search/filter, or dashboard drilldown?
+- What is the accent budget: one priority moment per page, several controlled accents, or a fully branded page layer backed by a design system?
 - What visual elements should stay generic because they are not approved or not important for this round?
 
 ## Acceptance
@@ -158,4 +166,5 @@ Ask:
 - Which integrations or permissions are likely to be challenged?
 - Should desktop/mobile adaptation, control show/hide, role switching, free browse, and preset journey mode be part of acceptance?
 - Should native WeCom page replicas, such as 新建群发, be part of acceptance?
+- Should acceptance include a brand-versus-workbench balance check, especially search/filter clarity, task due dates, appointment timing, dashboard drilldowns, and native handoff?
 - What does "done" mean for this round?

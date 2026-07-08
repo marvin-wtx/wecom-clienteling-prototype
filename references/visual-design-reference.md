@@ -18,6 +18,20 @@ For product UI work, use real references first when available. If Lazyweb or ano
 
 For HTML/clickable prototypes, the bundled shell already defines a neutral operational base. Keep that base unless the user provides a stronger design system.
 
+## Visual Generation Workflow
+
+Use this sequence for brand-aware prototypes:
+
+1. Choose fidelity: wireframe, clean business prototype, high-fidelity branded prototype, screenshot restoration, or executive demo.
+2. Gather evidence: user screenshots, brand guidelines, official site/app/mini-program, campaign/product pages, internal CRM/POS references, or design-reference search.
+3. Deconstruct evidence: identify color, typography, component shape, imagery, density, copy tone, and navigation behavior.
+4. Produce a brand visual token using `assets/templates/visual-token-template.json` when fidelity is branded or higher.
+5. Define workbench balance: brand intensity, hero policy, accent budget, operational priority, module differentiation, and readability rules.
+6. Apply the token only to the adaptable page layer. Keep the WeCom shell and native replicas protected.
+7. Run visual QA and, when a JSON token is saved, `scripts/check_visual_tokens.py`.
+
+If evidence is weak, do not overfit. Use a neutral operational base with a clearly labeled brand-adjacent accent.
+
 ## Shell Versus Page Design
 
 Do not confuse shell consistency with visual sameness.
@@ -38,6 +52,55 @@ Adaptable page layer:
 - High-fidelity brand moments, product images, campaign assets, or executive-demo polish when the user provides enough material.
 
 If the user provides screenshots, brand references, or a design system, adapt the page layer to those references while preserving the protected shell. If there is no visual reference, use the neutral operational shell and vary page content through business structure, not decoration.
+
+## Evidence Deconstruction
+
+Before writing UI code, summarize:
+
+- Source: screenshot, URL, file, reference search, user note, or assumption.
+- Observable detail: color, typography, shape, border, shadow, density, image treatment, icon style, or copy tone.
+- Prototype decision: CSS token, component rule, page layout rule, data/content rule, or explicit non-use.
+
+Do not treat brand adjectives as enough. "Luxury", "premium", or "beauty" must become concrete choices such as restrained accent usage, exact or approximate palette, typography weight, card rhythm, image placement, and copy tone.
+
+## Brand Token Application
+
+When implementing HTML, map brand decisions into tokenized CSS first:
+
+- `--brand-primary`, `--brand-primary-strong`, `--brand-accent`, `--brand-on-primary`.
+- `--bg`, `--surface`, `--surface-soft`, `--line`, `--line-strong`, `--text`, `--muted`, `--subtle`.
+- Keep destructive, warning, and disabled states legible and separate from brand accent colors.
+
+Then apply tokens page by page:
+
+- Home: brand moment, metrics, priority sections, campaign/product module, or executive-demo imagery if useful.
+- Customers/C360: search/filter clarity, row density, tags, customer summary, preference/product-interest modules.
+- Tasks: execution clarity, progress, channel labels, target grain, native handoff, and result states.
+- Appointment: schedule/resource states, service detail, conflict/confirmation state, and clear CTAs.
+- Content: product/campaign imagery when approved.
+- Dashboard: operational KPI grouping, progress, target attainment, trend, and drilldown hierarchy.
+- Transfer/extensions: permission, ownership, source system, and write-back clarity.
+
+Never use brand skin as a reason to remove required search, filter, tabs, task result states, role behavior, or native WeCom handoff.
+
+## Brand Expression Versus Workbench Utility
+
+Strong brand visual design is desirable when the user asks for high fidelity. The balance rule is: brand expression should clarify priority and confidence, while the workbench keeps repeated tasks fast.
+
+Use this hierarchy:
+
+- **Can be expressive**: home hero, priority campaign, launch/drop module, premium customer state, content module, executive-demo path, dashboard highlight.
+- **Should be balanced**: C360 summary, KPI cards, task cards, appointment cards, customer profile modules.
+- **Must stay operational**: search, filters, tab controls, list rows, task due dates, target counts, action buttons, appointment time/resource rows, error/no-permission states, native WeCom replicas.
+
+When a brand has loud evidence, contain it through an accent budget: one or two strong visual moments per page, then neutral operational surfaces. When a brand has quiet evidence, avoid making the UI bland; use precise typography, spacing, material detail, image discipline, and component rhythm as the brand anchors.
+
+For every branded page, ask:
+
+- What is the user's fastest next action on this page?
+- Which one visual anchor makes the brand recognizable?
+- Which brand treatment is deliberately avoided because it would slow scanning?
+- Is the page structurally different because of its job, or only recolored?
 
 ## Style Direction Templates
 
@@ -110,8 +173,60 @@ Characteristics:
 Avoid:
 - Letting polish hide missing business coverage.
 - Using brand elements without enough content permission or source material.
+- Applying executive-demo hero density to every workbench list page.
 
-### 5. Wireframe / Requirement Handoff
+### 5. Jewelry / Watch High-Touch Service
+
+Best for: jewelry, watches, high-value appointment retail, VIC/VIP service.
+
+Characteristics:
+- Precise typography and quiet spacing.
+- Strong appointment, preference, product-interest, and concierge-service cues.
+- Very limited accent color, high contrast, and strong detail discipline.
+- Product imagery may be important, but only when approved or public.
+
+Use role naming:
+- Ask for the client-preferred term. Use SA or advisor if no industry-specific term is confirmed.
+
+Avoid:
+- Generic luxury gold wash.
+- Large decorative hero blocks that crowd operational tasks.
+- Treating high-value customers as an opportunity lifecycle unless the user confirms opportunity scope.
+
+### 6. Athletic / Lifestyle Retail Launch Workbench
+
+Best for: sportswear, lifestyle retail, drop/launch programs, community events.
+
+Characteristics:
+- Brand moments can be bold when tied to launches, drops, events, training, or priority client outreach.
+- Typography, contrast, geometry, and campaign modules may be expressive.
+- Customer, task, appointment, and dashboard pages still need fast scanning and clear execution.
+
+Use role naming:
+- Use the brand or source-backed frontline term when available. Otherwise use SA or advisor.
+
+Avoid:
+- Turning every page into a campaign page.
+- Flooding the accent color across all cards and chips.
+- Letting launch modules hide ordinary clienteling work.
+
+### 7. Wellness / Community Retail Workbench
+
+Best for: yoga, fitness community, wellness, class-based retail, service and event communities.
+
+Characteristics:
+- Calm typography, organic geometry, warm neutrals, and community/service cues can carry the brand.
+- Strong accents are reserved for deadlines, event capacity, launch windows, or premium community states.
+- Appointment, class, and community participation modules may be more important than product-heavy modules.
+
+Use role naming:
+- Use the brand or source-backed frontline term when available. Otherwise use SA or advisor.
+
+Avoid:
+- Forcing loud uppercase, black blocks, or cut-corner athletic styling without evidence.
+- Making calm visual tone so soft that task priority and status disappear.
+
+### 8. Wireframe / Requirement Handoff
 
 Best for: validating scope, page inventory, system rules, and IT discussion.
 
@@ -133,6 +248,9 @@ When briefing a prototype, include:
 - Desktop review stage vs mobile full-screen presentation rules.
 - Reference sources available and missing.
 - Color/typography/image constraints.
+- Brand visual token summary when fidelity is branded or higher.
+- Workbench balance summary: brand intensity, hero policy, accent budget, and which surfaces must stay operational.
+- Evidence table linking sources to UI decisions.
 - Page density target.
 - Component conventions: cards, lists, tabs, filter bars, status chips, modals, bottom navigation.
 - Icon rule: SVG or approved icon library only; no emoji in app UI.
@@ -149,3 +267,10 @@ When briefing a prototype, include:
 - Are generic templates clearly adapted to the client instead of copied verbatim?
 - Are tabbar, quick entrance, task, and state icons implemented as SVG/library icons rather than emoji?
 - Does the palette preserve operational contrast and avoid overusing a single brand hue?
+- Does each branded decision trace to evidence, an explicit assumption, or a selected style template?
+- Does the brand skin stay in the adaptable page layer while shell/native WeCom surfaces remain protected?
+- Does brand expression support the user's fastest next action instead of competing with it?
+- Are expressive brand moments limited by an accent budget?
+- Do high-frequency work surfaces remain dense, legible, and predictable?
+- Do module layouts differ because the modules do different jobs, not only because colors changed?
+- If a JSON visual token exists, does `scripts/check_visual_tokens.py` pass?
