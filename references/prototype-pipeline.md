@@ -164,7 +164,7 @@ When implementing:
 - Keep navigation and flow traceable to the page inventory.
 - Make extension modules visible only if they are in scope.
 - Implement WeCom mini-program/container constraints before adding decorative UI.
-- Preserve the shell's WeCom title bar, capsule, page body, bottom tabbar, desktop review frame, mobile full-screen behavior, role controls, and journey controls.
+- Preserve the shell's WeCom title bar, capsule, page body, bottom-navigation mechanics/safe area, desktop review frame, mobile full-screen behavior, role controls, and journey controls. Adapt navigation destinations, order, center action, labels, icons, and active treatment from the structural differentiation plan.
 - Implement reusable search, filter, sort, tab, page-state, and disabled-action behavior consistently across A-level pages.
 - Implement task execution by type and channel, not as a generic static task page.
 - Avoid repeated same-layout pages with only text swaps. Home, customer list, C360, task list/detail, appointment, content, and dashboard need distinct structure, data fields, and actions.

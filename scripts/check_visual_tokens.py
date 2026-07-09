@@ -17,6 +17,7 @@ REQUIRED_TOP_LEVEL = [
     "palette",
     "typography",
     "componentStyle",
+    "structuralDifferentiation",
     "workbenchBalance",
     "imageryRules",
     "layoutRhythm",
@@ -65,6 +66,23 @@ REQUIRED_TYPOGRAPHY_LEVEL_FIELDS = {
 REQUIRED_COMPONENT_GEOMETRY = ["controlRadius", "cardRadius", "useClipPath", "clipCorner", "description"]
 REQUIRED_ACCENT_RULE = ["useCases", "avoid", "description"]
 REQUIRED_ANCHOR = ["primaryAnchor", "secondaryAnchor", "fullWidthSection", "numDisplay", "description"]
+REQUIRED_STRUCTURAL_DIFFERENTIATION = [
+    "navigationModel",
+    "homeComposition",
+    "customerArchitecture",
+    "taskArchitecture",
+    "appointmentArchitecture",
+    "dashboardArchitecture",
+    "signatureInteraction",
+    "antiTemplateCheck",
+]
+REQUIRED_NAVIGATION_MODEL = [
+    "topLevelItems",
+    "orderRationale",
+    "centerAction",
+    "activeTreatment",
+    "roleVariation",
+]
 REQUIRED_WORKBENCH_BALANCE = [
     "brandIntensity",
     "heroPolicy",
@@ -154,7 +172,7 @@ def validate(data: dict[str, Any]) -> list[str]:
     if isinstance(shell, dict):
         require_keys(shell, REQUIRED_SHELL_BOUNDARY, "shellBoundary", errors)
         protected = " ".join(shell.get("protectedShell", [])) if isinstance(shell.get("protectedShell"), list) else ""
-        for token in ("status bar", "capsule", "bottom tabbar", "native WeCom"):
+        for token in ("status bar", "capsule", "bottom navigation", "native WeCom"):
             if token not in protected:
                 errors.append(f"shellBoundary.protectedShell should include {token}")
     else:
@@ -217,6 +235,58 @@ def validate(data: dict[str, Any]) -> list[str]:
                     errors.append(f"componentStyle.anchor.{field} is required (brand depth check)")
     else:
         errors.append("componentStyle must be an object (brand depth check)")
+
+    structural = data.get("structuralDifferentiation", {})
+    if isinstance(structural, dict):
+        require_keys(
+            structural,
+            REQUIRED_STRUCTURAL_DIFFERENTIATION,
+            "structuralDifferentiation",
+            errors,
+        )
+        navigation = structural.get("navigationModel")
+        if not isinstance(navigation, dict):
+            errors.append("structuralDifferentiation.navigationModel must be an object")
+        else:
+            require_keys(
+                navigation,
+                REQUIRED_NAVIGATION_MODEL,
+                "structuralDifferentiation.navigationModel",
+                errors,
+            )
+            top_level_items = navigation.get("topLevelItems")
+            if not isinstance(top_level_items, list) or not 3 <= len(top_level_items) <= 5:
+                errors.append(
+                    "structuralDifferentiation.navigationModel.topLevelItems must contain 3-5 items"
+                )
+            elif len({str(item).strip().lower() for item in top_level_items}) != len(top_level_items):
+                errors.append(
+                    "structuralDifferentiation.navigationModel.topLevelItems must be unique"
+                )
+
+        anti_template = structural.get("antiTemplateCheck")
+        if not isinstance(anti_template, list) or len(anti_template) < 3:
+            errors.append(
+                "structuralDifferentiation.antiTemplateCheck should include at least three concrete checks"
+            )
+
+        architecture_keys = [
+            "homeComposition",
+            "customerArchitecture",
+            "taskArchitecture",
+            "appointmentArchitecture",
+            "dashboardArchitecture",
+        ]
+        architecture_values = [
+            re.sub(r"\s+", " ", str(structural.get(key, "")).strip().lower())
+            for key in architecture_keys
+        ]
+        if len({value for value in architecture_values if value}) < 4:
+            errors.append(
+                "structuralDifferentiation should define at least four distinct page architecture decisions"
+            )
+    else:
+        errors.append("structuralDifferentiation must be an object")
 
     workbench = data.get("workbenchBalance", {})
     if isinstance(workbench, dict):

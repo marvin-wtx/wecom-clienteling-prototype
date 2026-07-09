@@ -46,7 +46,16 @@ Use this to review prototype coverage and readiness.
 - Dashboard terminology uses the confirmed frontline role term. It should not hard-code FA, SA, BA, advisor, or 店员 when the user's industry calls for another term.
 - Operational screens are dense enough for work but still scannable.
 - Home metrics have visible labels, units where relevant, period/scope, and drilldowns. No KPI is rendered as a bare number or explained only by position/color.
-- HTML metric labels use `data-metric-label`, and A-level detail regions use truthful `data-info-region` markers for deterministic QA.
+- HTML metric labels use `data-metric-label`, and A-level detail coverage uses truthful `data-info-capability` markers for deterministic QA.
+- Home has at least two real `data-home-kpi` containers and two `data-home-operational` regions; a countdown or campaign card is not counted as either.
+- No more than one campaign/editorial/brand storytelling region appears before the first home operational region.
+- A-level detail pages cover the capability vocabulary from `page-information-contract.md`; layout, grouping, ordering, and interaction remain adaptable.
+- The visual token includes structural differentiation for navigation, home, C360, tasks, appointments, dashboard, and a signature interaction.
+- Navigation set/order and at least two page architectures are justified by brand, role, industry, or journey evidence rather than copied from the starter shell.
+- Shared customer, task, appointment, and asset objects are connected by ID. Counts, states, owners, dates, and names do not conflict across pages.
+- Product UI does not expose QA/debug copy such as brand intensity, workbench density, accent budget, token names, or implementation notes.
+- Mini-program top titles remain readable and untruncated; longer English branding moves into the page body.
+- Secondary, disabled, and outline buttons have visible labels with sufficient foreground/background contrast.
 - Metric labels are visibly rendered at the target viewport; CSS clipping, low contrast, overlap, or hidden overflow do not erase field semantics.
 - A-level C360 pages expose at least four distinct regions across identity/relationship, value/recency, operating context, customer knowledge, history, and actions.
 - A-level task detail pages expose at least five distinct regions across definition, progress, audience, guidance/assets, result capture, and channel-specific execution.

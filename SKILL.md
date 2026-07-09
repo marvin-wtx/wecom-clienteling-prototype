@@ -41,22 +41,23 @@ Then classify the deliverable into one or more work modes:
 6. Read `references/module-to-page-patterns.md` when creating page inventories, IA, demo flows, or prototype briefs.
 7. Read `references/reference-page-blueprints.md` when defining baseline page content, sample data, page-level states, or HTML prototype page structure.
 8. Read `references/page-information-contract.md` when implementing or reviewing home metrics, C360, task detail, appointment detail, or any A-level full-detail page.
-9. Read `references/interaction-patterns.md` when specifying search, filter, sort, tabs, page states, list controls, or reusable page-level interactions.
-10. Read `references/task-execution-patterns.md` when specifying task list/detail behavior, execution methods, target handling, native send handoff, or completion feedback.
-11. Read `references/wecom-mini-program-constraints.md` when designing pages, flows, interactions, integrations, or prototype implementation.
-12. Read `references/wecom-native-page-replication.md` when a flow enters WeCom native compose, broadcast, recipient, or send-result behavior, or when source material mentions 新建群发, 群发, 原生企微页面, native WeCom, broadcast, or mass send.
-13. Read `references/prototype-shell-contract.md` before producing, revising, or reviewing an HTML/clickable prototype.
-14. Use `assets/prototype-shell/index.html` as the starting source for HTML prototypes unless the user explicitly requires another stack.
-15. Read `references/prototype-presentation-spec.md` when producing an HTML/clickable prototype, demo shell, or prototype execution brief.
-16. Read `references/terminology.md` when role naming, industry vocabulary, customer/member field names, or Chinese/English labels affect credibility.
-17. Read `references/visual-design-reference.md` when producing or briefing a visual prototype.
-18. Read `references/brand-visual-extraction.md` when brand references, public brand research, screenshots, high-fidelity UI generation, UI restoration, or brand-skinned HTML prototypes are in scope.
-19. Use `assets/templates/visual-token-template.json` when producing a brand visual token. If the token is saved as JSON, run `scripts/check_visual_tokens.py` before implementation or delivery.
-20. Run `scripts/check_workbench_implementation.py` on branded HTML prototypes to verify the visual token's workbench-balance promises are actually implemented.
-21. Run `scripts/check_page_information.py` on HTML prototypes with home metrics, C360, task detail, or appointment detail pages. Treat failures as page-depth defects, not optional polish.
-22. Read `references/intake-questionnaire.md` when source material is missing actors, integration scope, page depth, demo goals, visual direction, terminology, WeCom mini-program constraints, native page replication, presentation mode, interaction standards, task execution details, or acceptance criteria.
-23. Read `references/qa-rubric.md` when reviewing coverage or validating an existing prototype.
-24. Use `assets/templates/` files as output skeletons when the user wants a structured deliverable.
+9. Read `references/one-pass-prototype-gates.md` before implementing any HTML/clickable prototype. Complete all seven gates before delivery.
+10. Read `references/interaction-patterns.md` when specifying search, filter, sort, tabs, page states, list controls, or reusable page-level interactions.
+11. Read `references/task-execution-patterns.md` when specifying task list/detail behavior, execution methods, target handling, native send handoff, or completion feedback.
+12. Read `references/wecom-mini-program-constraints.md` when designing pages, flows, interactions, integrations, or prototype implementation.
+13. Read `references/wecom-native-page-replication.md` when a flow enters WeCom native compose, broadcast, recipient, or send-result behavior, or when source material mentions 新建群发, 群发, 原生企微页面, native WeCom, broadcast, or mass send.
+14. Read `references/prototype-shell-contract.md` before producing, revising, or reviewing an HTML/clickable prototype.
+15. Use `assets/prototype-shell/index.html` as the starting source for HTML prototypes unless the user explicitly requires another stack.
+16. Read `references/prototype-presentation-spec.md` when producing an HTML/clickable prototype, demo shell, or prototype execution brief.
+17. Read `references/terminology.md` when role naming, industry vocabulary, customer/member field names, or Chinese/English labels affect credibility.
+18. Read `references/visual-design-reference.md` when producing or briefing a visual prototype.
+19. Read `references/brand-visual-extraction.md` when brand references, public brand research, screenshots, high-fidelity UI generation, UI restoration, or brand-skinned HTML prototypes are in scope.
+20. Use `assets/templates/visual-token-template.json` when producing a brand visual token. If the token is saved as JSON, run `scripts/check_visual_tokens.py` before implementation or delivery.
+21. Run `scripts/check_workbench_implementation.py` on branded HTML prototypes to verify the visual token's workbench-balance promises are actually implemented.
+22. Run `scripts/check_page_information.py` on HTML prototypes with home metrics, C360, task detail, or appointment detail pages. Treat failures as page-depth defects, not optional polish.
+23. Read `references/intake-questionnaire.md` when source material is missing actors, integration scope, page depth, demo goals, visual direction, terminology, WeCom mini-program constraints, native page replication, presentation mode, interaction standards, task execution details, or acceptance criteria.
+24. Read `references/qa-rubric.md` when reviewing coverage or validating an existing prototype.
+25. Use `assets/templates/` files as output skeletons when the user wants a structured deliverable.
 
 ## Domain Rule
 
@@ -75,18 +76,21 @@ Keep Opportunity Follow-Up separate from the default core model. Only consider i
 - In baseline mode, use `references/reference-page-blueprints.md` to create distinct page structures, connected sample data, and meaningful state/action logic. Do not produce repeated card pages with generic filler.
 - Give every rendered metric a visible label, unit where relevant, period/scope when ambiguous, and drilldown. Bare numbers are a blocking defect even when labels exist in data or source code.
 - For A-level C360, task detail, and appointment detail pages, satisfy the distinct information-region minimums in `references/page-information-contract.md`. Do not present a summary card plus one action as a complete detail page.
-- In HTML prototypes, mark KPI labels with `data-metric-label` and distinct A-level detail regions with `data-info-region="<region-name>"` so semantic coverage can be validated.
+- In HTML prototypes, mark real KPI containers with `data-home-kpi`, visible KPI labels with `data-metric-label`, first-viewport work regions with `data-home-operational`, and A-level detail coverage with `data-info-capability`. Capability markers validate business coverage without fixing section count, order, grouping, or layout.
+- Build one connected data model before page markup. Derive task target counts, customer references, appointment links, states, owners, and due dates from shared objects; never hand-write conflicting copies inside page functions.
+- Do not expose visual-token rationale, accent budgets, balance badges, QA labels, or implementation notes inside the product UI.
 - Make assumptions explicit when the user has not provided enough material.
 - Preserve local terminology from the user's materials, including module names, role names, field labels, and industry-specific sales-associate terms.
 - Determine FA/SA/BA during intake or from industry context. Do not expose FA/SA/BA as a runtime selector in the prototype shell.
 - Do not default to project-specific customer/member field names. If source material does not confirm field labels, use neutral business labels such as customer identifier, member identifier, contact method, customer grouping, member level, profile label, and lifecycle state.
 - For prototypes, separate **full-detail pages**, **structural pages**, and **navigation/skeleton pages**.
-- For HTML/clickable prototypes, start from `assets/prototype-shell/index.html` or port its classes and behavior directly. Do not recreate the phone frame, WeCom mini-program container, top bar, capsule, or bottom tabbar from scratch.
+- For HTML/clickable prototypes, start from `assets/prototype-shell/index.html` or port its classes and behavior directly. Do not recreate the phone frame, WeCom mini-program container, top bar, capsule, safe-area behavior, or bottom-navigation mechanics from scratch. Do redesign the bottom-navigation item set, order, center-action policy, icon treatment, and active state when business journeys and brand evidence support it.
 - For HTML/clickable prototypes, keep the desktop review shell as a compact console around a 390px by 844px mini-program viewport, scaled to fit the desktop window without cropping.
 - For HTML/clickable prototypes, preserve the desktop phone frame including the iPhone-style notch. Hide decorative phone hardware only in mobile full-screen mode.
 - Preserve the protected top shell geometry: 38px status bar, nav title and WeCom capsule centered in the nav row below it, compact notch, and status text showing `9:41` and `5G` without decorative signal-dot placeholders.
 - For HTML/clickable prototypes, implement desktop review stage and mobile full-screen mode as code-level responsive behavior. Do not expose a visible mobile/desktop selector in the product UI.
 - Preserve the protected shell layer, but adapt the page design layer to user-provided business materials, brand references, visual references, and fidelity goals so different projects do not look identical.
+- Before implementation, define a structural differentiation plan covering navigation model, home composition, C360 architecture, task architecture, appointment architecture, dashboard structure, and one signature interaction. A branded prototype that reuses the default ordering and module stack without evidence is incomplete.
 - For high-fidelity branded prototypes or UI restoration, produce a compact evidence table and brand visual token before implementation. Map visual evidence into page-layer CSS variables, component rules, imagery rules, module-specific layout choices, and a workbench balance plan.
 - Strong brand visual expression is allowed and often desirable, but keep customer lists, task execution, appointment rows, dashboard drilldowns, search/filter controls, and native WeCom handoffs faster to scan than decorative brand moments.
 - Do not invent exact brand assets, proprietary UI details, product imagery, membership terms, or campaign copy. Use provided/public evidence, neutral defaults, or explicit assumptions.
@@ -98,5 +102,5 @@ Keep Opportunity Follow-Up separate from the default core model. Only consider i
 - Standardize reusable page interactions, including search fields, filter groups, sort behavior, tab usage, bottom sheets, disabled-action reasons, and empty/loading/error/no-permission states.
 - Standardize task execution by separating task source, task type, target grain, execution channel, native handoff, completion feedback, and measurable result.
 - Define visual direction before implementation: brand fit, industry convention, reference sources, density, tone, component style, and what should remain generic.
-- Run `scripts/check_prototype_shell.py` and `scripts/check_page_information.py` on generated HTML prototypes before considering them complete. For branded prototypes, also run `scripts/check_workbench_implementation.py` so brand expression does not erase search/filter, task execution, appointment, dashboard, or native handoff clarity. Then visually verify desktop and mobile render paths, including metric-label visibility.
+- Run `scripts/check_prototype_shell.py` and `scripts/check_page_information.py` on generated HTML prototypes before considering them complete. For branded prototypes, also run `scripts/check_workbench_implementation.py`. Then inspect home, C360, task detail, appointment detail, and native handoff in the user-facing browser at the target viewport. Source-level success never overrides a rendered failure.
 - Validate that each important flow has an actor, trigger, customer state, system state, action, result, and recovery/exception path.

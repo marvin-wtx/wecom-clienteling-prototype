@@ -27,8 +27,9 @@ Use this sequence for brand-aware prototypes:
 3. Deconstruct evidence: identify color, typography, component shape, imagery, density, copy tone, and navigation behavior.
 4. Produce a brand visual token using `assets/templates/visual-token-template.json` when fidelity is branded or higher.
 5. Define workbench balance: brand intensity, hero policy, accent budget, operational priority, module differentiation, and readability rules.
-6. Define page contracts for home, customers, tasks, appointments, dashboard, and native WeCom handoff.
-7. Apply the token only to the adaptable page layer. Keep the WeCom shell and native replicas protected.
+6. Define structural differentiation: navigation model, home composition, page architecture by module, information ordering, and signature interaction.
+7. Define page capability contracts for home, customers, tasks, appointments, dashboard, and native WeCom handoff.
+8. Apply the token to the adaptable page layer and bottom-navigation presentation. Keep shell mechanics and native replicas protected.
 8. Run visual QA and, when a JSON token is saved, `scripts/check_visual_tokens.py`. For branded HTML prototypes, also run `scripts/check_workbench_implementation.py`.
 
 If evidence is weak, do not overfit. Use a neutral operational base with a clearly labeled brand-adjacent accent.
@@ -40,7 +41,7 @@ Do not confuse shell consistency with visual sameness.
 Protected shell layer:
 - Desktop review stage and external role/journey controls.
 - Mobile full-screen behavior and automatic responsive mode.
-- WeCom mini-program container, top title bar, capsule, bottom tabs, and safe-area behavior.
+- WeCom mini-program container, top title bar, capsule, bottom-navigation mechanics, and safe-area behavior.
 - Secondary-page bottom CTA anchoring.
 - Native WeCom page replicas such as 新建群发.
 - QA guardrails such as no emoji UI, no runtime FA/SA/BA selector, and no duplicated quick tools.
@@ -51,6 +52,21 @@ Adaptable page layer:
 - Visual hierarchy and copy tone based on the target industry and provided references.
 - Data fields and labels, as long as project-specific names are not invented without source evidence.
 - High-fidelity brand moments, product images, campaign assets, or executive-demo polish when the user provides enough material.
+- Bottom-navigation item set, order, labels, icon treatment, active state, center-action policy, and material treatment within mini-program constraints.
+
+## Structural Differentiation
+
+Before coding, choose a structure rather than inheriting the template:
+
+- Navigation model: 3-5 top-level destinations, order rationale, optional center action, role variation, and overflow strategy.
+- Home composition: queue-first, customer-first, metric-first, appointment-first, campaign-to-task, manager overview, or another evidence-backed composition.
+- C360 architecture: tabbed dossier, timeline-led profile, action-first concierge view, product-interest canvas, compact CRM sheet, or another suitable structure.
+- Task architecture: checklist execution, target-progress worklist, content-preview workflow, conversation-led action, appointment conversion flow, or channel-specific structure.
+- Appointment architecture: schedule-led, preparation-led, customer-context-led, resource-led, or outcome-led.
+- Dashboard architecture: grouped scorecard, exception-first review, ranked team view, funnel-led analysis, or another role-appropriate pattern.
+- Signature interaction: one useful brand-appropriate interaction, such as product shortlist, fitting preparation checklist, training-plan recommendation, clienteling script composer, or service ritual.
+
+Do not use the same architecture labels as decorative themes. They must change information order, component type, or interaction path. Across multiple brand cases, vary at least navigation model, home composition, two detail-page architectures, and signature interaction.
 
 If the user provides screenshots, brand references, or a design system, adapt the page layer to those references while preserving the protected shell. If there is no visual reference, use the neutral operational shell and vary page content through business structure, not decoration.
 

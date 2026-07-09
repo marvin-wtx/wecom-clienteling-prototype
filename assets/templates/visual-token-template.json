@@ -113,6 +113,32 @@
       "description": "The anchor may be quiet or expressive. Use it to make the brand recognizable while preserving operational scanning."
     }
   },
+  "structuralDifferentiation": {
+    "navigationModel": {
+      "topLevelItems": [
+        "workbench",
+        "customers",
+        "tasks",
+        "appointments"
+      ],
+      "orderRationale": "Replace with a journey-frequency and role-based rationale. Do not keep the starter order automatically.",
+      "centerAction": "none, quick-create, quick-send, scan, or another justified cross-module action",
+      "activeTreatment": "Describe icon, label, indicator, color, weight, or material treatment based on brand evidence.",
+      "roleVariation": "Describe whether manager and frontline navigation differ, or explain why they remain the same."
+    },
+    "homeComposition": "Choose a specific composition such as queue-first, customer-first, appointment-first, metric-first, campaign-to-task, or manager overview, and explain the information order.",
+    "customerArchitecture": "Choose a C360 structure such as tabbed dossier, timeline-led profile, action-first concierge, product-interest canvas, or compact CRM sheet.",
+    "taskArchitecture": "Choose a channel-appropriate structure such as checklist execution, target-progress worklist, content-preview workflow, conversation-led action, or appointment conversion.",
+    "appointmentArchitecture": "Choose schedule-led, preparation-led, customer-context-led, resource-led, or outcome-led structure.",
+    "dashboardArchitecture": "Choose grouped scorecard, exception-first review, ranked team view, funnel-led analysis, or another role-appropriate structure.",
+    "signatureInteraction": "Define one useful brand-appropriate interaction that changes the workflow, not only its decoration.",
+    "antiTemplateCheck": [
+      "navigation is intentionally chosen rather than copied from the starter shell",
+      "home information order reflects the brand's clienteling model",
+      "at least two detail pages use different component structures from the starter shell",
+      "signature interaction is visible and functional"
+    ]
+  },
   "workbenchBalance": {
     "brandIntensity": "balanced",
     "heroPolicy": "Use expressive hero or campaign modules only when they clarify today's work, a launch, or an executive demo path.",
@@ -186,7 +212,7 @@
       "phone frame and notch",
       "status bar",
       "mini-program nav title and capsule",
-      "bottom tabbar",
+      "bottom navigation mechanics and safe area",
       "role and journey controls",
       "mobile full-screen behavior",
       "native WeCom replicas",
@@ -197,7 +223,8 @@
       "card/list/table rhythm",
       "imagery in content areas",
       "module-specific layout",
-      "copy tone and data labels"
+      "copy tone and data labels",
+      "bottom navigation item set, order, labels, icons, active treatment, and optional center action"
     ],
     "nativeReplicaTreatment": "Keep native WeCom pages neutral and native-like; do not brand-redesign them."
   },

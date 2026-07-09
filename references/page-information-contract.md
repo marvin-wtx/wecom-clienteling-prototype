@@ -34,7 +34,13 @@ Classify pages before implementation:
 
 Brand fidelity does not lower page-depth requirements. A-level pages must not become B-level pages to preserve whitespace or an editorial mood.
 
-For HTML prototypes, mark each distinct A-level region with `data-info-region="<region-name>"`. Use one marker per meaningful region; do not add markers to wrappers or duplicate the same content to satisfy QA.
+For HTML prototypes, mark business coverage with space-separated `data-info-capability` values. Capability markers may be placed on any truthful section, tab panel, timeline, summary band, checklist, table, or action area.
+
+- C360 capabilities: `identity`, `relationship`, `value`, `recency`, `operating-context`, `customer-knowledge`, `history`, `actions`.
+- Task detail capabilities: `definition`, `progress`, `audience`, `guidance`, `assets`, `result-capture`, `execution`.
+- Appointment detail capabilities: `schedule`, `people-place`, `service-resource`, `customer-context`, `preparation-communication`, `outcome-follow-up`, `actions-exceptions`.
+
+The capability vocabulary is fixed for QA; its visual grouping is not. One region may cover multiple related capabilities, and one capability may appear across multiple components. Do not add markers to empty wrappers or duplicate hidden content.
 
 ## Home Workbench Contract
 
@@ -44,6 +50,9 @@ The first viewport should contain:
 - Two or three KPI items with visible labels, values, period/scope, and tap target.
 - At least two operational signals: priority customers, tasks, appointments, exceptions, or campaign-to-task entry.
 - A clear relationship between each KPI and its drilldown.
+- HTML KPI containers marked `data-home-kpi`, with the visible label inside the same container.
+- At least two operational regions marked `data-home-operational`.
+- No more than one campaign/editorial/brand storytelling region before the first operational region.
 
 Reject:
 
@@ -64,6 +73,8 @@ Use distinct regions rather than one summary card:
 
 At least four of the six regions must be visible or directly reachable on an A-level C360 page. A single profile card plus a three-row timeline is not sufficient.
 
+Each visible information group needs at least two useful fields or one structured object plus its state/action. A heading and one short sentence do not count.
+
 ## Task Detail Contract
 
 Use these regions:
@@ -76,6 +87,8 @@ Use these regions:
 6. **Execution action**: channel-specific primary action and disabled reason or recovery path.
 
 Do not use generic copy such as `根据客户状态生成` or `1 个素材已就绪` as the only evidence. Show enough preview and metadata for the user to decide whether execution is appropriate.
+
+All task capabilities are required for A-level task detail, but they may be grouped and ordered according to the task type and brand-specific interaction model.
 
 ## Appointment Detail Contract
 
@@ -90,6 +103,8 @@ Use these regions:
 7. **Actions and exceptions**: confirm, reschedule, cancel, contact, check in, complete, record result, plus conflict or permission recovery.
 
 At least five regions must be visible or directly reachable on an A-level appointment detail. A key-value card with customer, time, owner, status, and note is only a B-level structure.
+
+The `schedule`, `service-resource`, `preparation-communication`, and `actions-exceptions` capabilities are mandatory. Include `people-place` plus at least one of `customer-context` or `outcome-follow-up`.
 
 ## Visual Density And Hierarchy
 

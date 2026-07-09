@@ -39,14 +39,14 @@ Required layout:
 - Use a WeCom-style top bar, title truncation, right capsule, body scroll area, and bottom tabbar.
 - Native WeCom replicas hide the custom tabbar and use native-style visual language.
 
-Default top-level tabs:
+Neutral starter tabs:
 - Home.
 - Customers.
 - Center quick-action entry.
 - Tasks.
 - Appointments.
 
-Dashboard, content library, transfer, and native broadcast can be reached through quick actions, role-specific entries, task detail, or manager tools unless the project explicitly requires them as top-level tabs.
+This is not a required order. Choose 3-5 top-level items from journey frequency, role, industry, and demo goals. Dashboard, content, opportunity, service queue, or another module may replace a starter tab. Native broadcast remains a handoff, not a branded top-level destination.
 
 ## Home Workbench
 
