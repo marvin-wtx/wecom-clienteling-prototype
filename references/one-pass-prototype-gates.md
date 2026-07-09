@@ -14,6 +14,10 @@ Create the connected sample data model before page markup:
 
 Run a consistency pass before styling. Reject conflicting counts, dates, statuses, names, or owners.
 
+Build the evidence ledger from `evidence-and-implementation-integrity.md`. Keep assumptions out of UI and define neutral fallbacks.
+
+Read `generative-layout-orchestration.md`. Select layout authority mode and complete the structure DNA before markup. In open-generative mode, compare at least three directions and record why one wins.
+
 ## Gate 2: Page Contracts
 
 Classify each page as A, B, or C depth before implementation.
@@ -65,6 +69,8 @@ python3 scripts/check_visual_tokens.py docs/visual-token.json
 python3 scripts/check_prototype_shell.py prototype/index.html
 python3 scripts/check_workbench_implementation.py prototype/index.html
 python3 scripts/check_page_information.py prototype/index.html
+python3 scripts/check_token_implementation.py docs/visual-token.json prototype/index.html
+python3 scripts/check_prototype_block_layout.py docs/visual-token.json prototype/index.html
 ```
 
 Treat every failure as blocking. Do not add empty `data-*` markers, hidden labels, duplicate text, or irrelevant keywords to satisfy a checker.
@@ -91,3 +97,11 @@ Verify:
 - Sample data remains consistent while navigating.
 
 Automated checks do not replace rendered QA. If the source passes but the rendered page fails, fix the page and rerun both.
+
+When prior brand cases are available, also run:
+
+```bash
+python3 scripts/check_structural_similarity.py prototype/index.html \
+  --token docs/visual-token.json \
+  --reference ../prior-case/prototype/index.html
+```

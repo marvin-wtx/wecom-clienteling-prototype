@@ -52,6 +52,13 @@ Use this to review prototype coverage and readiness.
 - A-level detail pages cover the capability vocabulary from `page-information-contract.md`; layout, grouping, ordering, and interaction remain adaptable.
 - The visual token includes structural differentiation for navigation, home, C360, tasks, appointments, dashboard, and a signature interaction.
 - Navigation set/order and at least two page architectures are justified by brand, role, industry, or journey evidence rather than copied from the starter shell.
+- Implemented navigation labels/order match the visual token, and declared architecture/signature IDs exist on visible HTML.
+- When prior cases are available, structural similarity checks reject prefix/color/copy-only variants.
+- The token declares `reference-led`, `evidence-derived`, or `open-generative` layout authority and the rendered prototype matches it.
+- Open-generative work records at least three candidate directions, a scored selection rationale, and rejected alternatives.
+- Structure validation is brand-agnostic. Passing does not depend on a known brand name or brand-prefixed CSS class.
+- `user-confirmed` evidence is traceable to an actual user source; inferred or public facts are not relabeled as confirmation.
+- Navigation, business axis, home narrative, module grammars, page architectures, and signature interaction form one coherent operating story.
 - Shared customer, task, appointment, and asset objects are connected by ID. Counts, states, owners, dates, and names do not conflict across pages.
 - Product UI does not expose QA/debug copy such as brand intensity, workbench density, accent budget, token names, or implementation notes.
 - Mini-program top titles remain readable and untruncated; longer English branding moves into the page body.
@@ -68,6 +75,10 @@ Use this to review prototype coverage and readiness.
 - Brand visual token decisions are applied through page-layer CSS variables and component rules, not by rebuilding the protected shell.
 - If a JSON visual token is produced, `scripts/check_visual_tokens.py` passes.
 - Brand references are traceable to user-provided materials, public sources, design-reference search, style templates, or explicit assumptions.
+- Branded business terminology is recorded in an evidence ledger. Internal-sounding segments, programs, rooms, task types, and workflows are user-confirmed or replaced with neutral defaults.
+- Assumption claims do not appear in delivered UI.
+- Public marketing sources are not used as proof of internal CRM/customer tiers or advisor workflows.
+- Prior-case brand names, campaigns, products, roles, segments, and content assets are absent.
 - Brand skin does not alter native WeCom replica structure, mini-program top geometry, bottom tabs, role/journey controls, or sticky CTA anchoring.
 - Brand depth is present beyond palette changes: typography hierarchy, geometry, accent rule, and visual anchors are defined and visible where appropriate.
 - Workbench balance is explicit: brand intensity, hero policy, operational priority, accent budget, module differentiation, page-layer-only rule, and readability rules are documented.

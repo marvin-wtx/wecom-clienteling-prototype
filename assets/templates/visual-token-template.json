@@ -17,6 +17,125 @@
       ]
     }
   ],
+  "evidenceIntegrity": {
+    "mode": "baseline",
+    "claims": [
+      {
+        "id": "claim-visual-001",
+        "claim": "Neutral operational visual treatment",
+        "category": "visual",
+        "status": "generic-default",
+        "sourceKind": "generic-baseline",
+        "sourceRef": "generic WeCom Clienteling baseline",
+        "allowedInUI": true,
+        "neutralFallback": "neutral operational styling"
+      }
+    ],
+    "assumptionTerms": [
+      "replace with unconfirmed terms that must remain outside UI"
+    ],
+    "disallowedCarryoverTerms": [
+      "replace with prior brand, campaign, role, segment, product, and asset terms"
+    ],
+    "sourcePriority": [
+      "user business materials",
+      "user brand materials",
+      "official public sources",
+      "generic baseline",
+      "explicit assumptions outside UI"
+    ]
+  },
+  "structureGeneration": {
+    "layoutAuthority": "open-generative",
+    "authoritySources": [],
+    "variationSeed": "queue-led / balanced / frequency-first",
+    "businessAxis": {
+      "id": "daily-priority-queue",
+      "rationale": "The sparse brief does not establish a proprietary workflow, so the layout organizes neutral customer, task, and appointment priorities around today's queue."
+    },
+    "navigationLogic": {
+      "type": "frequency-first",
+      "rationale": "Order top-level destinations by recurring frontline frequency and journey continuity, not by the starter shell."
+    },
+    "homeNarrative": {
+      "type": "triage-board",
+      "blockOrder": [
+        "priority summary",
+        "exception queue",
+        "customer next actions",
+        "appointments"
+      ],
+      "rationale": "The first viewport should answer what needs attention, why, and where the user acts next."
+    },
+    "informationDensity": {
+      "level": "balanced",
+      "rationale": "Show enough evidence for decisions while preserving mobile scan speed."
+    },
+    "moduleGrammars": {
+      "home": "triage-board",
+      "customers": "ranked-ledger",
+      "c360": "timeline-dossier",
+      "tasks": "guided-checklist",
+      "appointments": "agenda",
+      "dashboard": "exception-matrix"
+    },
+    "visualAnchor": {
+      "type": "data-display",
+      "rationale": "Use hierarchy and data rhythm as the anchor when approved brand assets are absent."
+    },
+    "signatureInteraction": {
+      "id": "priority-to-followup",
+      "stateChange": "Opening a priority item routes to customer context and creates or updates a measurable follow-up state.",
+      "rationale": "The signature interaction advances the selected business axis rather than adding decorative novelty."
+    },
+    "candidateDirections": [
+      {
+        "id": "direction-a",
+        "summary": "Queue-led triage board",
+        "scores": {
+          "operationalFit": 5,
+          "evidenceFit": 4,
+          "informationDepth": 5,
+          "interactionUsefulness": 5,
+          "similarityRisk": 3
+        }
+      },
+      {
+        "id": "direction-b",
+        "summary": "Customer radar with relationship pulse",
+        "scores": {
+          "operationalFit": 4,
+          "evidenceFit": 3,
+          "informationDepth": 4,
+          "interactionUsefulness": 4,
+          "similarityRisk": 3
+        }
+      },
+      {
+        "id": "direction-c",
+        "summary": "Appointment-led service agenda",
+        "scores": {
+          "operationalFit": 3,
+          "evidenceFit": 3,
+          "informationDepth": 4,
+          "interactionUsefulness": 4,
+          "similarityRisk": 2
+        }
+      }
+    ],
+    "selectedDirectionId": "direction-a",
+    "selectionRationale": "Direction A best supports neutral daily operations and complete information without inventing a brand-specific internal model.",
+    "rejectedDirections": [
+      {
+        "id": "direction-b",
+        "reason": "The sparse brief does not establish relationship scoring as the dominant workflow."
+      },
+      {
+        "id": "direction-c",
+        "reason": "Appointments are important but not evidenced as the primary daily axis."
+      }
+    ]
+  },
   "palette": {
     "primary": "#4f6d63",
     "primaryStrong": "#304e45",
@@ -116,10 +235,11 @@
   "structuralDifferentiation": {
     "navigationModel": {
       "topLevelItems": [
-        "workbench",
-        "customers",
-        "tasks",
-        "appointments"
+        "首页",
+        "客户",
+        "快捷",
+        "任务",
+        "预约"
       ],
       "orderRationale": "Replace with a journey-frequency and role-based rationale. Do not keep the starter order automatically.",
       "centerAction": "none, quick-create, quick-send, scan, or another justified cross-module action",
@@ -138,6 +258,14 @@
       "at least two detail pages use different component structures from the starter shell",
       "signature interaction is visible and functional"
     ]
+  },
+  "implementationContract": {
+    "navigationId": "starter-five",
+    "homeArchitectureId": "queue-first-workbench",
+    "customerArchitectureId": "sectioned-dossier",
+    "taskArchitectureId": "guided-execution",
+    "appointmentArchitectureId": "preparation-led-service",
+    "signatureInteractionId": "priority-to-followup"
   },
   "workbenchBalance": {
     "brandIntensity": "balanced",

@@ -14,10 +14,13 @@ from typing import Any
 REQUIRED_TOP_LEVEL = [
     "brand",
     "referenceSources",
+    "evidenceIntegrity",
+    "structureGeneration",
     "palette",
     "typography",
     "componentStyle",
     "structuralDifferentiation",
+    "implementationContract",
     "workbenchBalance",
     "imageryRules",
     "layoutRhythm",
@@ -96,6 +99,20 @@ REQUIRED_WORKBENCH_BALANCE = [
 REQUIRED_PAGE_CONTRACTS = ["home", "customers", "tasks", "appointments", "dashboard", "nativeWeCom"]
 
 HEX_RE = re.compile(r"^#[0-9a-fA-F]{6}$")
+EVIDENCE_STATUSES = {"user-confirmed", "official-public", "generic-default", "assumption"}
+EVIDENCE_SOURCE_KINDS = {
+    "user-artifact",
+    "user-statement",
+    "official-public",
+    "design-reference",
+    "generic-baseline",
+    "inference",
+}
+INTERNAL_CATEGORIES = {"business", "terminology", "interaction"}
+VAGUE_SOURCE_RE = re.compile(
+    r"\b(industry standard|common|public program|another prototype|comparison)\b",
+    re.IGNORECASE,
+)
 
 
 def is_nonempty(value: Any) -> bool:
@@ -148,6 +165,52 @@ def validate(data: dict[str, Any]) -> list[str]:
     sources = data.get("referenceSources", [])
     if not isinstance(sources, list) or not sources:
         errors.append("referenceSources must be a non-empty list")
+
+    evidence = data.get("evidenceIntegrity")
+    if not isinstance(evidence, dict):
+        errors.append("evidenceIntegrity must be an object")
+    else:
+        claims = evidence.get("claims")
+        if not isinstance(claims, list) or not claims:
+            errors.append("evidenceIntegrity.claims must be a non-empty list")
+        else:
+            claim_ids: set[str] = set()
+            for index, claim in enumerate(claims):
+                label = f"evidenceIntegrity.claims[{index}]"
+                if not isinstance(claim, dict):
+                    errors.append(f"{label} must be an object")
+                    continue
+                require_keys(
+                    claim,
+                    ["id", "claim", "category", "status", "sourceKind", "sourceRef", "allowedInUI", "neutralFallback"],
+                    label,
+                    errors,
+                )
+                claim_id = str(claim.get("id", "")).strip()
+                if claim_id in claim_ids:
+                    errors.append(f"{label}.id must be unique")
+                claim_ids.add(claim_id)
+                status = claim.get("status")
+                source_kind = claim.get("sourceKind")
+                category = claim.get("category")
+                source_ref = str(claim.get("sourceRef", ""))
+                if status not in EVIDENCE_STATUSES:
+                    errors.append(f"{label}.status must be one of {sorted(EVIDENCE_STATUSES)}")
+                if source_kind not in EVIDENCE_SOURCE_KINDS:
+                    errors.append(f"{label}.sourceKind must be one of {sorted(EVIDENCE_SOURCE_KINDS)}")
+                if status == "user-confirmed" and source_kind not in {"user-artifact", "user-statement"}:
+                    errors.append(f"{label}: user-confirmed requires user-artifact or user-statement sourceKind")
+                if status == "assumption" and claim.get("allowedInUI") is not False:
+                    errors.append(f"{label}: assumption claims must set allowedInUI to false")
+                if category in INTERNAL_CATEGORIES and status == "official-public":
+                    errors.append(f"{label}: official-public cannot prove internal {category} claims")
+                if VAGUE_SOURCE_RE.search(source_ref) and status == "user-confirmed":
+                    errors.append(f"{label}: vague research or comparison text cannot support user-confirmed status")
+
+        for key in ("assumptionTerms", "disallowedCarryoverTerms", "sourcePriority"):
+            value = evidence.get(key)
+            if not isinstance(value, list) or not value:
+                errors.append(f"evidenceIntegrity.{key} must be a non-empty list")
 
     palette = data.get("palette", {})
     if isinstance(palette, dict):
@@ -287,6 +350,61 @@ def validate(data: dict[str, Any]) -> list[str]:
             )
     else:
         errors.append("structuralDifferentiation must be an object")
+
+    generation = data.get("structureGeneration")
+    if not isinstance(generation, dict):
+        errors.append("structureGeneration must be an object")
+    else:
+        require_keys(
+            generation,
+            [
+                "layoutAuthority",
+                "variationSeed",
+                "businessAxis",
+                "navigationLogic",
+                "homeNarrative",
+                "informationDensity",
+                "moduleGrammars",
+                "visualAnchor",
+                "signatureInteraction",
+            ],
+            "structureGeneration",
+            errors,
+        )
+        mode = generation.get("layoutAuthority")
+        if mode not in {"reference-led", "evidence-derived", "open-generative"}:
+            errors.append("structureGeneration.layoutAuthority is invalid")
+        if mode == "reference-led" and not generation.get("authoritySources"):
+            errors.append("reference-led structureGeneration requires authoritySources")
+        if mode == "open-generative":
+            candidates = generation.get("candidateDirections")
+            rejected = generation.get("rejectedDirections")
+            if not isinstance(candidates, list) or len(candidates) < 3:
+                errors.append("open-generative structureGeneration requires at least three candidateDirections")
+            if not isinstance(rejected, list) or len(rejected) < 2:
+                errors.append("open-generative structureGeneration requires at least two rejectedDirections")
+            if not is_nonempty(generation.get("selectedDirectionId")):
+                errors.append("open-generative structureGeneration requires selectedDirectionId")
+            if not is_nonempty(generation.get("selectionRationale")):
+                errors.append("open-generative structureGeneration requires selectionRationale")
+
+    contract = data.get("implementationContract")
+    if not isinstance(contract, dict):
+        errors.append("implementationContract must be an object")
+    else:
+        require_keys(
+            contract,
+            [
+                "navigationId",
+                "homeArchitectureId",
+                "customerArchitectureId",
+                "taskArchitectureId",
+                "appointmentArchitectureId",
+                "signatureInteractionId",
+            ],
+            "implementationContract",
+            errors,
+        )
 
     workbench = data.get("workbenchBalance", {})
     if isinstance(workbench, dict):

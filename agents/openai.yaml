@@ -1,4 +1,4 @@
 interface:
   display_name: "WeCom Clienteling Prototype"
   short_description: "Build branded, information-rich WeCom clienteling prototypes"
-  default_prompt: "Use $wecom-clienteling-prototype to produce a complete WeCom Clienteling prototype in one request: build connected sample data, define a brand-specific navigation and page-architecture strategy, cover required business capabilities without copying the starter module stack, reuse protected shell mechanics, run all automated checks, and visually verify the rendered flows before delivery."
+  default_prompt: "Use $wecom-clienteling-prototype to produce a complete WeCom Clienteling prototype in one request. Follow explicit layout references when supplied; otherwise generate and compare multiple brand-agnostic structure directions, select a coherent layout DNA from business and brand evidence, build connected sample data, preserve protected WeCom shell mechanics, run all automated checks, and visually verify the rendered flows before delivery."

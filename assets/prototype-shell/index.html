@@ -947,7 +947,7 @@
 
     function tabbar(active) {
       const mapped = ["dashboard", "transfer"].includes(active) ? "__tool" : active;
-      return '<footer class="tabbar" aria-label="小程序底部导航">' + tabs.map(([route, label, iconName]) => {
+      return '<footer class="tabbar" data-nav-model="starter-five" aria-label="小程序底部导航">' + tabs.map(([route, label, iconName]) => {
         const activeClass = mapped === route ? " active" : "";
         const centerClass = route === "__tool" ? " center" : "";
         return '<button class="tab' + centerClass + activeClass + '" type="button" data-tab="' + route + '"><span class="tab-ic">' + icon(iconName) + '</span><span>' + label + '</span></button>';
@@ -965,7 +965,26 @@
     function appShell({ title, back = false, tab = state.route, showTabbar = true, body = "" }) {
       const hasActions = body.includes("sticky-actions");
       const pageClass = "app-page" + (hasActions ? " has-actions" : "") + (showTabbar ? " has-tabbar" : " no-tabbar");
-      return '<div class="' + pageClass + '">' + wxNav(title, back) + '<main class="body' + (showTabbar ? "" : " no-tab") + '">' + body + '</main>' + journeyHud() + (showTabbar ? tabbar(tab) : "") + toolPanel() + toastMarkup() + '</div>';
+      const moduleGrammarByTitle = {
+        "工作台": "triage-board",
+        "客户": "ranked-ledger",
+        "客户详情": "timeline-dossier",
+        "任务": "guided-checklist",
+        "任务详情": "guided-checklist",
+        "预约": "agenda",
+        "预约详情": "agenda",
+        "管理看板": "exception-matrix",
+        "看板": "exception-matrix"
+      };
+      const pageArchitectureByTitle = {
+        "工作台": "queue-first-workbench",
+        "客户详情": "sectioned-dossier",
+        "任务详情": "guided-execution",
+        "预约详情": "preparation-led-service"
+      };
+      const grammar = moduleGrammarByTitle[title] || "supporting-flow";
+      const architecture = pageArchitectureByTitle[title] || "supporting-flow";
+      return '<div class="' + pageClass + '" data-layout-mode="open-generative">' + wxNav(title, back) + '<main class="body' + (showTabbar ? "" : " no-tab") + '" data-module-grammar="' + grammar + '" data-page-architecture="' + architecture + '">' + body + '</main>' + journeyHud() + (showTabbar ? tabbar(tab) : "") + toolPanel() + toastMarkup() + '</div>';
     }
 
     function nativeShell(body) {
@@ -981,7 +1000,7 @@
     }
 
     function clientCard(client) {
-      return '<button class="card client-card" type="button" data-client="' + client.id + '"><div class="avatar">' + client.name.slice(0,1) + '</div><div><h3>' + client.name + '</h3><div class="meta">' + client.amount + '</div><div class="badge-row"><span class="badge">' + client.level + '</span><span class="badge">' + client.lifecycle + '</span></div><div class="meta" style="margin-top:8px">' + client.next + '</div></div><div class="meta" style="text-align:right">' + client.due + '</div></button>';
+      return '<button class="card client-card" type="button" data-signature-interaction="priority-to-followup" data-client="' + client.id + '"><div class="avatar">' + client.name.slice(0,1) + '</div><div><h3>' + client.name + '</h3><div class="meta">' + client.amount + '</div><div class="badge-row"><span class="badge">' + client.level + '</span><span class="badge">' + client.lifecycle + '</span></div><div class="meta" style="margin-top:8px">' + client.next + '</div></div><div class="meta" style="text-align:right">' + client.due + '</div></button>';
     }
 
     function taskCard(task) {
@@ -1000,7 +1019,7 @@
       return appShell({
         title: "工作台",
         tab: "home",
-        body: '<section class="hero"><div class="hero-kicker">' + activeRoleLabel() + ' · 今日</div><div class="hero-main"><h1>今日待办<br>' + roleScopeLabel() + ' 客户经营</h1><div class="role-chip">' + PROJECT.frontlineTerm + '</div></div><div class="stat-row">' + metrics.map((m) => '<button class="stat" data-home-kpi type="button" data-route="' + (m[1].includes("预约") ? "appointment" : m[1].includes("任务") ? "tasks" : "dashboard") + '"><strong>' + m[0] + '</strong><span data-metric-label>' + m[1] + '</span></button>').join("") + '</div></section><section class="section" data-home-operational="priority-clients">' + sectionHead("重点客户（3）", "clients") + customers.slice(0, 2).map(clientCard).join("") + '</section><section class="section" data-home-operational="today-tasks">' + sectionHead("今日任务（3）", "tasks") + tasks.slice(0, 2).map(taskCard).join("") + '</section>'
+        body: '<section class="hero" data-business-axis="daily-priority-queue" data-page-architecture="queue-first-workbench" data-module-grammar="triage-board"><div class="hero-kicker">' + activeRoleLabel() + ' · 今日</div><div class="hero-main"><h1>今日待办<br>' + roleScopeLabel() + ' 客户经营</h1><div class="role-chip">' + PROJECT.frontlineTerm + '</div></div><div class="stat-row">' + metrics.map((m) => '<button class="stat" data-home-kpi type="button" data-route="' + (m[1].includes("预约") ? "appointment" : m[1].includes("任务") ? "tasks" : "dashboard") + '"><strong>' + m[0] + '</strong><span data-metric-label>' + m[1] + '</span></button>').join("") + '</div></section><section class="section" data-home-operational="priority-clients">' + sectionHead("重点客户（3）", "clients") + customers.slice(0, 2).map(clientCard).join("") + '</section><section class="section" data-home-operational="today-tasks">' + sectionHead("今日任务（3）", "tasks") + tasks.slice(0, 2).map(taskCard).join("") + '</section>'
       });
     }
 
