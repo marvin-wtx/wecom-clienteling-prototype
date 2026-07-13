@@ -44,25 +44,29 @@ Then classify the deliverable into one or more work modes:
 9. Read `references/one-pass-prototype-gates.md` before implementing any HTML/clickable prototype. Complete all seven gates before delivery.
 10. Read `references/evidence-and-implementation-integrity.md` for every branded prototype. Build the evidence ledger before inventing branded business terms or signature interactions.
 11. Read `references/generative-layout-orchestration.md` for every branded prototype. Select reference-led, evidence-derived, or open-generative mode before choosing navigation or page composition.
-12. Read `references/interaction-patterns.md` when specifying search, filter, sort, tabs, page states, list controls, or reusable page-level interactions.
-13. Read `references/task-execution-patterns.md` when specifying task list/detail behavior, execution methods, target handling, native send handoff, or completion feedback.
-14. Read `references/wecom-mini-program-constraints.md` when designing pages, flows, interactions, integrations, or prototype implementation.
-15. Read `references/wecom-native-page-replication.md` when a flow enters WeCom native compose, broadcast, recipient, or send-result behavior, or when source material mentions 新建群发, 群发, 原生企微页面, native WeCom, broadcast, or mass send.
-16. Read `references/prototype-shell-contract.md` before producing, revising, or reviewing an HTML/clickable prototype.
-17. Use `assets/prototype-shell/index.html` as the starting source for HTML prototypes unless the user explicitly requires another stack.
-18. Read `references/prototype-presentation-spec.md` when producing an HTML/clickable prototype, demo shell, or prototype execution brief.
-19. Read `references/terminology.md` when role naming, industry vocabulary, customer/member field names, or Chinese/English labels affect credibility.
-20. Read `references/visual-design-reference.md` when producing or briefing a visual prototype.
-21. Read `references/brand-visual-extraction.md` when brand references, public brand research, screenshots, high-fidelity UI generation, UI restoration, or brand-skinned HTML prototypes are in scope.
-22. Use `assets/templates/visual-token-template.json` when producing a brand visual token. If the token is saved as JSON, run `scripts/check_visual_tokens.py` before implementation or delivery.
-23. Run `scripts/check_workbench_implementation.py` on branded HTML prototypes to verify the visual token's workbench-balance promises are actually implemented.
-24. Run `scripts/check_page_information.py` on HTML prototypes with home metrics, C360, task detail, or appointment detail pages. Treat failures as page-depth defects, not optional polish.
-25. Run `scripts/check_token_implementation.py <visual-token.json> <prototype.html>` on every branded HTML prototype.
-26. Run `scripts/check_prototype_block_layout.py <visual-token.json> <prototype.html>` on every branded prototype.
-27. Run `scripts/check_structural_similarity.py <prototype.html> --token <visual-token.json> --reference <prior-case.html>` when prior brand cases are available or multiple cases are produced together.
-28. Read `references/intake-questionnaire.md` when source material is missing actors, integration scope, page depth, demo goals, visual direction, terminology, WeCom mini-program constraints, native page replication, presentation mode, interaction standards, task execution details, or acceptance criteria.
-29. Read `references/qa-rubric.md` when reviewing coverage or validating an existing prototype.
-30. Use `assets/templates/` files as output skeletons when the user wants a structured deliverable.
+12. Read `references/creative-divergence-system.md` for open-generative or evidence-derived branded prototypes where distinctiveness matters. Define a creative thesis, inspiration transpositions, high-impact divergence levers, portfolio contrast, and coherence proof.
+13. Read `references/prototype-delivery-discipline.md` for every branded HTML/clickable prototype. Complete the delivery recipe before treating the result as ready.
+14. Read `references/interaction-patterns.md` when specifying search, filter, sort, tabs, page states, list controls, or reusable page-level interactions.
+15. Read `references/task-execution-patterns.md` when specifying task list/detail behavior, execution methods, target handling, native send handoff, or completion feedback.
+16. Read `references/wecom-mini-program-constraints.md` when designing pages, flows, interactions, integrations, or prototype implementation.
+17. Read `references/wecom-native-page-replication.md` when a flow enters WeCom native compose, broadcast, recipient, or send-result behavior, or when source material mentions 新建群发, 群发, 原生企微页面, native WeCom, broadcast, or mass send.
+18. Read `references/prototype-shell-contract.md` before producing, revising, or reviewing an HTML/clickable prototype.
+19. Use `assets/prototype-shell/index.html` as the starting source for HTML prototypes unless the user explicitly requires another stack.
+20. Read `references/prototype-presentation-spec.md` when producing an HTML/clickable prototype, demo shell, or prototype execution brief.
+21. Read `references/terminology.md` when role naming, industry vocabulary, customer/member field names, or Chinese/English labels affect credibility.
+22. Read `references/visual-design-reference.md` when producing or briefing a visual prototype.
+23. Read `references/brand-visual-extraction.md` when brand references, public brand research, screenshots, high-fidelity UI generation, UI restoration, or brand-skinned HTML prototypes are in scope.
+24. Use `assets/templates/visual-token-template.json` when producing a brand visual token. If the token is saved as JSON, run `scripts/check_visual_tokens.py` before implementation or delivery.
+25. Run `scripts/check_creative_divergence.py <visual-token.json>` on open-generative or evidence-derived branded tokens.
+26. Use `assets/templates/prototype-delivery-review-template.json` when producing the delivery review. Run `scripts/check_delivery_review.py` before delivery.
+27. Run `scripts/check_workbench_implementation.py` on branded HTML prototypes to verify the visual token's workbench-balance promises are actually implemented.
+28. Run `scripts/check_page_information.py` on HTML prototypes with home metrics, C360, task detail, or appointment detail pages. Treat failures as page-depth defects, not optional polish.
+29. Run `scripts/check_token_implementation.py <visual-token.json> <prototype.html>` on every branded HTML prototype.
+30. Run `scripts/check_prototype_block_layout.py <visual-token.json> <prototype.html>` on every branded prototype.
+31. Run `scripts/check_structural_similarity.py <prototype.html> --token <visual-token.json> --reference <prior-case.html>` when prior brand cases are available or multiple cases are produced together.
+32. Read `references/intake-questionnaire.md` when source material is missing actors, integration scope, page depth, demo goals, visual direction, terminology, WeCom mini-program constraints, native page replication, presentation mode, interaction standards, task execution details, or acceptance criteria.
+33. Read `references/qa-rubric.md` when reviewing coverage or validating an existing prototype.
+34. Use `assets/templates/` files as output skeletons when the user wants a structured deliverable.
 
 ## Domain Rule
 
@@ -87,8 +91,12 @@ Keep Opportunity Follow-Up separate from the default core model. Only consider i
 - Never mark an AI inference, industry convention, public marketing fact, or generic baseline as `user-confirmed`. That status requires a traceable user-provided artifact or explicit user statement.
 - When no authoritative layout reference exists, generate and compare at least three structure directions, select one through operational and brand-fit reasoning, and record rejected alternatives. Do not route brands into fixed industry layouts.
 - When authoritative layout references exist, follow them. Anti-similarity rules must not force gratuitous deviation from supplied designs.
+- For open-generative or evidence-derived branded work, define a creative thesis and at least four high-impact divergence levers. Strong variety should come from business axis, navigation model, home narrative, detail architecture, task model, data story, signature interaction, or visual anchor, not only palette and typography.
+- Treat branded HTML/clickable output as a delivery line: evidence, structure, product logic, data model, page contracts, prototype, and QA must all be complete before final delivery.
+- The deliverable is a brand-aware WeCom Clienteling demo prototype plus solution blueprint. Do not let the output drift into a brand microsite, shopping app, generic CRM dashboard, or final production frontend.
 - Bind structural differentiation promises to visible HTML with navigation, page-architecture, and signature-interaction IDs. Token promises that are not implemented are blocking failures.
 - Bind generative decisions to visible layout-mode, business-axis, module-grammar, navigation, page-architecture, and signature-interaction markers. Brand-prefixed CSS classes are not proof.
+- When using external UI inspiration, transpose mechanisms such as grouping, status, progression, filtering, recovery, and quick action into clienteling jobs. Do not copy the reference look or treat inspiration as target-brand evidence.
 - When prior cases are available, reject open-generative prototypes that retain the same navigation, home block order, module grammar, page architectures, and signature workflow after removing brand copy and styling.
 - Do not expose visual-token rationale, accent budgets, balance badges, QA labels, or implementation notes inside the product UI.
 - Make assumptions explicit when the user has not provided enough material.
@@ -103,6 +111,8 @@ Keep Opportunity Follow-Up separate from the default core model. Only consider i
 - For HTML/clickable prototypes, implement desktop review stage and mobile full-screen mode as code-level responsive behavior. Do not expose a visible mobile/desktop selector in the product UI.
 - Preserve the protected shell layer, but adapt the page design layer to user-provided business materials, brand references, visual references, and fidelity goals so different projects do not look identical.
 - Before implementation, define a structural differentiation plan covering navigation model, home composition, C360 architecture, task architecture, appointment architecture, dashboard structure, and one signature interaction. A branded prototype that reuses the default ordering and module stack without evidence is incomplete.
+- Before styling, prove debranded distinctiveness: after removing palette, typography, logo, imagery, and brand name, the case should still differ through its operating model and page architecture.
+- Before final delivery, complete a delivery review with quality scores, anti-generic flags, self-critique, automated QA, rendered QA, and open questions. Any quality score below 4 or any anti-generic flag still true is a blocking defect.
 - For high-fidelity branded prototypes or UI restoration, produce a compact evidence table and brand visual token before implementation. Map visual evidence into page-layer CSS variables, component rules, imagery rules, module-specific layout choices, and a workbench balance plan.
 - Strong brand visual expression is allowed and often desirable, but keep customer lists, task execution, appointment rows, dashboard drilldowns, search/filter controls, and native WeCom handoffs faster to scan than decorative brand moments.
 - Do not invent exact brand assets, proprietary UI details, product imagery, membership terms, or campaign copy. Use provided/public evidence, neutral defaults, or explicit assumptions.
@@ -114,5 +124,5 @@ Keep Opportunity Follow-Up separate from the default core model. Only consider i
 - Standardize reusable page interactions, including search fields, filter groups, sort behavior, tab usage, bottom sheets, disabled-action reasons, and empty/loading/error/no-permission states.
 - Standardize task execution by separating task source, task type, target grain, execution channel, native handoff, completion feedback, and measurable result.
 - Define visual direction before implementation: brand fit, industry convention, reference sources, density, tone, component style, and what should remain generic.
-- Run `scripts/check_prototype_shell.py`, `scripts/check_page_information.py`, and `scripts/check_token_implementation.py` before considering branded HTML complete. Also run `scripts/check_workbench_implementation.py` and structural similarity checks when references exist. Then inspect home, C360, task detail, appointment detail, and native handoff in the user-facing browser. Source-level success never overrides a rendered failure.
+- Run `scripts/check_prototype_shell.py`, `scripts/check_page_information.py`, `scripts/check_token_implementation.py`, `scripts/check_creative_divergence.py`, and `scripts/check_delivery_review.py` before considering branded HTML complete. Also run `scripts/check_workbench_implementation.py` and structural similarity checks when references exist. Then inspect home, C360, task detail, appointment detail, and native handoff in the user-facing browser. Source-level success never overrides a rendered failure.
 - Validate that each important flow has an actor, trigger, customer state, system state, action, result, and recovery/exception path.

@@ -16,11 +16,13 @@ REQUIRED_TOP_LEVEL = [
     "referenceSources",
     "evidenceIntegrity",
     "structureGeneration",
+    "creativeDivergence",
     "palette",
     "typography",
     "componentStyle",
     "structuralDifferentiation",
     "implementationContract",
+    "deliveryDiscipline",
     "workbenchBalance",
     "imageryRules",
     "layoutRhythm",
@@ -97,6 +99,23 @@ REQUIRED_WORKBENCH_BALANCE = [
     "pageContracts",
 ]
 REQUIRED_PAGE_CONTRACTS = ["home", "customers", "tasks", "appointments", "dashboard", "nativeWeCom"]
+REQUIRED_DELIVERY_STAGES = [
+    "evidence",
+    "structure",
+    "productLogic",
+    "dataModel",
+    "pageContracts",
+    "prototype",
+    "qa",
+]
+REQUIRED_QUALITY_SCORES = [
+    "brandFit",
+    "workbenchUsability",
+    "businessCredibility",
+    "structuralOriginality",
+    "evidenceIntegrity",
+    "demoReadiness",
+]
 
 HEX_RE = re.compile(r"^#[0-9a-fA-F]{6}$")
 EVIDENCE_STATUSES = {"user-confirmed", "official-public", "generic-default", "assumption"}
@@ -405,6 +424,47 @@ def validate(data: dict[str, Any]) -> list[str]:
             "implementationContract",
             errors,
         )
+
+    delivery = data.get("deliveryDiscipline")
+    if not isinstance(delivery, dict):
+        errors.append("deliveryDiscipline must be an object")
+    else:
+        require_keys(
+            delivery,
+            [
+                "positioning",
+                "recipeStages",
+                "minimumQualityBar",
+                "selfCritiquePrompts",
+                "antiGenericFlags",
+            ],
+            "deliveryDiscipline",
+            errors,
+        )
+        positioning = str(delivery.get("positioning", ""))
+        if "WeCom Clienteling" not in positioning:
+            errors.append("deliveryDiscipline.positioning must identify a WeCom Clienteling deliverable")
+        stages = delivery.get("recipeStages")
+        if not isinstance(stages, list):
+            errors.append("deliveryDiscipline.recipeStages must be a list")
+        else:
+            missing_stages = [stage for stage in REQUIRED_DELIVERY_STAGES if stage not in stages]
+            if missing_stages:
+                errors.append(f"deliveryDiscipline.recipeStages missing: {missing_stages}")
+        quality = delivery.get("minimumQualityBar")
+        if not isinstance(quality, dict):
+            errors.append("deliveryDiscipline.minimumQualityBar must be an object")
+        else:
+            for key in REQUIRED_QUALITY_SCORES:
+                value = quality.get(key)
+                if not isinstance(value, int) or value < 4:
+                    errors.append(f"deliveryDiscipline.minimumQualityBar.{key} must be an integer >= 4")
+        prompts = delivery.get("selfCritiquePrompts")
+        if not isinstance(prompts, list) or len(prompts) < 5:
+            errors.append("deliveryDiscipline.selfCritiquePrompts must include at least five prompts")
+        flags = delivery.get("antiGenericFlags")
+        if not isinstance(flags, list) or len(flags) < 6:
+            errors.append("deliveryDiscipline.antiGenericFlags must include at least six failure modes")
 
     workbench = data.get("workbenchBalance", {})
     if isinstance(workbench, dict):

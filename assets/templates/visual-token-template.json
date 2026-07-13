@@ -136,6 +136,69 @@
       }
     ]
   },
+  "creativeDivergence": {
+    "creativeThesis": "This prototype treats the brand's clienteling workbench as a service concierge because sparse evidence favors neutral customer care, task follow-up, and appointment readiness over a proprietary internal workflow.",
+    "inspirationTranspositions": [
+      {
+        "referencePattern": "task inbox triage",
+        "extractedMechanism": "Group urgent work by status, deadline, owner, and next action.",
+        "clientelingTranslation": "Use the home page to turn customer signals, task deadlines, and appointments into a prioritized frontline work queue.",
+        "rejectionBoundary": "Do not copy generic productivity app navigation or claim the brand uses an internal task-inbox system."
+      },
+      {
+        "referencePattern": "account dossier",
+        "extractedMechanism": "Combine identity, value, history, preferences, and action options into one decision surface.",
+        "clientelingTranslation": "Use C360 as a compact customer dossier with relationship context, operating state, recent interactions, and next best action.",
+        "rejectionBoundary": "Do not invent confirmed loyalty tiers, private rooms, or CRM field names without user evidence."
+      }
+    ],
+    "divergenceLevers": [
+      {
+        "lever": "businessAxis",
+        "decision": "daily-priority-queue",
+        "rationale": "A queue-led axis is a safe neutral choice when no proprietary workflow is confirmed."
+      },
+      {
+        "lever": "navigationModel",
+        "decision": "frequency-first with optional quick action",
+        "rationale": "Top-level items should follow frontline frequency and journey continuity, not the starter shell order."
+      },
+      {
+        "lever": "homeNarrative",
+        "decision": "triage board",
+        "rationale": "The first viewport should explain what needs attention, why, and where the user acts next."
+      },
+      {
+        "lever": "detailArchitecture",
+        "decision": "timeline dossier for C360 and guided checklist for task detail",
+        "rationale": "Customer understanding and task execution have different jobs, so they should not share one repeated card grammar."
+      },
+      {
+        "lever": "signatureInteraction",
+        "decision": "priority-to-followup",
+        "rationale": "The signature interaction should route from a priority signal to customer context and measurable follow-up state."
+      }
+    ],
+    "portfolioContrast": {
+      "comparisonTarget": "no prior case available in this template",
+      "differentDimensions": [
+        "business axis",
+        "navigation logic",
+        "home narrative",
+        "detail architecture",
+        "signature interaction"
+      ],
+      "debrandedDifference": "Without brand styling, the case should still be identifiable through its queue-led operating model, triage home, mixed detail architectures, and priority-to-followup interaction."
+    },
+    "coherenceProof": {
+      "navigationFollowsAxis": "Navigation order prioritizes recurring frontline work surfaces connected to the selected daily queue axis.",
+      "homeSupportsThesis": "The home page uses triage, exception, customer action, and appointment blocks to support a service concierge workbench.",
+      "detailArchitecturesFit": "C360 uses a dossier/timeline structure while task detail uses guided execution, matching each page's job.",
+      "signatureInteractionChangesWork": "The priority-to-followup action changes route and follow-up state rather than acting as a decorative CTA.",
+      "workbenchStillScannable": "Brand expression is limited to page-layer hierarchy while search, filters, due dates, actions, and appointment facts remain readable.",
+      "evidenceBoundaryRespected": "Internal-sounding terms remain neutral unless user-confirmed, and assumptions stay outside the delivered UI."
+    }
+  },
   "palette": {
     "primary": "#4f6d63",
     "primaryStrong": "#304e45",
@@ -266,6 +329,44 @@
     "taskArchitectureId": "guided-execution",
     "appointmentArchitectureId": "preparation-led-service",
     "signatureInteractionId": "priority-to-followup"
+  },
+  "deliveryDiscipline": {
+    "positioning": "brand-aware WeCom Clienteling demo prototype plus solution blueprint",
+    "recipeStages": [
+      "evidence",
+      "structure",
+      "productLogic",
+      "dataModel",
+      "pageContracts",
+      "prototype",
+      "qa"
+    ],
+    "minimumQualityBar": {
+      "brandFit": 4,
+      "workbenchUsability": 4,
+      "businessCredibility": 4,
+      "structuralOriginality": 4,
+      "evidenceIntegrity": 4,
+      "demoReadiness": 4
+    },
+    "selfCritiquePrompts": [
+      "What is the strongest structural difference from the starter shell?",
+      "What is the strongest structural difference from the most similar prior case?",
+      "Which module best expresses this brand's clienteling model, and why?",
+      "Which page would fail first in a real demo if its information were thinner?",
+      "Which visible terms are evidence-backed, and which assumptions were kept out of UI?",
+      "If palette, logo, and brand name were removed, what would still make this prototype structurally distinct?"
+    ],
+    "antiGenericFlags": [
+      "starter navigation copied without rationale",
+      "home uses default module order without evidence",
+      "detail pages are summary cards plus one CTA",
+      "differentiation is only palette, class names, or typography",
+      "unconfirmed internal business terms are visible",
+      "campaign/editorial hero displaces workbench signals",
+      "one card grammar is reused everywhere",
+      "debranded prototype is still structurally generic"
+    ]
   },
   "workbenchBalance": {
     "brandIntensity": "balanced",

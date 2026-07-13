@@ -38,6 +38,10 @@ When no layout authority exists:
 
 Do not default every fashion brand to editorial launch/countdown, every sports brand to black/fluorescent hero, every luxury brand to serif/three-column grid, or every wellness brand to soft cards. Industry is a clue, not a template.
 
+Strong agents should use this step to widen the design space through business logic: make appointment, service, content, product interest, replenishment, event attendance, loyalty, relationship repair, or manager exceptions the operating axis when evidence supports it. Do not make every brand a daily queue merely because the starter shell uses one.
+
+When strong distinctiveness is desired, continue into `creative-divergence-system.md` after selecting candidate directions. The structure DNA chooses a direction; creative divergence explains the operating metaphor, inspiration mechanisms, high-impact levers, portfolio contrast, and coherence proof.
+
 ## Coherence Rules
 
 - Navigation, home ordering, detail architecture, and signature interaction must tell the same operating story.
@@ -71,3 +75,5 @@ Across available cases, compare:
 - signature interaction route/state change.
 
 Require meaningful differences in at least three dimensions for open-generative cases. Do not penalize reference-led cases for matching their authoritative source.
+
+Also answer the debranded test: if brand name, palette, typography, logo, and imagery were removed, what structural choices would still identify this case as a different clienteling model?

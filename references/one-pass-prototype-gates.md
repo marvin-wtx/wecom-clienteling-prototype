@@ -18,6 +18,10 @@ Build the evidence ledger from `evidence-and-implementation-integrity.md`. Keep 
 
 Read `generative-layout-orchestration.md`. Select layout authority mode and complete the structure DNA before markup. In open-generative mode, compare at least three directions and record why one wins.
 
+For open-generative or evidence-derived branded work, read `creative-divergence-system.md`. Define the creative thesis, inspiration transpositions, high-impact divergence levers, portfolio contrast, and coherence proof before page contracts.
+
+Read `prototype-delivery-discipline.md`. Treat evidence, structure, product logic, data model, page contracts, prototype, and QA as required delivery stages, not optional notes.
+
 ## Gate 2: Page Contracts
 
 Classify each page as A, B, or C depth before implementation.
@@ -66,6 +70,8 @@ Run:
 
 ```bash
 python3 scripts/check_visual_tokens.py docs/visual-token.json
+python3 scripts/check_creative_divergence.py docs/visual-token.json
+python3 scripts/check_delivery_review.py docs/prototype-delivery-review.json
 python3 scripts/check_prototype_shell.py prototype/index.html
 python3 scripts/check_workbench_implementation.py prototype/index.html
 python3 scripts/check_page_information.py prototype/index.html
@@ -97,6 +103,8 @@ Verify:
 - Sample data remains consistent while navigating.
 
 Automated checks do not replace rendered QA. If the source passes but the rendered page fails, fix the page and rerun both.
+
+Complete the delivery review from `assets/templates/prototype-delivery-review-template.json`. Scores below 4, true anti-generic flags, placeholder self-critique answers, or missing rendered checks are blockers.
 
 When prior brand cases are available, also run:
 

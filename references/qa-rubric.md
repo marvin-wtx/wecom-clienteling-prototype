@@ -32,6 +32,12 @@ Use this to review prototype coverage and readiness.
 
 ## Prototype Quality Checks
 
+- Branded HTML/clickable prototypes are positioned as brand-aware WeCom Clienteling demo prototypes plus solution blueprints, not brand microsites, shopping apps, generic CRM dashboards, or production frontends.
+- The delivery recipe is complete: evidence, structure, product logic, data model, page contracts, prototype, and QA.
+- A delivery review exists and passes `scripts/check_delivery_review.py`.
+- Quality scores for brand fit, workbench usability, business credibility, structural originality, evidence integrity, and demo readiness are all 4 or higher.
+- Self-critique answers identify concrete structural differences, brand-clienteling logic, thin-page risk, evidence-backed terms, assumptions kept out of UI, and debranded distinctiveness.
+- Anti-generic flags are all false before delivery: starter navigation copied, default home order, thin detail pages, style-only differentiation, unconfirmed internal terms, campaign hero displacement, one card grammar everywhere, and debranded generic structure.
 - HTML/clickable prototypes start from `assets/prototype-shell/index.html` or directly port its shell structure and behavior.
 - `scripts/check_prototype_shell.py` passes for generated HTML.
 - For branded HTML/clickable prototypes, `scripts/check_workbench_implementation.py` passes so token-level workbench balance is visible in the implemented pages.
@@ -56,6 +62,10 @@ Use this to review prototype coverage and readiness.
 - When prior cases are available, structural similarity checks reject prefix/color/copy-only variants.
 - The token declares `reference-led`, `evidence-derived`, or `open-generative` layout authority and the rendered prototype matches it.
 - Open-generative work records at least three candidate directions, a scored selection rationale, and rejected alternatives.
+- Open-generative or evidence-derived branded work includes a creative thesis, at least two inspiration transpositions, at least four high-impact divergence levers, portfolio contrast, and coherence proof.
+- Creative divergence passes `scripts/check_creative_divergence.py`.
+- Inspiration is transposed as mechanisms such as grouping, progression, status, filtering, recovery, or quick action; it is not copied as visual style or treated as target-brand evidence.
+- High-impact variety comes from business axis, navigation model, home narrative, detail architecture, task model, data story, signature interaction, or visual anchor. Palette/font/radius/copy changes do not count by themselves.
 - Structure validation is brand-agnostic. Passing does not depend on a known brand name or brand-prefixed CSS class.
 - `user-confirmed` evidence is traceable to an actual user source; inferred or public facts are not relabeled as confirmation.
 - Navigation, business axis, home narrative, module grammars, page architectures, and signature interaction form one coherent operating story.
@@ -119,3 +129,5 @@ Use this to review prototype coverage and readiness.
 - Project-specific field names are not used as generic defaults.
 - Generic visual templates are adapted to the client's industry rather than copied blindly.
 - Prototype shell requirements are explicit enough for a frontend builder to reproduce the review experience.
+- The final review can explain why this prototype is both brand-specific and operationally credible after removing palette, logo, and image references.
+- The final review can identify the operating metaphor and explain how navigation, home, detail pages, and signature interaction support it.
