@@ -128,6 +128,16 @@ EVIDENCE_SOURCE_KINDS = {
     "inference",
 }
 INTERNAL_CATEGORIES = {"business", "terminology", "interaction"}
+ARCHETYPE_IDS = {
+    "priority-queue",
+    "appointment-atelier",
+    "product-interest-studio",
+    "lifecycle-radar",
+    "service-recovery-desk",
+    "event-attendance-cockpit",
+    "content-conversation-engine",
+    "manager-exception-review",
+}
 VAGUE_SOURCE_RE = re.compile(
     r"\b(industry standard|common|public program|another prototype|comparison)\b",
     re.IGNORECASE,
@@ -406,6 +416,57 @@ def validate(data: dict[str, Any]) -> list[str]:
                 errors.append("open-generative structureGeneration requires selectedDirectionId")
             if not is_nonempty(generation.get("selectionRationale")):
                 errors.append("open-generative structureGeneration requires selectionRationale")
+
+        if mode in {"open-generative", "evidence-derived"}:
+            archetype = data.get("archetypeSelection")
+            if not isinstance(archetype, dict):
+                errors.append("open-generative/evidence-derived work requires archetypeSelection")
+            else:
+                primary = archetype.get("primaryArchetypeId")
+                if primary not in ARCHETYPE_IDS:
+                    errors.append(f"archetypeSelection.primaryArchetypeId must be one of {sorted(ARCHETYPE_IDS)}")
+                candidates = archetype.get("candidateArchetypeIds")
+                if not isinstance(candidates, list) or len(candidates) < 3:
+                    errors.append("archetypeSelection.candidateArchetypeIds must include at least three candidates")
+                else:
+                    if len(set(candidates)) != len(candidates) or any(item not in ARCHETYPE_IDS for item in candidates):
+                        errors.append("archetypeSelection.candidateArchetypeIds must be unique valid archetype IDs")
+                    if primary not in candidates:
+                        errors.append("archetypeSelection.candidateArchetypeIds must include primaryArchetypeId")
+                for key, minimum in (
+                    ("operationalTension", 28),
+                    ("selectionRationale", 36),
+                    ("antiConvergenceCommitment", 32),
+                ):
+                    value = archetype.get(key)
+                    if not isinstance(value, str) or len(value.strip()) < minimum:
+                        errors.append(f"archetypeSelection.{key} must be concrete")
+                rejected = archetype.get("rejectedArchetypes")
+                if not isinstance(rejected, list) or len(rejected) < 2:
+                    errors.append("archetypeSelection.rejectedArchetypes must include at least two rejected candidates")
+                else:
+                    rejected_ids: set[str] = set()
+                    for index, item in enumerate(rejected):
+                        if not isinstance(item, dict) or item.get("id") not in ARCHETYPE_IDS:
+                            errors.append(f"archetypeSelection.rejectedArchetypes[{index}].id must be valid")
+                            continue
+                        reason = item.get("reason")
+                        if not isinstance(reason, str) or len(reason.strip()) < 24:
+                            errors.append(f"archetypeSelection.rejectedArchetypes[{index}].reason must be concrete")
+                        rejected_ids.add(str(item["id"]))
+                    if primary in rejected_ids:
+                        errors.append("archetypeSelection.primaryArchetypeId cannot be rejected")
+                    if isinstance(candidates, list) and not rejected_ids.issubset(set(candidates)):
+                        errors.append("archetypeSelection.rejectedArchetypes must come from candidateArchetypeIds")
+                if primary == "priority-queue":
+                    justification = archetype.get("priorityQueueJustification")
+                    weak_reason = isinstance(justification, str) and re.search(
+                        r"sparse|no evidence|no data|starter shell|default", justification, re.I
+                    )
+                    if not isinstance(justification, str) or len(justification.strip()) < 40 or weak_reason:
+                        errors.append(
+                            "priority-queue requires a positive priorityQueueJustification, not a sparse-brief or starter-shell fallback"
+                        )
 
     contract = data.get("implementationContract")
     if not isinstance(contract, dict):

@@ -27,7 +27,7 @@ Do not jump directly from prompt to screens. Complete these stages in order:
 4. `dataModel`: connected customers, tasks, appointments, assets, metrics, roles, states, and IDs.
 5. `pageContracts`: A/B/C page depth, required decision dimensions, page-specific module grammar, and action/result states.
 6. `prototype`: HTML/clickable implementation from the protected shell.
-7. `qa`: automated checks, rendered checks, self-critique, and delivery review.
+7. `qa`: automated checks, rendered checks, screenshot-backed case evaluation, self-critique, and delivery review.
 
 If a stage is not applicable, record why. Missing stages are delivery blockers.
 
@@ -69,6 +69,17 @@ Before delivery, answer these in a compact review:
 6. If palette, logo, and brand name were removed, what would still make this prototype structurally distinct?
 
 Weak answers are blockers. Rewrite the prototype or token before delivery.
+
+## Evidence-Backed Release Review
+
+After rendered QA, create the case evaluation from `prototype-case-evaluation-template.json`.
+
+- Capture real browser screenshots for home, C360, task detail, and appointment detail, or record a concrete scope exception.
+- Record at least three interactions that change route, state, result, handoff, or write-back behavior.
+- Score brand expression, workbench clarity, information depth, structural distinctness, and demo coherence against visible evidence.
+- When prior cases exist, compare against each one and explain material operating differences. The same archetype requires four high-impact differences.
+
+Run `check_prototype_case_evaluation.py`; run `check_portfolio_diversity.py` for every prior case. Passing static checks without screenshot-backed evidence is incomplete.
 
 ## Strong-Agent Creative Space
 

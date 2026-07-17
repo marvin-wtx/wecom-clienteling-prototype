@@ -35,6 +35,10 @@ Use this to review prototype coverage and readiness.
 - Branded HTML/clickable prototypes are positioned as brand-aware WeCom Clienteling demo prototypes plus solution blueprints, not brand microsites, shopping apps, generic CRM dashboards, or production frontends.
 - The delivery recipe is complete: evidence, structure, product logic, data model, page contracts, prototype, and QA.
 - A delivery review exists and passes `scripts/check_delivery_review.py`.
+- Open-generative and evidence-derived branded HTML selects one operating archetype after comparing at least three distinct archetypes; priority-queue has a positive workload rationale instead of being the sparse-brief default.
+- A screenshot-backed prototype case evaluation exists and passes `scripts/check_prototype_case_evaluation.py`.
+- The case evaluation contains observed screenshots for home, C360, task detail, and appointment detail or a documented scope exception, plus at least three observed state-changing interactions.
+- When prior cases are available, the case passes `scripts/check_portfolio_diversity.py` against each one; a reused archetype differs in at least four high-impact operating decisions.
 - Quality scores for brand fit, workbench usability, business credibility, structural originality, evidence integrity, and demo readiness are all 4 or higher.
 - Self-critique answers identify concrete structural differences, brand-clienteling logic, thin-page risk, evidence-backed terms, assumptions kept out of UI, and debranded distinctiveness.
 - Anti-generic flags are all false before delivery: starter navigation copied, default home order, thin detail pages, style-only differentiation, unconfirmed internal terms, campaign hero displacement, one card grammar everywhere, and debranded generic structure.

@@ -1,0 +1,122 @@
+{
+  "caseId": "example-brand-service-v1",
+  "portfolioMode": "first-case",
+  "scope": {
+    "includedSurfaces": [
+      "home",
+      "c360",
+      "task-detail",
+      "appointment-detail"
+    ],
+    "outOfScopeSurfaces": []
+  },
+  "caseArchitecture": {
+    "primaryArchetypeId": "appointment-atelier",
+    "candidateArchetypeIds": [
+      "appointment-atelier",
+      "product-interest-studio",
+      "priority-queue"
+    ],
+    "operationalTension": "The advisor must turn visit intent into a prepared and confirmed service moment while keeping customer context visible.",
+    "selectionRationale": "Service readiness and appointment conversion are the most credible recurring decisions, so the prototype is organized around preparation rather than a generic queue.",
+    "antiConvergenceCommitment": "The navigation, home agenda, appointment workspace, and result capture are intentionally service-led rather than copied from the starter queue stack.",
+    "architectureEvidence": {
+      "businessAxis": "appointment-readiness",
+      "navigationModel": "journey-first service agenda",
+      "homeNarrative": "preparation agenda with upcoming service moments",
+      "detailArchitecture": "preparation-led appointment workspace and customer dossier",
+      "taskModel": "appointment conversion checklist with outcome capture",
+      "signatureInteraction": "confirm-and-prepare service moment"
+    },
+    "rejectedArchetypes": [
+      {
+        "id": "product-interest-studio",
+        "reason": "Interest capture is supporting context, not the primary daily operating decision."
+      },
+      {
+        "id": "priority-queue",
+        "reason": "A generic urgency queue would obscure appointment preparation and resource coordination."
+      }
+    ]
+  },
+  "renderedEvidence": [
+    {
+      "surface": "home",
+      "screenshotPath": "qa/home.png",
+      "verdict": "pass",
+      "observedEvidence": "The first viewport shows service readiness metrics, the next appointment decision, and a direct preparation entry without a decorative hero taking over the workbench."
+    },
+    {
+      "surface": "c360",
+      "screenshotPath": "qa/c360.png",
+      "verdict": "pass",
+      "observedEvidence": "Customer identity, relationship context, current service status, preference cues, history, and actions are visible as distinct decision regions."
+    },
+    {
+      "surface": "task-detail",
+      "screenshotPath": "qa/task-detail.png",
+      "verdict": "pass",
+      "observedEvidence": "The task shows its goal, progress, audience, approved guidance, execution channel, and result capture rather than only a send button."
+    },
+    {
+      "surface": "appointment-detail",
+      "screenshotPath": "qa/appointment-detail.png",
+      "verdict": "pass",
+      "observedEvidence": "Time, people, place, service resource, preparation, confirmation, outcome, and exception actions are visible and remain readable at the target viewport."
+    }
+  ],
+  "interactionEvidence": [
+    {
+      "entry": "Home appointment agenda",
+      "action": "Open a pending service moment and confirm preparation.",
+      "expectedResult": "The appointment detail exposes preparation context and records a confirmation state.",
+      "observedResult": "The detail route opens with customer context and confirmation action feedback.",
+      "verdict": "pass"
+    },
+    {
+      "entry": "Task detail",
+      "action": "Execute the appointment follow-up action and submit a result.",
+      "expectedResult": "A measurable outcome and next follow-up are captured.",
+      "observedResult": "The task transitions from pending execution to a recorded result state.",
+      "verdict": "pass"
+    },
+    {
+      "entry": "C360 current service context",
+      "action": "Create or view the linked appointment.",
+      "expectedResult": "Customer context remains consistent across C360 and appointment detail.",
+      "observedResult": "The linked customer, owner, timing, and next action remain consistent after navigation.",
+      "verdict": "pass"
+    }
+  ],
+  "humanQuality": {
+    "brandExpression": {
+      "score": 4,
+      "evidence": "The page layer uses a coherent visual anchor and controlled emphasis while dense operational lists remain neutral and readable."
+    },
+    "workbenchClarity": {
+      "score": 4,
+      "evidence": "The first viewport identifies the immediate service decision, supporting status, and next action without relying on a campaign hero."
+    },
+    "informationDepth": {
+      "score": 4,
+      "evidence": "C360, task detail, and appointment detail each contain decision-supporting regions, state cues, exception handling, and result capture."
+    },
+    "structuralDistinctness": {
+      "score": 4,
+      "evidence": "Without brand styling, this remains service-led through navigation priority, agenda composition, preparation workspace, and confirmation workflow."
+    },
+    "demoCoherence": {
+      "score": 4,
+      "evidence": "One advisor journey moves from service agenda to customer context, preparation, confirmation, and outcome without disconnected sample data."
+    }
+  },
+  "portfolioComparison": {
+    "referenceCases": [],
+    "residualSimilarityRisk": "As the first evaluated case, the main risk is a service agenda falling back into the starter queue stack; review navigation and first-viewport order before release."
+  },
+  "releaseDecision": {
+    "result": "pass",
+    "blockers": [],
+    "notes": "Evidence, screenshots, interactions, quality scoring, and release checks are complete."
+  }
+}

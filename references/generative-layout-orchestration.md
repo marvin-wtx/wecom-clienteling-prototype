@@ -12,6 +12,8 @@ Choose exactly one mode before designing:
 
 Reference-led mode overrides anti-similarity novelty. Fidelity is more important than being different from prior cases.
 
+For open-generative or evidence-derived branded HTML/clickable work, read `operating-archetype-selection.md` before defining structure DNA. Candidate directions must start from distinct operating archetypes, not three cosmetic variations of the same queue, agenda, or dossier.
+
 ## Structure DNA
 
 Before markup, define:
@@ -30,6 +32,7 @@ Before markup, define:
 When no layout authority exists:
 
 1. List at least three plausible structure directions.
+   They must represent at least three distinct operating archetypes.
 2. Score each direction against operational fit, brand/public evidence fit, information depth, interaction usefulness, and similarity risk.
 3. Select the strongest direction, not the visually loudest one.
 4. Record why the two alternatives were rejected.
@@ -75,5 +78,7 @@ Across available cases, compare:
 - signature interaction route/state change.
 
 Require meaningful differences in at least three dimensions for open-generative cases. Do not penalize reference-led cases for matching their authoritative source.
+
+For a reused operating archetype, require at least four material differences in navigation model, home narrative, C360 architecture, task model, data story, appointment architecture, or signature interaction. Record those choices in the screenshot-backed case evaluation, not only in a design rationale.
 
 Also answer the debranded test: if brand name, palette, typography, logo, and imagery were removed, what structural choices would still identify this case as a different clienteling model?

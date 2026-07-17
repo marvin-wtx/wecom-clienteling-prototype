@@ -137,7 +137,12 @@ def validate(data: dict[str, Any]) -> list[str]:
     if not isinstance(automated, list) or len(automated) < 6:
         errors.append("automatedChecks must list the completed automated checks")
     else:
-        for required in ("check_visual_tokens.py", "check_prototype_block_layout.py", "check_delivery_review.py"):
+        for required in (
+            "check_visual_tokens.py",
+            "check_prototype_block_layout.py",
+            "check_prototype_case_evaluation.py",
+            "check_delivery_review.py",
+        ):
             if required not in automated:
                 errors.append(f"automatedChecks must include {required}")
 

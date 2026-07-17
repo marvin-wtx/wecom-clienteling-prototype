@@ -18,6 +18,8 @@ Build the evidence ledger from `evidence-and-implementation-integrity.md`. Keep 
 
 Read `generative-layout-orchestration.md`. Select layout authority mode and complete the structure DNA before markup. In open-generative mode, compare at least three directions and record why one wins.
 
+For open-generative or evidence-derived branded HTML/clickable work, read `operating-archetype-selection.md` before selecting structure DNA. Compare three distinct operating archetypes, record the operational tension, and do not use the starter priority queue as a sparse-brief fallback.
+
 For open-generative or evidence-derived branded work, read `creative-divergence-system.md`. Define the creative thesis, inspiration transpositions, high-impact divergence levers, portfolio contrast, and coherence proof before page contracts.
 
 Read `prototype-delivery-discipline.md`. Treat evidence, structure, product logic, data model, page contracts, prototype, and QA as required delivery stages, not optional notes.
@@ -105,6 +107,21 @@ Verify:
 Automated checks do not replace rendered QA. If the source passes but the rendered page fails, fix the page and rerun both.
 
 Complete the delivery review from `assets/templates/prototype-delivery-review-template.json`. Scores below 4, true anti-generic flags, placeholder self-critique answers, or missing rendered checks are blockers.
+
+Create `docs/prototype-case-evaluation.json` from `assets/templates/prototype-case-evaluation-template.json`. Capture actual screenshots for home, C360, task detail, and appointment detail (or an explicit scope exception), record at least three observed state-changing interactions, and run:
+
+```bash
+python3 scripts/check_prototype_case_evaluation.py docs/prototype-case-evaluation.json
+```
+
+When prior open-generative or evidence-derived cases are available, compare against each case:
+
+```bash
+python3 scripts/check_portfolio_diversity.py docs/prototype-case-evaluation.json \
+  --reference ../prior-case/docs/prototype-case-evaluation.json
+```
+
+When a project portfolio index exists, use `assets/templates/prototype-portfolio-index-template.json` and check the entire indexed portfolio in one command instead of choosing references manually.
 
 When prior brand cases are available, also run:
 

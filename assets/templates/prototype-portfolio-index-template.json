@@ -1,0 +1,11 @@
+{
+  "portfolioId": "clienteling-brand-prototype-portfolio",
+  "cases": [
+    {
+      "caseId": "example-brand-service-v1",
+      "evaluationPath": "cases/example-brand-service/docs/prototype-case-evaluation.json",
+      "status": "released",
+      "notes": "Use one entry per released open-generative or evidence-derived brand case."
+    }
+  ]
+}

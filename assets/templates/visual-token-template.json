@@ -136,6 +136,28 @@
       }
     ]
   },
+  "archetypeSelection": {
+    "primaryArchetypeId": "priority-queue",
+    "candidateArchetypeIds": [
+      "priority-queue",
+      "appointment-atelier",
+      "product-interest-studio"
+    ],
+    "operationalTension": "The frontline advisor must resolve customer, appointment, and deadline signals throughout the trading day before follow-up opportunities become stale.",
+    "selectionRationale": "The baseline is a priority queue because the recurring work combines time-sensitive follow-up, customer context, and appointment readiness into one continuous daily decision flow.",
+    "antiConvergenceCommitment": "This is only one operating model: future cases will select home composition, navigation, detail architecture, and interaction from their own archetype rather than inherit this queue stack.",
+    "priorityQueueJustification": "Daily store operations require advisors to rank multiple customer, task, and appointment signals by urgency and next action, so a visible triage surface improves recurring frontline decisions.",
+    "rejectedArchetypes": [
+      {
+        "id": "appointment-atelier",
+        "reason": "Appointments are present but the baseline does not establish service preparation as the dominant daily operating decision."
+      },
+      {
+        "id": "product-interest-studio",
+        "reason": "The baseline has no evidence that product discovery or recommendation is the main workbench entry point."
+      }
+    ]
+  },
   "creativeDivergence": {
     "creativeThesis": "This prototype treats the brand's clienteling workbench as a service concierge because sparse evidence favors neutral customer care, task follow-up, and appointment readiness over a proprietary internal workflow.",
     "inspirationTranspositions": [
