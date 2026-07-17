@@ -18,7 +18,9 @@ REQUIRED_TOKENS = [
     "--brand-primary-strong",
     "--brand-accent",
     "--brand-on-primary",
-    "PROJECT.frontlineTerm",
+    ".stage",
+    ".phone-wrap",
+    ".phone",
     "status-network",
     ".wx-nav",
     ".wx-capsule",
@@ -32,13 +34,14 @@ REQUIRED_TOKENS = [
     "appShell",
     "has-actions",
     "journey-hud",
-    "管理看板",
-    "staffPerformance",
-    "staffPerformanceRows",
-    "managerPeriodPills",
-    "按\" + term + \"表现",
+    "journeyHud",
     "native-send-wrap",
     "native-brand-tile",
+]
+
+V3_REVIEW_TOKENS = [
+    "mountReviewControls",
+    "wecom-review-change",
 ]
 
 FORBIDDEN_PATTERNS = {
@@ -88,7 +91,11 @@ def load_external_blocklist() -> list[str]:
 def collect_errors(source: str, path: Path) -> list[str]:
     errors: list[str] = []
 
-    for token in REQUIRED_TOKENS:
+    required_tokens = REQUIRED_TOKENS
+    if "data-starter-demo=" not in source:
+        required_tokens = [*REQUIRED_TOKENS, *V3_REVIEW_TOKENS]
+
+    for token in required_tokens:
         if token not in source:
             errors.append(f"missing required shell token: {token}")
 

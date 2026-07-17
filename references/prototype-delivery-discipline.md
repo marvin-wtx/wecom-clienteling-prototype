@@ -26,10 +26,10 @@ Do not jump directly from prompt to screens. Complete these stages in order:
 3. `productLogic`: business axis, role, core journeys, page inventory, native handoff boundaries, and why this is a WeCom Clienteling workbench.
 4. `dataModel`: connected customers, tasks, appointments, assets, metrics, roles, states, and IDs.
 5. `pageContracts`: A/B/C page depth, required decision dimensions, page-specific module grammar, and action/result states.
-6. `prototype`: HTML/clickable implementation from the protected shell.
+6. `prototype`: HTML/clickable implementation from the protected V3 shell kit, with its preview removed and replaced by the project data, routes, navigation, page architecture, and interactions.
 7. `qa`: automated checks, rendered checks, screenshot-backed case evaluation, self-critique, and delivery review.
 
-If a stage is not applicable, record why. Missing stages are delivery blockers.
+If a stage is not applicable, record why. Missing stages are delivery blockers. A branded HTML/clickable release is a directory bundle, not a bare page: it contains `prototype/index.html`, visual token, delivery review, case evaluation, and the screenshot files the evaluation cites.
 
 ## Minimum Quality Bar
 
@@ -91,6 +91,6 @@ High-level agents may create stronger variety by changing business logic, not de
 - use different module grammars per page, such as matrix, timeline, split view, checklist, canvas, ranked ledger, or progressive disclosure;
 - invent a useful signature interaction that changes state, route, or result capture, while keeping unconfirmed brand-internal terms out of UI.
 
-Creativity must still pass evidence, shell, page-depth, workbench, and rendered QA gates.
+Creativity must still pass evidence, shell, page-depth, workbench, rendered QA, and `check_prototype_delivery_bundle.py` gates. The V2 demo and V3 shell-kit preview are not valid final product UI.
 
 For open-generative or evidence-derived branded work, also complete the creative divergence system. The delivery review should be able to name the operating metaphor, the transposed inspiration mechanisms, the four or more high-impact levers, and the debranded difference.

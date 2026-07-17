@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>WeCom Clienteling Prototype Shell</title>
+  <title>WeCom Clienteling Shell Kit</title>
   <style>
     :root {
       --phone-w: 390px;
@@ -12,44 +12,53 @@
       --status-h: 38px;
       --tab-h: 64px;
       --desktop-phone-scale: 1;
-      --bg: #f5f6f4;
+      --stage: #e9edf2;
+      --stage-ink: #15202d;
+      --bg: #f7f8fa;
       --surface: #ffffff;
-      --surface-soft: #eef2ef;
-      --line: #dfe4df;
-      --line-strong: #bcc6bf;
-      --text: #1c211f;
-      --muted: #68726c;
-      --subtle: #8d9690;
-      --brand-primary: #4f6d63;
-      --brand-primary-strong: #304e45;
-      --brand-accent: #80653f;
+      --surface-raised: #ffffff;
+      --surface-soft: #f0f3f7;
+      --line: #e0e5eb;
+      --line-strong: #c8d0da;
+      --text: #17212d;
+      --muted: #667487;
+      --subtle: #97a2b0;
+      --brand-primary: #2357d6;
+      --brand-primary-strong: #183f9f;
+      --brand-accent: #b55d2a;
       --brand-on-primary: #ffffff;
-      --brand-danger: #9b3c30;
+      --brand-danger: #b42318;
       --brand: var(--brand-primary);
       --brand-strong: var(--brand-primary-strong);
       --accent: var(--brand-accent);
       --danger: var(--brand-danger);
-      --shadow: 0 18px 52px rgba(28, 33, 31, 0.16);
+      --shadow: 0 30px 70px rgba(28, 42, 58, .2), 0 6px 18px rgba(28, 42, 58, .1);
+      --hairline: rgba(23, 33, 45, .1);
       color-scheme: light;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Microsoft YaHei", sans-serif;
     }
 
     * { box-sizing: border-box; }
-    html, body { margin: 0; min-height: 100%; background: #eef0ed; color: var(--text); }
+    html, body { min-height: 100%; margin: 0; background: var(--stage); color: var(--text); }
     button, input, select { font: inherit; }
     button { border: 0; background: transparent; color: inherit; cursor: pointer; }
+    svg { width: 1em; height: 1em; display: block; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
+    /* The external stage is deliberately quiet so the mini-program stays the focus. */
     .stage {
       min-height: 100vh;
-      height: 100vh;
-      padding: 18px 16px 12px;
+      height: 100dvh;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, .36) 1px, transparent 1px) 0 0 / 56px 56px,
+        linear-gradient(rgba(255, 255, 255, .36) 1px, transparent 1px) 0 0 / 56px 56px,
+        var(--stage);
     }
-
     .stage-header, .stage-controls {
       width: min(920px, 100%);
       flex: 0 0 auto;
@@ -58,79 +67,68 @@
       justify-content: space-between;
       gap: 10px;
     }
-
-    .stage-title strong { display: block; font-size: 15px; line-height: 1.3; }
+    .stage-mark { display: flex; align-items: center; gap: 9px; min-width: 0; }
+    .stage-mark::before { content: ""; width: 18px; height: 18px; border: 1px solid rgba(21, 32, 45, .45); border-radius: 5px; background: rgba(255, 255, 255, .6); box-shadow: inset 0 0 0 4px rgba(35, 87, 214, .1); }
+    .stage-title strong { display: block; font-size: 13px; line-height: 1.3; letter-spacing: 0; }
     .stage-title span { display: block; margin-top: 2px; color: var(--muted); font-size: 11px; }
-
     .stage-controls {
-      padding: 7px;
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.82);
-      backdrop-filter: blur(14px);
+      justify-content: center;
       flex-wrap: wrap;
+      padding: 6px;
+      border: 1px solid rgba(255, 255, 255, .72);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, .48);
+      box-shadow: 0 1px 2px rgba(21, 32, 45, .035);
     }
-
-    .control-group { display: flex; align-items: center; gap: 8px; min-width: 0; }
-    .control-label { color: var(--muted); font-size: 11px; white-space: nowrap; }
-    .select, .stage-btn {
-      height: 29px;
-      border: 1px solid var(--line-strong);
-      border-radius: 3px;
-      background: var(--surface);
-      color: var(--text);
+    .control-group { min-width: 0; display: flex; align-items: center; gap: 6px; }
+    .control-label { color: var(--muted); font-size: 10px; font-weight: 700; white-space: nowrap; }
+    .stage-btn, .stage-status, .select {
+      min-height: 28px;
+      border: 1px solid rgba(255, 255, 255, .72);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, .58);
+      box-shadow: 0 1px 2px rgba(21, 32, 45, .04);
+      color: var(--stage-ink);
       padding: 0 9px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      white-space: nowrap;
       font-size: 11px;
     }
-    .select:disabled, .stage-btn:disabled { opacity: .45; cursor: not-allowed; }
+    .select { min-width: 0; max-width: 138px; color: var(--stage-ink); outline: 0; }
+    .stage-btn:hover { border-color: var(--line-strong); background: var(--surface); }
+    .stage-btn:disabled, .select:disabled { opacity: .48; cursor: not-allowed; }
+    .stage-status { display: inline-flex; align-items: center; color: var(--muted); cursor: default; }
+    .review-entry { flex-wrap: wrap; }
+    .review-entry .stage-btn { display: inline-flex; align-items: center; gap: 4px; }
+    .review-entry svg { font-size: 13px; }
 
     .phone-wrap { position: relative; flex: 0 0 auto; width: var(--phone-w); height: var(--phone-h); min-height: 0; }
     .phone {
       position: absolute;
-      left: 50%;
-      top: 0;
-      width: var(--phone-w);
-      height: var(--phone-h);
+      left: 50%; top: 0;
+      width: var(--phone-w); height: var(--phone-h);
       transform: translateX(-50%) scale(var(--desktop-phone-scale));
       transform-origin: top center;
-      border: 1px solid #242926;
-      border-radius: 38px;
+      border: 1px solid rgba(18, 29, 42, .72);
+      border-radius: 40px;
+      overflow: hidden;
       background: var(--bg);
       box-shadow: var(--shadow);
-      overflow: hidden;
     }
     .phone::before {
       content: "";
       position: absolute;
       z-index: 16;
-      left: 50%;
-      top: 0;
-      width: 110px;
-      height: 22px;
+      left: 50%; top: 0;
+      width: 112px; height: 23px;
       transform: translateX(-50%);
-      border-radius: 0 0 14px 14px;
-      background: #111;
+      border-radius: 0 0 15px 15px;
+      background: #111820;
       pointer-events: none;
     }
-
-    .screen {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-      border-radius: 38px;
-      background: var(--bg);
-    }
-
+    .screen { position: absolute; inset: 0; overflow: hidden; border-radius: 39px; background: var(--bg); }
     .statusbar {
       position: absolute;
       z-index: 15;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: var(--status-h);
       padding: 0 22px;
       display: flex;
@@ -138,1215 +136,389 @@
       justify-content: space-between;
       color: var(--text);
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 760;
       pointer-events: none;
     }
-    .status-network { font-size: 14px; font-weight: 700; letter-spacing: 0; }
+    .status-network { font-size: 14px; font-weight: 760; letter-spacing: 0; }
 
-    .app-page { position: relative; height: 100%; display: flex; flex-direction: column; background: var(--bg); overflow: hidden; }
-
+    .app-page { position: relative; height: 100%; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
     .wx-nav {
-      height: var(--top-h);
-      background: rgba(255, 255, 255, .96);
-      border-bottom: 1px solid var(--line);
       position: relative;
       z-index: 3;
       flex: 0 0 auto;
+      height: var(--top-h);
+      background: rgba(255, 255, 255, .86);
+      border-bottom: 1px solid var(--hairline);
+      backdrop-filter: blur(20px) saturate(130%);
     }
     .wx-nav-left {
       position: absolute;
-      left: 0;
-      top: var(--status-h);
-      width: 88px;
-      height: calc(var(--top-h) - var(--status-h));
-      padding: 0 0 0 24px;
+      z-index: 1;
+      top: var(--status-h); left: 0;
+      width: 72px; height: calc(var(--top-h) - var(--status-h));
       display: flex;
       align-items: center;
+      padding-left: 25px;
       color: var(--text);
-      z-index: 1;
     }
-    .wx-nav-left::before {
-      content: "";
-      display: block;
-      width: 9px;
-      height: 9px;
-      border-left: 1.6px solid currentColor;
-      border-bottom: 1.6px solid currentColor;
-      transform: rotate(45deg);
-    }
+    .wx-nav-left::before { content: ""; width: 9px; height: 9px; border-left: 1.7px solid currentColor; border-bottom: 1.7px solid currentColor; transform: rotate(45deg); }
     .wx-nav-left.placeholder { visibility: hidden; }
     .wx-nav-title {
       position: absolute;
-      left: 50%;
-      top: var(--status-h);
-      width: calc(100% - 292px);
-      max-width: 190px;
+      top: var(--status-h); left: 50%;
+      width: calc(100% - 244px); max-width: 196px;
       height: calc(var(--top-h) - var(--status-h));
-      line-height: calc(var(--top-h) - var(--status-h));
       transform: translateX(-50%);
-      text-align: center;
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
-      white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis;
+      color: var(--text);
+      font-size: 16px; line-height: calc(var(--top-h) - var(--status-h)); font-weight: 730;
+      letter-spacing: 0; text-align: center; text-overflow: ellipsis; white-space: nowrap;
       pointer-events: none;
     }
-    .wx-nav > .wx-capsule {
-      position: absolute;
-      right: 8px;
-      top: calc(var(--status-h) + (var(--top-h) - var(--status-h)) / 2);
-      transform: translateY(-50%);
-      z-index: 1;
-    }
+    .wx-nav > .wx-capsule { position: absolute; z-index: 1; right: 8px; top: calc(var(--status-h) + (var(--top-h) - var(--status-h)) / 2); transform: translateY(-50%); }
     .wx-capsule {
-      width: 88px;
-      height: 32px;
-      border: .5px solid rgba(0, 0, 0, .1);
-      border-radius: 16px;
-      background: #fff;
-      display: flex;
-      align-items: center;
+      width: 88px; height: 32px;
+      display: flex; align-items: center;
       padding: 0 10px;
+      border: .5px solid rgba(23, 33, 45, .12); border-radius: 16px;
+      background: rgba(255, 255, 255, .84);
+      box-shadow: 0 1px 1px rgba(23, 33, 45, .03);
     }
-    .wx-capsule-dot, .wx-capsule-circle {
-      flex: 1;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-    .wx-capsule-dot::before {
-      content: "";
-      width: 12px;
-      height: 4px;
-      background: radial-gradient(circle 1.5px at 50% 50%, #000 100%, transparent 100%);
-      background-size: 4px 4px;
-      background-repeat: repeat-x;
-      background-position: 0 50%;
-    }
-    .wx-capsule-line { width: 1px; height: 18px; background: rgba(0, 0, 0, .1); flex-shrink: 0; }
-    .wx-capsule-circle::before {
-      content: "";
-      display: block;
-      width: 16px;
-      height: 16px;
-      border: 1.5px solid #000;
-      border-radius: 50%;
-    }
-    .wx-capsule-circle::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 6px;
-      height: 6px;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      background: #000;
-    }
+    .wx-capsule-dot, .wx-capsule-circle { position: relative; flex: 1; height: 32px; display: grid; place-items: center; }
+    .wx-capsule-dot::before { content: ""; width: 12px; height: 4px; background: radial-gradient(circle 1.5px at 50% 50%, #111820 100%, transparent 100%); background-size: 4px 4px; background-repeat: repeat-x; }
+    .wx-capsule-line { width: 1px; height: 17px; flex-shrink: 0; background: rgba(23, 33, 45, .12); }
+    .wx-capsule-circle::before { content: ""; width: 16px; height: 16px; border: 1.5px solid #111820; border-radius: 50%; }
+    .wx-capsule-circle::after { content: ""; position: absolute; top: 50%; left: 50%; width: 6px; height: 6px; transform: translate(-50%, -50%); border-radius: 50%; background: #111820; }
 
-    .body {
-      position: relative;
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding: 14px 14px calc(var(--tab-h) + env(safe-area-inset-bottom) + 18px);
-      scrollbar-width: none;
-    }
+    .body { position: relative; flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 16px 14px calc(var(--tab-h) + env(safe-area-inset-bottom) + 18px); scrollbar-width: none; }
     .body::-webkit-scrollbar { display: none; }
     .body.no-tab { padding-bottom: calc(env(safe-area-inset-bottom) + 18px); }
-    .app-page.has-actions .body { padding-bottom: calc(var(--tab-h) + 88px + env(safe-area-inset-bottom)); }
-    .app-page.has-actions .body.no-tab { padding-bottom: calc(104px + env(safe-area-inset-bottom)); }
+    .app-page.has-actions .body { padding-bottom: calc(var(--tab-h) + 92px + env(safe-area-inset-bottom)); }
+    .app-page.has-actions .body.no-tab { padding-bottom: calc(108px + env(safe-area-inset-bottom)); }
 
     .tabbar {
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
       z-index: 24;
+      right: 0; bottom: 0; left: 0;
       min-height: var(--tab-h);
       padding-bottom: env(safe-area-inset-bottom);
-      border-top: 1px solid var(--line);
-      background: rgba(255, 255, 255, .96);
-      backdrop-filter: blur(16px);
       display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-columns: repeat(var(--tab-count, 4), minmax(0, 1fr));
+      border-top: 1px solid var(--hairline);
+      background: rgba(255, 255, 255, .9);
+      backdrop-filter: blur(20px) saturate(130%);
     }
-    .tab {
-      min-width: 0;
-      display: grid;
-      place-items: center;
-      align-content: center;
-      gap: 4px;
-      color: var(--muted);
-      font-size: 11px;
-      font-weight: 700;
-    }
-    .tab.active { color: var(--brand); }
-    svg {
-      width: 1em;
-      height: 1em;
-      display: block;
-      stroke: currentColor;
-      stroke-width: 1.9;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      fill: none;
-    }
-    .tab .tab-ic { font-size: 22px; }
-    .tab.center .tab-ic {
-      width: 38px;
-      height: 38px;
-      border-radius: 8px;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background: var(--brand);
-      font-size: 20px;
-    }
+    .tab { min-width: 0; display: grid; place-items: center; align-content: center; gap: 4px; color: var(--muted); font-size: 10px; font-weight: 680; }
+    .tab.active { color: var(--brand-strong); }
+    .tab .tab-ic { position: relative; font-size: 20px; }
+    .tab.active .tab-ic::after { content: ""; position: absolute; bottom: -4px; left: 50%; width: 4px; height: 4px; transform: translateX(-50%); border-radius: 50%; background: currentColor; }
+    .tab.center .tab-ic { width: 37px; height: 37px; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .48); border-radius: 9px; color: var(--brand-on-primary); background: var(--brand); box-shadow: 0 6px 14px color-mix(in srgb, var(--brand) 24%, transparent); }
+    .tab.center.active .tab-ic::after { display: none; }
 
-    .hero {
-      margin: -14px -14px 14px;
-      padding: 24px 18px 20px;
-      color: #fff;
-      background: linear-gradient(135deg, #5b6c61 0%, #315f6c 100%);
-    }
-    .hero-kicker { color: rgba(255,255,255,.76); font-size: 12px; font-weight: 700; }
-    .hero-main { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 8px; }
-    .hero h1 { margin: 0; font-size: 24px; line-height: 1.18; letter-spacing: 0; }
-    .role-chip { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.34); background: rgba(255,255,255,.18); font-weight: 800; }
-    .stat-row { margin-top: 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .stat { min-width: 0; border-radius: 8px; padding: 12px 8px; background: rgba(255,255,255,.18); text-align: center; }
-    .stat strong { display: block; font-size: 21px; line-height: 1.2; }
-    .stat span { display: block; margin-top: 5px; font-size: 11px; color: rgba(255,255,255,.82); }
-
-    .section { margin-top: 14px; }
-    .section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
-    .section-head h2 { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.3; }
-    .section-link { color: var(--brand-strong); font-size: 13px; font-weight: 700; display: inline-flex; align-items: center; gap: 2px; white-space: nowrap; }
-    .meta, .small { color: var(--muted); font-size: 12px; line-height: 1.4; }
-    .card { border: 1px solid var(--line); border-radius: 8px; background: var(--surface); box-shadow: 0 1px 2px rgba(28,33,31,.04); }
-
-    .client-card {
-      padding: 14px;
-      display: grid;
-      grid-template-columns: 46px minmax(0, 1fr) auto;
-      gap: 12px;
-      align-items: start;
-      margin-bottom: 10px;
-      text-align: left;
-      width: 100%;
-    }
-    .avatar { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: var(--brand); font-weight: 800; }
-    .client-card h3, .task-card h3, .detail-title { margin: 0; font-size: 17px; line-height: 1.25; letter-spacing: 0; }
-    .badge-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-    .badge {
-      min-height: 24px;
-      padding: 3px 8px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      color: var(--brand-strong);
-      background: var(--surface-soft);
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    .toolbar { display: flex; gap: 8px; margin-bottom: 12px; }
-    .search {
-      flex: 1;
-      min-width: 0;
-      height: 38px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: var(--surface);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0 11px;
-      color: var(--muted);
-    }
+    /* Page primitives are optional starting points, not a prescribed information architecture. */
+    .page-stack { display: grid; gap: 14px; }
+    .section-kicker { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 11px; font-weight: 760; letter-spacing: 0; text-transform: uppercase; }
+    .section-kicker button, .inline-action { color: var(--brand-strong); font-size: 12px; font-weight: 720; }
+    .surface-panel { border: 1px solid var(--line); border-radius: 7px; background: var(--surface-raised); box-shadow: 0 2px 7px rgba(23, 33, 45, .025); }
+    .surface-panel.padded { padding: 14px; }
+    .split-note { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 12px; padding: 13px 14px; }
+    .split-note strong { display: block; font-size: 15px; line-height: 1.35; }
+    .split-note p, .meta { margin: 4px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .metric-strip { display: grid; grid-template-columns: repeat(var(--metric-count, 3), minmax(0, 1fr)); }
+    .metric { min-width: 0; padding: 13px 12px; border-right: 1px solid var(--line); }
+    .metric:last-child { border-right: 0; }
+    .metric strong { display: block; margin-top: 5px; font-size: 20px; line-height: 1.1; letter-spacing: 0; }
+    .metric span { display: block; color: var(--muted); font-size: 11px; line-height: 1.3; }
+    .compact-chip { display: inline-flex; align-items: center; min-height: 23px; padding: 3px 7px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-soft); color: var(--brand-strong); font-size: 11px; font-weight: 700; }
+    .toolbar { display: flex; gap: 8px; }
+    .search { flex: 1; min-width: 0; height: 38px; display: flex; align-items: center; gap: 8px; padding: 0 11px; border: 1px solid var(--line); border-radius: 7px; background: rgba(255, 255, 255, .72); color: var(--muted); }
     .search input { min-width: 0; flex: 1; border: 0; outline: 0; background: transparent; color: var(--text); font-size: 13px; }
-    .filter-btn, .icon-btn {
-      width: 38px;
-      height: 38px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: var(--surface);
-      display: grid;
-      place-items: center;
-      color: var(--muted);
-    }
-    .tabs { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 12px; scrollbar-width: none; }
-    .tabs::-webkit-scrollbar { display: none; }
-    .pill {
-      flex: 0 0 auto;
-      min-height: 32px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 6px 12px;
-      background: var(--surface);
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-    }
-    .pill.active { border-color: var(--brand); color: var(--brand-strong); background: #edf4ef; }
-
-    .detail-head { padding: 14px; margin-bottom: 12px; }
-    .kv-grid { display: grid; grid-template-columns: 86px minmax(0, 1fr); gap: 8px 10px; margin-top: 12px; font-size: 12px; }
-    .kv-grid span:nth-child(odd) { color: var(--muted); }
-    .timeline { display: grid; gap: 10px; padding: 14px; }
-    .timeline-row { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 8px; font-size: 12px; color: var(--muted); }
-    .timeline-row strong { color: var(--text); font-size: 13px; }
-
-    .task-card { padding: 14px; margin-bottom: 10px; text-align: left; width: 100%; }
-    .task-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
-    .progress { height: 6px; border-radius: 6px; overflow: hidden; background: var(--surface-soft); margin-top: 12px; }
-    .progress i { display: block; width: var(--p, 0%); height: 100%; background: var(--brand); }
-
-    .action-row { display: flex; gap: 10px; margin-top: 12px; }
-    .primary, .secondary {
-      min-height: 42px;
-      border-radius: 8px;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 7px;
-      padding: 0 14px;
-      font-weight: 800;
-      font-size: 13px;
-    }
-    .primary { flex: 1; background: var(--brand); color: #fff; }
-    .secondary { background: var(--surface); border: 1px solid var(--line); color: var(--brand-strong); }
-    .disabled-note { padding: 11px 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); background: var(--surface-soft); font-size: 12px; line-height: 1.45; }
-
-    .filter-layout { display: grid; grid-template-columns: 96px minmax(0, 1fr); min-height: 420px; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
-    .filter-side { background: var(--surface-soft); border-right: 1px solid var(--line); }
-    .filter-side button { width: 100%; min-height: 42px; padding: 0 10px; text-align: left; color: var(--muted); font-size: 12px; font-weight: 700; }
-    .filter-side button.active { color: var(--brand-strong); background: #fff; }
-    .filter-pane { padding: 12px; display: grid; align-content: start; gap: 8px; }
-    .filter-option { min-height: 38px; border: 1px solid var(--line); border-radius: 7px; padding: 0 10px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
-    .filter-option.active { border-color: var(--brand); color: var(--brand-strong); background: #edf4ef; font-weight: 800; }
-    .sticky-actions {
-      position: absolute;
-      z-index: 26;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      margin: 0;
-      padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
-      border-top: 1px solid var(--line);
-      background: rgba(245, 246, 244, .94);
-      backdrop-filter: blur(16px);
-      display: flex;
-      gap: 10px;
-    }
+    .icon-btn, .filter-btn { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); color: var(--muted); }
+    .list-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 11px; align-items: center; padding: 13px 14px; border-bottom: 1px solid var(--line); text-align: left; width: 100%; }
+    .list-row:last-child { border-bottom: 0; }
+    .row-mark { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 6px; color: var(--brand-strong); background: var(--surface-soft); }
+    .row-copy { min-width: 0; }
+    .row-copy strong { display: block; overflow: hidden; font-size: 13px; line-height: 1.35; text-overflow: ellipsis; white-space: nowrap; }
+    .row-copy span { display: block; overflow: hidden; margin-top: 3px; color: var(--muted); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+    .row-meta { color: var(--subtle); font-size: 11px; white-space: nowrap; }
+    .media-frame { min-height: 116px; overflow: hidden; position: relative; border-radius: 7px; background: linear-gradient(145deg, #17212d, #3b4c60); color: #fff; }
+    .media-frame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 38%, rgba(13, 21, 30, .76)); pointer-events: none; }
+    .media-frame > * { position: relative; z-index: 1; }
+    .primary, .secondary { min-height: 42px; padding: 0 14px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border-radius: 7px; font-size: 13px; font-weight: 760; }
+    .primary { flex: 1; background: var(--brand); color: var(--brand-on-primary); box-shadow: 0 6px 14px color-mix(in srgb, var(--brand) 20%, transparent); }
+    .secondary { border: 1px solid var(--line); background: var(--surface); color: var(--brand-strong); }
+    .sticky-actions { position: absolute; z-index: 26; right: 0; bottom: 0; left: 0; display: flex; gap: 10px; margin: 0; padding: 12px 14px calc(12px + env(safe-area-inset-bottom)); border-top: 1px solid var(--hairline); background: rgba(247, 248, 250, .9); backdrop-filter: blur(20px); }
     .app-page.has-tabbar .sticky-actions { bottom: var(--tab-h); }
 
-    .appt-row {
-      padding: 13px;
-      display: grid;
-      grid-template-columns: 62px minmax(0, 1fr) auto;
-      gap: 10px;
-      align-items: start;
-      margin-bottom: 10px;
-      text-align: left;
-      width: 100%;
-    }
-    .time { color: var(--brand-strong); font-weight: 800; font-size: 13px; }
-    .metric-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-    .metric-card { padding: 13px; }
-    .metric-card strong { display: block; margin-top: 6px; font-size: 21px; line-height: 1.2; }
-
-    .manager-period-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
-    .manager-period-copy { min-width: 0; }
-    .manager-period-label { color: var(--muted); font-size: 11px; font-weight: 800; }
-    .manager-period-meta { margin-top: 3px; color: var(--subtle); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .manager-period-pills { flex: 0 0 auto; display: flex; gap: 3px; padding: 3px; border-radius: 999px; background: var(--surface-soft); }
-    .manager-period-pills button { min-width: 34px; height: 24px; border-radius: 999px; color: var(--muted); font-size: 11px; font-weight: 800; }
-    .manager-period-pills button.active { background: var(--text); color: #fff; }
-    .manager-card { padding: 14px; margin-bottom: 10px; }
-    .manager-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 11px; }
-    .manager-card-title { font-size: 15px; font-weight: 800; }
-    .manager-card-meta { color: var(--subtle); font-size: 11px; white-space: nowrap; }
-    .manager-split { display: grid; grid-template-columns: 90px minmax(0, 1fr); gap: 12px; align-items: center; }
-    .manager-ring { --pdeg: 0deg; width: 76px; height: 76px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--brand) var(--pdeg), var(--surface-soft) 0); position: relative; }
-    .manager-ring::after { content: ""; position: absolute; inset: 11px; border-radius: 50%; background: var(--surface); }
-    .manager-ring strong { position: relative; z-index: 1; font-size: 18px; line-height: 1; }
-    .manager-ring-note { margin-top: 6px; color: var(--subtle); font-size: 10px; text-align: center; line-height: 1.25; }
-    .manager-mini-list { display: grid; gap: 7px; }
-    .manager-mini-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-bottom: 7px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; }
-    .manager-mini-row:last-child { border-bottom: 0; padding-bottom: 0; }
-    .manager-mini-row strong { color: var(--text); font-size: 13px; }
-    .manager-pair-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 12px; border-top: 1px solid var(--line); }
-    .manager-pair { padding: 10px 8px 0; border-right: 1px solid var(--line); text-align: center; }
-    .manager-pair:last-child { border-right: 0; }
-    .manager-pair strong { display: block; font-size: 16px; }
-    .manager-pair span { display: block; margin-top: 4px; color: var(--subtle); font-size: 10px; line-height: 1.25; }
-    .staff-entry { width: 100%; min-height: 70px; margin-top: 2px; border-radius: 8px; padding: 14px; background: var(--text); color: #fff; text-align: left; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .staff-entry span { display: block; margin-top: 4px; color: rgba(255,255,255,.68); font-size: 11px; line-height: 1.35; }
-    .staff-entry svg { flex: 0 0 auto; width: 18px; height: 18px; }
-    .staff-tabs { display: flex; gap: 8px; overflow-x: auto; margin: -2px -14px 12px; padding: 0 14px 10px; border-bottom: 1px solid var(--line); scrollbar-width: none; }
-    .staff-tabs::-webkit-scrollbar { display: none; }
-    .staff-tabs button { flex: 0 0 auto; height: 32px; border: 1px solid var(--line); border-radius: 999px; padding: 0 12px; color: var(--muted); background: var(--surface); font-size: 12px; font-weight: 800; }
-    .staff-tabs button.active { border-color: var(--text); background: var(--text); color: #fff; }
-    .staff-board { display: grid; gap: 10px; }
-    .staff-section { padding: 14px; }
-    .staff-section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
-    .staff-section-head b { font-size: 15px; }
-    .staff-section-head span { color: var(--subtle); font-size: 10px; font-weight: 800; text-transform: uppercase; }
-    .staff-sales-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .staff-primary { min-height: 118px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
-    .staff-primary-label { color: var(--subtle); font-size: 10px; font-weight: 800; }
-    .staff-primary-main { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
-    .staff-primary-main .manager-ring { width: 62px; height: 62px; }
-    .staff-primary-main .manager-ring::after { inset: 9px; }
-    .staff-value strong { display: block; font-size: 16px; line-height: 1.15; white-space: nowrap; }
-    .staff-value span { display: block; margin-top: 5px; color: var(--muted); font-size: 10px; line-height: 1.3; }
-    .staff-mini-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
-    .staff-mini { padding: 10px 8px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
-    .staff-mini strong { display: block; font-size: 14px; }
-    .staff-mini span { display: block; margin-top: 4px; color: var(--subtle); font-size: 10px; }
-    .staff-progress-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-    .staff-progress-tile { min-width: 0; padding: 11px 8px; border-right: 1px solid var(--line); background: #fff; }
-    .staff-progress-tile:last-child { border-right: 0; }
-    .staff-progress-tile span { display: block; color: var(--subtle); font-size: 10px; line-height: 1.2; }
-    .staff-progress-tile strong { display: block; margin-top: 5px; font-size: 15px; }
-    .staff-progress-track { height: 5px; border-radius: 999px; background: var(--surface-soft); margin: 8px 0 6px; overflow: hidden; }
-    .staff-progress-track i { display: block; height: 100%; width: var(--p, 0%); background: var(--brand); }
-    .staff-data-layout { display: grid; grid-template-columns: minmax(0, 1fr) 92px; gap: 10px; }
-    .staff-data-list { border-top: 1px solid var(--line); }
-    .staff-data-row { min-height: 34px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 8px; color: var(--muted); font-size: 12px; }
-    .staff-data-row strong { color: var(--text); font-size: 13px; }
-    .staff-focus-card { border: 1px solid var(--line); border-radius: 8px; display: grid; place-items: center; align-content: center; text-align: center; background: var(--surface-soft); padding: 10px; }
-    .staff-focus-card strong { font-size: 22px; }
-    .staff-focus-card span { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.3; }
-    .staff-operation-grid { display: grid; grid-template-columns: 1fr 1.3fr; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
-    .staff-task-block, .staff-wecom-block { padding: 12px; background: #fff; }
-    .staff-task-block { border-right: 1px solid var(--line); }
-    .staff-block-label { color: var(--subtle); font-size: 10px; font-weight: 800; }
-    .staff-task-content { display: flex; align-items: center; gap: 10px; margin-top: 11px; }
-    .staff-task-content .manager-ring { width: 58px; height: 58px; }
-    .staff-task-content .manager-ring::after { inset: 9px; }
-    .staff-task-list { display: grid; gap: 7px; flex: 1; min-width: 0; }
-    .staff-task-list div, .staff-wecom-grid div { display: flex; justify-content: space-between; gap: 5px; color: var(--muted); font-size: 10px; }
-    .staff-task-list strong, .staff-wecom-grid strong { color: var(--text); font-size: 13px; }
-    .staff-wecom-grid { display: grid; gap: 7px; margin-top: 11px; }
-
-    .tool-mask { position: absolute; inset: 0; z-index: 28; background: rgba(0,0,0,.16); }
-    .tool-panel {
-      position: absolute;
-      left: 12px;
-      right: 12px;
-      bottom: calc(var(--tab-h) + 12px);
-      z-index: 29;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
-      padding: 12px;
-      box-shadow: 0 12px 30px rgba(28,33,31,.18);
-    }
-    .tool-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
-    .tool-cell { min-height: 68px; border: 1px solid var(--line); border-radius: 8px; display: grid; place-items: center; align-content: center; gap: 6px; color: var(--brand-strong); font-size: 12px; font-weight: 800; }
-    .tool-cell svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.9; }
-
-    .journey-hud {
-      position: absolute;
-      z-index: 30;
-      left: 12px;
-      right: 12px;
-      bottom: calc(var(--tab-h) + 10px);
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 8px;
-      background: rgba(20, 24, 22, .96);
-      color: #fff;
-      padding: 10px 11px;
-      box-shadow: 0 10px 30px rgba(28,33,31,.16);
-      display: none;
-    }
+    .journey-hud { position: absolute; z-index: 30; right: 12px; bottom: calc(var(--tab-h) + 10px); left: 12px; display: none; padding: 10px 11px; border: 1px solid rgba(255, 255, 255, .18); border-radius: 7px; background: rgba(23, 33, 45, .94); box-shadow: 0 10px 30px rgba(23, 33, 45, .18); color: #fff; }
     .journey-hud.active { display: block; }
     .journey-hud strong { display: block; font-size: 12px; }
-    .journey-hud span { display: block; margin-top: 4px; color: rgba(255,255,255,.78); font-size: 12px; line-height: 1.35; }
+    .journey-hud span { display: block; margin-top: 4px; color: rgba(255, 255, 255, .76); font-size: 12px; line-height: 1.4; }
     .journey-hud .hud-actions { display: flex; gap: 6px; margin-top: 9px; }
-    .journey-hud button { height: 28px; border: 1px solid rgba(255,255,255,.5); color: #fff; padding: 0 9px; font-size: 11px; }
-    .journey-hud button.primary-hud { background: #fff; color: #111; border-color: #fff; }
+    .journey-hud button { min-height: 28px; padding: 0 9px; border: 1px solid rgba(255, 255, 255, .5); border-radius: 5px; color: #fff; font-size: 11px; }
+    .journey-hud .primary-hud { border-color: #fff; background: #fff; color: #17212d; }
 
-    .native-exec { min-height: 100%; background: #eef1f5; color: #111; display: flex; flex-direction: column; }
-    .native-head {
-      height: 88px;
-      display: grid;
-      grid-template-columns: 72px 1fr 72px;
-      align-items: end;
-      padding: 0 14px 16px;
-      border-bottom: 1px solid #e3e7ed;
-      background: #f5f7fa;
-    }
-    .native-head button { color: #111; font-size: 16px; text-align: left; }
-    .native-head-title { text-align: center; font-weight: 800; font-size: 18px; }
-    .native-content { padding: 18px 16px 12px; display: grid; gap: 16px; }
-    .native-recipient, .native-message-card {
-      width: 100%;
-      border: 0;
-      border-radius: 8px;
-      background: #fff;
-      padding: 15px 16px;
-    }
-    .native-recipient { min-height: 52px; display: flex; align-items: center; justify-content: space-between; font-size: 16px; }
-    .native-recipient span:last-child { color: #8a8f99; }
-    .native-label-row { display: flex; align-items: center; justify-content: space-between; padding: 0 1px; font-size: 13px; color: #8a8f99; }
-    .native-link { color: #2f80ed; font-size: 14px; }
-    .native-message-card { min-height: 280px; display: flex; flex-direction: column; }
-    .native-message-text { flex: 1; min-height: 190px; font-size: 17px; line-height: 1.62; color: #161a1d; }
-    .native-attachment { border-top: 1px solid #eceff3; padding-top: 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .native-asset { min-width: 0; display: grid; grid-template-columns: 42px minmax(0,1fr) auto; gap: 10px; align-items: center; }
-    .native-brand-tile { width: 42px; height: 42px; border-radius: 3px; background: #fff; border: 1px solid #eef0f3; display: grid; place-items: center; color: #111; font-size: 13px; font-weight: 800; }
-    .native-asset-title { color: #9aa0aa; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-    .native-chain { color: #9aa0aa; font-size: 18px; }
-    .native-add { width: 38px; height: 38px; border-radius: 6px; display: grid; place-items: center; background: #f5f6fa; color: #8a8f99; font-size: 24px; }
-    .native-send-wrap { display: flex; justify-content: center; padding-top: 28px; }
-    .native-primary { width: 168px; height: 44px; border-radius: 6px; background: #2f80ed; color: #fff; font-weight: 800; font-size: 16px; }
-    .native-note { margin-top: auto; padding: 12px 12px 22px; color: #9aa0aa; font-size: 12px; text-align: center; }
+    /* Native WeCom handoffs stay separate from branded page primitives. */
+    .native-send-wrap { min-height: 100%; background: #f6f6f6; }
+    .native-brand-tile { display: flex; align-items: center; gap: 10px; padding: 13px; border: 1px solid #e7e7e7; border-radius: 6px; background: #fff; color: #303030; }
+    .native-brand-tile::before { content: ""; width: 28px; height: 28px; border-radius: 4px; background: #07c160; }
 
-    .toast {
-      position: absolute;
-      z-index: 60;
-      left: 50%;
-      bottom: calc(var(--tab-h) + 26px);
-      transform: translateX(-50%);
-      max-width: 280px;
-      padding: 9px 12px;
-      border-radius: 7px;
-      background: rgba(20,24,22,.9);
-      color: #fff;
-      font-size: 12px;
-      line-height: 1.4;
-      text-align: center;
-    }
+    .kit-intro { padding: 4px 2px 2px; }
+    .kit-eyebrow { margin: 0; color: var(--brand-strong); font-size: 10px; font-weight: 800; letter-spacing: .08em; }
+    .kit-intro h1 { max-width: 260px; margin: 9px 0 0; font-size: 26px; line-height: 1.14; letter-spacing: 0; }
+    .kit-intro p { margin: 10px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .kit-sample { margin-top: 18px; }
+    .kit-sample .media-frame { padding: 15px; }
+    .kit-sample .media-frame span { display: block; color: rgba(255, 255, 255, .72); font-size: 10px; font-weight: 750; letter-spacing: .08em; }
+    .kit-sample .media-frame strong { display: block; max-width: 210px; margin-top: 30px; font-size: 18px; line-height: 1.25; }
+    .kit-sample .surface-panel { margin-top: 10px; }
+    .kit-hint { margin-top: 16px; color: var(--subtle); font-size: 11px; line-height: 1.5; }
 
-    body.mobile { background: var(--bg); }
-    body.mobile .stage { min-height: 100dvh; padding: 0; display: block; }
-    body.mobile .stage-header, body.mobile .stage-controls { display: none; }
-    body.mobile .phone-wrap { display: block; width: 100vw; height: 100dvh; min-height: 100dvh; }
-    body.mobile .phone {
-      position: relative;
-      left: auto;
-      top: auto;
-      width: 100vw;
-      height: 100dvh;
-      transform: none;
-      border: 0;
-      border-radius: 0;
-      box-shadow: none;
-    }
-    body.mobile .phone::before, body.mobile .statusbar { display: none; }
-    body.mobile .screen { border-radius: 0; }
-
-    @media (max-width: 740px) {
-      body:not(.desktop) .stage { min-height: 100dvh; padding: 0; display: block; }
-      body:not(.desktop) .stage-header, body:not(.desktop) .stage-controls { display: none; }
-      body:not(.desktop) .phone-wrap { display: block; width: 100vw; height: 100dvh; min-height: 100dvh; }
-      body:not(.desktop) .phone {
-        position: relative;
-        left: auto;
-        top: auto;
-        width: 100vw;
-        height: 100dvh;
-        transform: none;
-        border: 0;
-        border-radius: 0;
-        box-shadow: none;
-      }
-      body:not(.desktop) .phone::before, body:not(.desktop) .statusbar { display: none; }
-      body:not(.desktop) .screen { border-radius: 0; }
+    @media (max-width: 620px), (max-height: 760px) {
+      body.mobile { background: var(--bg); }
+      body.mobile .stage { min-height: 100dvh; height: 100dvh; padding: 0; display: block; background: var(--bg); }
+      body.mobile .stage-header, body.mobile .stage-controls { display: none; }
+      body.mobile .phone-wrap { width: 100%; height: 100dvh; }
+      body.mobile .phone { position: fixed; inset: 0; width: 100%; height: 100dvh; transform: none; border: 0; border-radius: 0; box-shadow: none; }
+      body.mobile .phone::before { display: none; }
+      body.mobile .screen { border-radius: 0; }
     }
   </style>
 </head>
 <body>
-  <main class="stage">
+  <main class="stage" data-shell-kit="wecom-clienteling-v3">
     <header class="stage-header">
-      <div class="stage-title">
-        <strong>WeCom Clienteling Prototype Shell</strong>
-        <span>Responsive mini-program frame, business-role switching, journeys, and native page handoff.</span>
-      </div>
-    </header>
-
-    <section class="stage-controls" aria-label="Prototype review controls">
-      <div class="control-group">
-        <span class="control-label">角色</span>
-        <select class="select" id="roleSelect" aria-label="业务角色选择"></select>
-      </div>
-      <div class="control-group">
-        <button class="stage-btn" id="modeBtn" type="button"></button>
-        <select class="select" id="journeySelect" aria-label="Journey 选择"></select>
-        <button class="stage-btn" id="resetJourneyBtn" type="button">重置</button>
-      </div>
-      <div class="control-group">
-        <span class="control-label">入口</span>
-        <button class="stage-btn" type="button" data-route="home"><span data-icon="home"></span>首页</button>
-        <button class="stage-btn" type="button" data-route="clients"><span data-icon="users"></span>客户</button>
-        <button class="stage-btn" type="button" data-route="tasks"><span data-icon="list"></span>任务</button>
-        <button class="stage-btn" type="button" data-route="appointment"><span data-icon="calendar"></span>预约</button>
-      </div>
-    </section>
-
-    <div class="phone-wrap">
-      <section class="phone" aria-label="WeCom mini-program prototype">
-        <div class="statusbar">
-          <span>9:41</span>
-          <span class="status-network">5G</span>
+      <div class="stage-mark">
+        <div class="stage-title">
+          <strong>WeCom Clienteling Shell Kit</strong>
+          <span>Protected frame and page primitives</span>
         </div>
-        <div id="app" class="screen"></div>
+      </div>
+      <span class="stage-status">390 x 844</span>
+    </header>
+    <section class="stage-controls" id="stageControls" aria-label="Prototype review controls"></section>
+    <div class="phone-wrap">
+      <section class="phone">
+        <div class="screen">
+          <div class="statusbar"><span>9:41</span><span class="status-network">5G</span></div>
+          <div id="app"></div>
+        </div>
       </section>
     </div>
   </main>
 
   <script>
-    const params = new URLSearchParams(location.search);
-    const PROJECT = {
-      appTitle: "Clienteling",
-      frontlineTerm: params.get("term") || "顾问",
-      roleLabels: {
-        frontline: "顾问视角",
-        manager: "店长视角",
-        hq: "总部视角"
-      }
-    };
-
-    const state = {
-      route: location.hash.replace("#", "") || "home",
-      role: params.get("role") || "frontline",
-      journeyMode: false,
+    /*
+     * This file is a shell kit, not a client project or a reusable home-page template.
+     * Preserve the frame/helpers. Replace renderKitPreview with project data, routes, pages,
+     * navigation, and interactions before delivering a prototype.
+     */
+    const shellState = { route: "kit", activeTab: "", tabs: [] };
+    const kitReviewConfig = {
+      labels: {
+        role: "Role",
+        mode: "Mode",
+        entry: "Entry",
+        browse: "Free browse",
+        journey: "Journey demo",
+        chooseJourney: "Configure journeys",
+        configureRole: "Configure roles",
+        reset: "Reset"
+      },
+      roles: [],
+      activeRole: "",
+      mode: "browse",
+      journeys: [],
       activeJourney: "",
-      journeyStep: 0,
-      previousRoute: "home",
-      query: "",
-      clientScope: "all",
-      taskType: "all",
-      selectedClient: "c1",
-      selectedTask: "t1",
-      managerPeriod: "month",
-      selectedStaff: "s1",
-      filterCategory: "level",
-      filters: { level: "all", lifecycle: "all", contact: "all" },
-      toast: ""
+      entries: []
     };
-
-    const roles = ["frontline", "manager", "hq"];
-
-    const customers = [
-      { id: "c1", name: "王思琦", level: "高价值客户", lifecycle: "生日关怀", contact: "已添加企微", owner: "门店顾问", amount: "近30日消费 ¥12k", last: "上次触达 7/10", next: "生日关怀 + 专属邀约", due: "截止 7/14", preference: "偏好新品预览与到店体验" },
-      { id: "c2", name: "陈晓晓", level: "潜力客户", lifecycle: "复购唤醒", contact: "已添加企微", owner: "门店顾问", amount: "历史消费 ¥24k", last: "90 天未购", next: "复购唤醒 + 新品推荐", due: "截止 7/18", preference: "关注护肤套组与礼赠活动" },
-      { id: "c3", name: "林嘉怡", level: "新客", lifecycle: "入会欢迎", contact: "待补充偏好", owner: "门店顾问", amount: "首单 ¥1.8k", last: "入会 3 天", next: "欢迎触达 + 偏好补充", due: "今日", preference: "待确认偏好" },
-      { id: "c4", name: "周安然", level: "普通客户", lifecycle: "待注册", contact: "企微好友未注册", owner: "门店顾问", amount: "暂无消费", last: "昨日添加", next: "发送注册邀请", due: "今日", preference: "从企微添加进入" }
-    ];
-
-    const tasks = [
-      { id: "t1", type: "native", source: "总部活动", title: "高价值客户复购提醒", detail: "18 位客户 · 话术与素材已就绪", progress: 30, targetIds: ["c1", "c2"], action: "进入企微群发", due: "今日" },
-      { id: "t2", type: "moments", source: "新品内容", title: "重点单品内容发布", detail: "推荐文案 + 3 张素材已就绪", progress: 0, targetIds: [], action: "查看素材", due: "今日" },
-      { id: "t3", type: "1v1", source: "门店任务", title: "预约到店确认", detail: "6 位客户 · 需确认时间与顾问", progress: 67, targetIds: ["c3"], action: "处理", due: "今日" }
-    ];
-
-    const appointments = [
-      { id: "a1", time: "10:30", customerId: "c1", service: "到店体验", owner: "门店顾问", status: "待确认", note: "需发送确认信息" },
-      { id: "a2", time: "14:00", customerId: "c2", service: "新品咨询", owner: "门店顾问", status: "已确认", note: "已同步门店资源" },
-      { id: "a3", time: "16:30", customerId: "c3", service: "入会欢迎", owner: "门店顾问", status: "待回填", note: "完成后记录偏好" }
-    ];
-
-    const managerPeriods = ["today", "week", "month", "year"];
-    const managerMetrics = {
-      today: {
-        sales: "¥42.8k", target: 82, dailySales: "¥42.8k", orders: 12, basket: "¥3,567", unit: "1.7",
-        newCustomers: 9, newRate: 75, returning: 18, returnRate: 64,
-        arrived: 6, conversion: 50, contribution: "¥26.8k", coming: 11,
-        completed: 42, completion: 72, toComplete: 16,
-        contacts: 28, binding: 61, lost: 3, outreach: 146, reply: "38%"
-      },
-      week: {
-        sales: "¥156k", target: 71, dailySales: "¥31.2k", orders: 43, basket: "¥3,628", unit: "1.6",
-        newCustomers: 31, newRate: 69, returning: 74, returnRate: 66,
-        arrived: 23, conversion: 48, contribution: "¥82k", coming: 36,
-        completed: 156, completion: 76, toComplete: 49,
-        contacts: 102, binding: 63, lost: 9, outreach: 512, reply: "41%"
-      },
-      month: {
-        sales: "¥386k", target: 68, dailySales: "¥27.6k", orders: 86, basket: "¥4,488", unit: "1.5",
-        newCustomers: 58, newRate: 72, returning: 200, returnRate: 72,
-        arrived: 58, conversion: 46, contribution: "¥118k", coming: 42,
-        completed: 336, completion: 84, toComplete: 64,
-        contacts: 186, binding: 67, lost: 17, outreach: 1236, reply: "43%"
-      },
-      year: {
-        sales: "¥3.18m", target: 78, dailySales: "¥17.6k", orders: 924, basket: "¥3,442", unit: "1.6",
-        newCustomers: 692, newRate: 81, returning: 1864, returnRate: 74,
-        arrived: 648, conversion: 49, contribution: "¥1.24m", coming: 76,
-        completed: 3842, completion: 87, toComplete: 572,
-        contacts: 2148, binding: 69, lost: 126, outreach: 12860, reply: "45%"
-      }
-    };
-
-    const staffPerformanceRows = [
-      { id: "s1", name: "林夏", scope: "门店 A", sales: 96000, target: 78, orders: 18, basket: "¥5,333", unit: "1.8", newCustomers: 12, newRate: 82, returning: 42, returnRate: 76, binding: 68, arrived: 8, conversion: 54, contribution: "¥41k", coming: 6, tasks: 82, completed: 72, contacts: 28, lost: 2, outreach: 146, reply: "46%" },
-      { id: "s2", name: "周岚", scope: "门店 A", sales: 84000, target: 69, orders: 16, basket: "¥5,250", unit: "1.6", newCustomers: 10, newRate: 74, returning: 36, returnRate: 70, binding: 62, arrived: 7, conversion: 48, contribution: "¥35k", coming: 7, tasks: 76, completed: 64, contacts: 24, lost: 3, outreach: 132, reply: "41%" },
-      { id: "s3", name: "许宁", scope: "门店 B", sales: 72000, target: 63, orders: 14, basket: "¥5,143", unit: "1.7", newCustomers: 8, newRate: 68, returning: 34, returnRate: 66, binding: 64, arrived: 6, conversion: 46, contribution: "¥31k", coming: 5, tasks: 68, completed: 59, contacts: 22, lost: 1, outreach: 118, reply: "39%" },
-      { id: "s4", name: "何乐", scope: "门店 B", sales: 65000, target: 58, orders: 13, basket: "¥5,000", unit: "1.5", newCustomers: 7, newRate: 62, returning: 31, returnRate: 61, binding: 58, arrived: 5, conversion: 42, contribution: "¥24k", coming: 4, tasks: 64, completed: 51, contacts: 18, lost: 2, outreach: 96, reply: "35%" }
-    ];
-
-    const journeys = {
-      daily: { name: "每日工作台", role: "frontline", steps: [
-        { route: "home", title: "查看今日重点", note: "首页只承载今日任务、重点客户和预约摘要。" },
-        { route: "taskDetail", task: "t1", title: "进入任务详情", note: "任务详情展示渠道、客户目标、素材状态和结果回填。" }
-      ] },
-      client: { name: "客户查找与 C360", role: "frontline", steps: [
-        { route: "clients", title: "搜索与筛选客户", note: "客户列表包含可操作搜索、筛选和客户卡片入口。" },
-        { route: "c360", client: "c1", title: "查看客户详情", note: "C360 展示客户状态、最近互动、任务和可执行动作。" }
-      ] },
-      native: { name: "企微原生群发", role: "frontline", steps: [
-        { route: "taskDetail", task: "t1", title: "从任务进入原生页", note: "原生群发只能从任务详情等业务触点进入。" },
-        { route: "nativeBroadcast", task: "t1", title: "复刻新建群发", note: "原生页隐藏小程序 tabbar，并保留发送对象、内容、附件和频控说明。" }
-      ] }
-    };
-
-    const tabs = [
-      ["home", "首页", "home"],
-      ["clients", "客户", "users"],
-      ["__tool", "快捷", "plus"],
-      ["tasks", "任务", "list"],
-      ["appointment", "预约", "calendar"]
-    ];
+    let reviewConfig = { ...kitReviewConfig };
 
     function icon(name) {
       const paths = {
-        home: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/>',
-        users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
-        list: '<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>',
-        calendar: '<path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/>',
-        plus: '<path d="M12 5v14"/><path d="M5 12h14"/>',
-        grid: '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
-        search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>',
-        filter: '<path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/>',
+        grid: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+        users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+        list: '<path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/>',
+        calendar: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+        plus: '<path d="M12 5v14M5 12h14"/>',
         chevron: '<path d="m9 18 6-6-6-6"/>',
-        send: '<path d="m22 2-7 20-4-9-9-4 20-7Z"/><path d="M22 2 11 13"/>',
-        bag: '<path d="M6 7h12l1 14H5L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/>',
-        chart: '<path d="M3 3v18h18"/><path d="M7 15v2"/><path d="M12 10v7"/><path d="M17 6v11"/>',
-        link: '<path d="M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 0 0-7.07-7.07L10.9 5.03"/><path d="M14 11a5 5 0 0 0-7.07 0L4.81 13.12a5 5 0 0 0 7.07 7.07l1.22-1.22"/>',
-        back: '<path d="m15 18-6-6 6-6"/>',
-        user: '<path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="7" r="4"/>'
+        search: '<circle cx="11" cy="11" r="6"/><path d="m20 20-4-4"/>',
+        tune: '<path d="M4 7h16M7 7v0M4 17h16M17 17v0"/>',
+        arrow: '<path d="m15 18-6-6 6-6"/>'
       };
-      return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (paths[name] || paths.home) + '</svg>';
+      return `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.grid}</svg>`;
     }
 
-    function mountIcons(root = document) {
-      root.querySelectorAll("[data-icon]").forEach((node) => { node.innerHTML = icon(node.dataset.icon); });
+    function wecomCapsule() {
+      return '<div class="wx-capsule" aria-label="WeCom controls"><span class="wx-capsule-dot"></span><i class="wx-capsule-line"></i><span class="wx-capsule-circle"></span></div>';
     }
 
-    function customerById(id) { return customers.find((c) => c.id === id) || customers[0]; }
-    function taskById(id) { return tasks.find((t) => t.id === id) || tasks[0]; }
-    function activeRoleLabel() { return PROJECT.roleLabels[state.role] || PROJECT.roleLabels.frontline; }
-    function roleScopeLabel() { return state.role === "frontline" ? PROJECT.frontlineTerm : activeRoleLabel(); }
-    function frontlineTerm() { return PROJECT.frontlineTerm || "顾问"; }
-    function managerScopeText() { return state.role === "hq" ? "总部 / 区域视角" : "门店视角"; }
-    function managerData() { return managerMetrics[state.managerPeriod] || managerMetrics.month; }
-    function staffById(id) { return staffPerformanceRows.find((staff) => staff.id === id) || staffPerformanceRows[0]; }
-    function pctNumber(value) { return Number(String(value).replace("%", "")) || 0; }
-    function clampPct(value) { return Math.max(0, Math.min(100, pctNumber(value))); }
-    function managerPeriodLabel(period) {
-      return ({ today: "今日", week: "本周", month: "本月", year: "本年" })[period] || "本月";
-    }
-    function managerPeriodPills() {
-      return '<div class="manager-period-pills" aria-label="经营周期">' + managerPeriods.map((period) => '<button type="button" class="' + (state.managerPeriod === period ? "active" : "") + '" data-manager-period="' + period + '">' + managerPeriodLabel(period) + '</button>').join("") + '</div>';
-    }
-    function managerPair(value, label) {
-      return '<div class="manager-pair"><strong>' + value + '</strong><span>' + label + '</span></div>';
-    }
-    function managerDashboardCard(title, meta, rate, rows, pairs, note) {
-      return '<section class="card manager-card"><div class="manager-card-head"><div class="manager-card-title">' + title + '</div><div class="manager-card-meta">' + meta + '</div></div><div class="manager-split"><div><div class="manager-ring" style="--pdeg:' + clampPct(rate) * 3.6 + 'deg"><strong>' + clampPct(rate) + '%</strong></div><div class="manager-ring-note">' + note + '</div></div><div class="manager-mini-list">' + rows.map((row) => '<div class="manager-mini-row"><span>' + row[0] + '</span><strong>' + row[1] + '</strong></div>').join("") + '</div></div>' + (pairs && pairs.length ? '<div class="manager-pair-grid">' + pairs.map((pair) => managerPair(pair[0], pair[1])).join("") + '</div>' : "") + '</section>';
-    }
-    function staffMini(label, value) {
-      return '<div class="staff-mini"><strong>' + value + '</strong><span>' + label + '</span></div>';
-    }
-    function staffProgress(label, value, rate, note) {
-      return '<div class="staff-progress-tile"><span>' + label + '</span><strong>' + value + '</strong><div class="staff-progress-track"><i style="--p:' + clampPct(rate) + '%"></i></div><span>' + note + '</span></div>';
-    }
-    function staffDataRow(label, value) {
-      return '<div class="staff-data-row"><span>' + label + '</span><strong>' + value + '</strong></div>';
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>'"]/g, (character) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
+      })[character]);
     }
 
-    function navigate(route, payload = {}) {
-      state.previousRoute = state.route;
-      state.route = route;
-      if (payload.client) state.selectedClient = payload.client;
-      if (payload.task) state.selectedTask = payload.task;
-      state.toolOpen = false;
-      location.hash = route;
-      render();
+    function optionMarkup(items, selected, fallback) {
+      if (!items.length) return `<option value="">${escapeHtml(fallback)}</option>`;
+      return items.map((item) => `<option value="${escapeHtml(item.id)}"${item.id === selected ? ' selected' : ''}>${escapeHtml(item.label)}</option>`).join('');
     }
 
-    function goTab(route) {
-      if (route === "__tool") {
-        state.toolOpen = !state.toolOpen;
-        render();
-        return;
-      }
-      state.previousRoute = "home";
-      state.route = route;
-      state.toolOpen = false;
-      location.hash = route;
-      render();
+    function reviewControls(config) {
+      const labels = { ...kitReviewConfig.labels, ...(config.labels || {}) };
+      const roles = Array.isArray(config.roles) ? config.roles : [];
+      const journeys = Array.isArray(config.journeys) ? config.journeys : [];
+      const entries = Array.isArray(config.entries) ? config.entries : [];
+      const mode = config.mode === 'journey' ? 'journey' : 'browse';
+      const roleDisabled = roles.length < 2 || mode === 'journey';
+      const journeyDisabled = mode !== 'journey' || !journeys.length;
+      return `
+        <div class="control-group">
+          <span class="control-label">${escapeHtml(labels.role)}</span>
+          <select class="select" id="roleSelect" data-review-control="role" aria-label="${escapeHtml(labels.role)}"${roleDisabled ? ' disabled' : ''}>${optionMarkup(roles, config.activeRole, labels.configureRole)}</select>
+        </div>
+        <div class="control-group">
+          <button class="stage-btn" id="modeBtn" type="button" data-review-control="mode">${escapeHtml(labels.mode)}: ${escapeHtml(mode === 'journey' ? labels.journey : labels.browse)}</button>
+          <select class="select" id="journeySelect" data-review-control="journey" aria-label="${escapeHtml(labels.journey)}"${journeyDisabled ? ' disabled' : ''}>${optionMarkup(journeys, config.activeJourney, labels.chooseJourney)}</select>
+          <button class="stage-btn" type="button" data-review-control="journey-reset"${mode !== 'journey' || !config.activeJourney ? ' disabled' : ''}>${escapeHtml(labels.reset)}</button>
+        </div>
+        ${entries.length ? `<div class="control-group review-entry">
+          <span class="control-label">${escapeHtml(labels.entry)}</span>
+          ${entries.map((entry) => `<button class="stage-btn" type="button" data-review-entry="${escapeHtml(entry.id)}"><span>${icon(entry.icon || 'grid')}</span>${escapeHtml(entry.label)}</button>`).join('')}
+        </div>` : ''}
+        <div class="control-group">
+          <button class="stage-btn" type="button" data-stage-action="fit">Fit</button>
+        </div>`;
     }
 
-    function goBack() {
-      state.route = state.previousRoute || "home";
-      state.toolOpen = false;
-      location.hash = state.route;
-      render();
-    }
-
-    function toast(message) {
-      state.toast = message;
-      render();
-      window.clearTimeout(toast.timer);
-      toast.timer = window.setTimeout(() => { state.toast = ""; render(); }, 1600);
-    }
-
-    function detectViewportMode() {
-      const view = params.get("view");
-      const requestedMobile = view === "mobile";
-      const requestedDesktop = view === "desktop";
-      const autoMobile = /iPhone|iPad|iPod|Android|Mobile|HarmonyOS|WeChat/i.test(navigator.userAgent) || window.innerWidth < 768;
-      document.body.classList.toggle("desktop", requestedDesktop);
-      document.body.classList.toggle("mobile", requestedMobile || (!requestedDesktop && autoMobile));
-    }
-
-    function fitDesktopPhone() {
-      const wrap = document.querySelector(".phone-wrap");
-      if (document.body.classList.contains("mobile")) {
-        document.documentElement.style.setProperty("--desktop-phone-scale", "1");
-        if (wrap) { wrap.style.width = "100vw"; wrap.style.height = "100dvh"; }
-        return;
-      }
-      const header = document.querySelector(".stage-header");
-      const controls = document.querySelector(".stage-controls");
-      const usedHeight = (header ? header.offsetHeight : 0) + (controls ? controls.offsetHeight : 0) + 40;
-      const availableHeight = Math.max(180, window.innerHeight - usedHeight);
-      const availableWidth = Math.max(280, Math.min(920, window.innerWidth - 32));
-      const scale = Math.max(0.25, Math.min(1, availableHeight / 844, availableWidth / 390));
-      document.documentElement.style.setProperty("--desktop-phone-scale", String(scale));
-      if (wrap) { wrap.style.width = (390 * scale) + "px"; wrap.style.height = (844 * scale) + "px"; }
-    }
-
-    function wxNav(title, back = false) {
-      const left = back ? '<button class="wx-nav-left" type="button" data-back aria-label="返回"></button>' : '<span class="wx-nav-left placeholder"></span>';
-      return '<nav class="wx-nav">' + left + '<div class="wx-nav-title">' + title + '</div><div class="wx-capsule" aria-label="微信小程序胶囊按钮"><button class="wx-capsule-dot" type="button" aria-label="更多"></button><span class="wx-capsule-line"></span><button class="wx-capsule-circle" type="button" aria-label="关闭"></button></div></nav>';
-    }
-
-    function tabbar(active) {
-      const mapped = ["dashboard", "transfer"].includes(active) ? "__tool" : active;
-      return '<footer class="tabbar" data-nav-model="starter-five" aria-label="小程序底部导航">' + tabs.map(([route, label, iconName]) => {
-        const activeClass = mapped === route ? " active" : "";
-        const centerClass = route === "__tool" ? " center" : "";
-        return '<button class="tab' + centerClass + activeClass + '" type="button" data-tab="' + route + '"><span class="tab-ic">' + icon(iconName) + '</span><span>' + label + '</span></button>';
-      }).join("") + '</footer>';
-    }
-
-    function journeyHud() {
-      if (!state.journeyMode || !state.activeJourney) return "";
-      const journey = journeys[state.activeJourney];
-      const step = journey && journey.steps[state.journeyStep];
-      if (!journey || !step) return "";
-      return '<aside class="journey-hud active"><strong>' + journey.name + ' · ' + (state.journeyStep + 1) + '/' + journey.steps.length + '</strong><span>' + step.title + '：' + step.note + '</span><div class="hud-actions"><button type="button" data-journey-prev>上一步</button><button class="primary-hud" type="button" data-journey-next>' + (state.journeyStep === journey.steps.length - 1 ? "完成" : "下一步") + '</button><button type="button" data-journey-exit>退出</button></div></aside>';
-    }
-
-    function appShell({ title, back = false, tab = state.route, showTabbar = true, body = "" }) {
-      const hasActions = body.includes("sticky-actions");
-      const pageClass = "app-page" + (hasActions ? " has-actions" : "") + (showTabbar ? " has-tabbar" : " no-tabbar");
-      const moduleGrammarByTitle = {
-        "工作台": "triage-board",
-        "客户": "ranked-ledger",
-        "客户详情": "timeline-dossier",
-        "任务": "guided-checklist",
-        "任务详情": "guided-checklist",
-        "预约": "agenda",
-        "预约详情": "agenda",
-        "管理看板": "exception-matrix",
-        "看板": "exception-matrix"
+    function mountReviewControls(config = kitReviewConfig) {
+      reviewConfig = {
+        ...kitReviewConfig,
+        ...config,
+        labels: { ...kitReviewConfig.labels, ...(config.labels || {}) }
       };
-      const pageArchitectureByTitle = {
-        "工作台": "queue-first-workbench",
-        "客户详情": "sectioned-dossier",
-        "任务详情": "guided-execution",
-        "预约详情": "preparation-led-service"
-      };
-      const grammar = moduleGrammarByTitle[title] || "supporting-flow";
-      const architecture = pageArchitectureByTitle[title] || "supporting-flow";
-      return '<div class="' + pageClass + '" data-layout-mode="open-generative">' + wxNav(title, back) + '<main class="body' + (showTabbar ? "" : " no-tab") + '" data-module-grammar="' + grammar + '" data-page-architecture="' + architecture + '">' + body + '</main>' + journeyHud() + (showTabbar ? tabbar(tab) : "") + toolPanel() + toastMarkup() + '</div>';
+      document.getElementById('stageControls').innerHTML = reviewControls(reviewConfig);
     }
 
-    function nativeShell(body) {
-      return '<div class="app-page">' + body + toastMarkup() + '</div>';
+    function emitReviewChange(type, value = '') {
+      window.dispatchEvent(new CustomEvent('wecom-review-change', {
+        detail: { type, value, config: reviewConfig }
+      }));
     }
 
-    function toastMarkup() {
-      return state.toast ? '<div class="toast">' + state.toast + '</div>' : "";
+    function journeyHud({ journeyName, stepLabel, note, canGoPrevious = false, nextLabel = 'Next', labels = {} }) {
+      if (!journeyName || !note) return '';
+      const copy = { previous: 'Previous', exit: 'Exit', ...labels };
+      return `<aside class="journey-hud active" aria-live="polite"><strong>${escapeHtml(journeyName)}${stepLabel ? ` · ${escapeHtml(stepLabel)}` : ''}</strong><span>${escapeHtml(note)}</span><div class="hud-actions"><button type="button" data-journey-action="previous"${canGoPrevious ? '' : ' disabled'}>${escapeHtml(copy.previous)}</button><button class="primary-hud" type="button" data-journey-action="next">${escapeHtml(nextLabel)}</button><button type="button" data-journey-action="exit">${escapeHtml(copy.exit)}</button></div></aside>`;
     }
 
-    function sectionHead(title, route) {
-      return '<div class="section-head"><h2>' + title + '</h2>' + (route ? '<button class="section-link" type="button" data-route="' + route + '">查看全部 ' + icon("chevron") + '</button>' : "") + '</div>';
+    function tabbar(items, activeTab) {
+      if (!items.length) return '';
+      const tabs = items.map((item) => {
+        const active = item.id === activeTab ? ' active' : '';
+        const center = item.center ? ' center' : '';
+        return `<button class="tab${active}${center}" type="button" data-route="${item.id}"><span class="tab-ic">${icon(item.icon)}</span><span>${item.label}</span></button>`;
+      }).join('');
+      return `<nav class="tabbar" style="--tab-count:${items.length}" aria-label="Primary navigation">${tabs}</nav>`;
     }
 
-    function clientCard(client) {
-      return '<button class="card client-card" type="button" data-signature-interaction="priority-to-followup" data-client="' + client.id + '"><div class="avatar">' + client.name.slice(0,1) + '</div><div><h3>' + client.name + '</h3><div class="meta">' + client.amount + '</div><div class="badge-row"><span class="badge">' + client.level + '</span><span class="badge">' + client.lifecycle + '</span></div><div class="meta" style="margin-top:8px">' + client.next + '</div></div><div class="meta" style="text-align:right">' + client.due + '</div></button>';
+    function appShell({ title, back = false, body = '', tabs = [], activeTab = '', actions = '', journey = '' }) {
+      const hasTabbar = tabs.length > 0;
+      const pageClass = `${hasTabbar ? ' has-tabbar' : ''}${actions ? ' has-actions' : ''}`;
+      return `
+        <article class="app-page${pageClass}">
+          <header class="wx-nav">
+            <button class="wx-nav-left${back ? '' : ' placeholder'}" type="button" data-back aria-label="Back"></button>
+            <div class="wx-nav-title">${title}</div>
+            ${wecomCapsule()}
+          </header>
+          <div class="body${hasTabbar ? '' : ' no-tab'}">${body}</div>
+          ${actions ? `<footer class="sticky-actions">${actions}</footer>` : ''}
+          ${tabbar(tabs, activeTab)}
+          ${journey}
+        </article>`;
     }
 
-    function taskCard(task) {
-      return '<button class="card task-card" type="button" data-task="' + task.id + '"><div class="task-top"><div><div class="badge-row" style="margin-top:0"><span class="badge">' + task.type + '</span><span class="badge">' + task.source + '</span></div><h3 style="margin-top:10px">' + task.title + '</h3><div class="meta" style="margin-top:8px">' + task.detail + '</div></div><span class="section-link">' + task.action + ' ' + icon("chevron") + '</span></div><div class="progress"><i style="--p:' + task.progress + '%"></i></div><div class="meta" style="display:flex;justify-content:space-between;margin-top:8px"><span>已处理 ' + task.progress + '%</span><span>' + task.due + '</span></div></button>';
+    function nativeSendFrame({ title = '新建群发', body = '', footer = '' }) {
+      return `
+        <article class="app-page native-send-wrap">
+          <header class="wx-nav"><button class="wx-nav-left" type="button" data-back aria-label="Back"></button><div class="wx-nav-title">${title}</div>${wecomCapsule()}</header>
+          <div class="body no-tab">${body}</div>
+          ${footer ? `<footer class="sticky-actions">${footer}</footer>` : ''}
+        </article>`;
     }
 
-    function appointmentRow(appt) {
-      const customer = customerById(appt.customerId);
-      return '<button class="card appt-row" type="button" data-appt="' + appt.id + '"><div class="time">' + appt.time + '</div><div><h3>' + customer.name + '</h3><div class="meta">' + appt.service + ' · ' + appt.owner + '</div><div class="badge-row"><span class="badge">' + appt.status + '</span></div></div><span class="section-link">' + icon("chevron") + '</span></button>';
-    }
-
-    function homePage() {
-      const metrics = state.role === "frontline"
-        ? [["6", "今日任务"], ["3", "预约确认"], ["72%", "触达进度"]]
-        : [["24", "团队任务"], ["11", "今日预约"], ["68%", "完成率"]];
-      return appShell({
-        title: "工作台",
-        tab: "home",
-        body: '<section class="hero" data-business-axis="daily-priority-queue" data-page-architecture="queue-first-workbench" data-module-grammar="triage-board"><div class="hero-kicker">' + activeRoleLabel() + ' · 今日</div><div class="hero-main"><h1>今日待办<br>' + roleScopeLabel() + ' 客户经营</h1><div class="role-chip">' + PROJECT.frontlineTerm + '</div></div><div class="stat-row">' + metrics.map((m) => '<button class="stat" data-home-kpi type="button" data-route="' + (m[1].includes("预约") ? "appointment" : m[1].includes("任务") ? "tasks" : "dashboard") + '"><strong>' + m[0] + '</strong><span data-metric-label>' + m[1] + '</span></button>').join("") + '</div></section><section class="section" data-home-operational="priority-clients">' + sectionHead("重点客户（3）", "clients") + customers.slice(0, 2).map(clientCard).join("") + '</section><section class="section" data-home-operational="today-tasks">' + sectionHead("今日任务（3）", "tasks") + tasks.slice(0, 2).map(taskCard).join("") + '</section>'
-      });
-    }
-
-    function filteredCustomers() {
-      return customers.filter((client) => {
-        const q = state.query.trim();
-        if (q && !client.name.includes(q) && !client.level.includes(q) && !client.lifecycle.includes(q)) return false;
-        if (state.clientScope === "wecom" && !client.contact.includes("企微")) return false;
-        if (state.clientScope === "todo" && !client.next) return false;
-        if (state.filters.level !== "all" && client.level !== state.filters.level) return false;
-        if (state.filters.lifecycle !== "all" && client.lifecycle !== state.filters.lifecycle) return false;
-        if (state.filters.contact !== "all" && client.contact !== state.filters.contact) return false;
-        return true;
-      });
-    }
-
-    function clientsPage() {
-      const list = filteredCustomers();
-      return appShell({
-        title: "客户",
-        tab: "clients",
-        body: '<div class="toolbar"><label class="search">' + icon("search") + '<input id="clientSearch" value="' + state.query + '" placeholder="搜索客户姓名、标签、客户状态" /></label><button class="filter-btn" type="button" data-route="filter" aria-label="筛选">' + icon("filter") + '</button></div><div class="tabs">' + scopePill("all", "全部") + scopePill("todo", "待跟进") + scopePill("wecom", "企微客户") + '</div><div class="meta" style="margin-bottom:10px">共 ' + list.length + ' 位客户 · 当前角色：' + activeRoleLabel() + '</div>' + (list.length ? list.map(clientCard).join("") : '<div class="disabled-note">暂无匹配客户。可清空搜索或调整筛选条件。</div>')
-      });
-    }
-
-    function scopePill(value, label) {
-      return '<button class="pill' + (state.clientScope === value ? " active" : "") + '" type="button" data-scope="' + value + '">' + label + '</button>';
-    }
-
-    function filterPage() {
-      const groups = {
-        level: ["会员等级", ["all", "全部"], ["高价值客户", "高价值客户"], ["潜力客户", "潜力客户"], ["新客", "新客"]],
-        lifecycle: ["生命周期", ["all", "全部"], ["生日关怀", "生日关怀"], ["复购唤醒", "复购唤醒"], ["入会欢迎", "入会欢迎"]],
-        contact: ["企微状态", ["all", "全部"], ["已添加企微", "已添加企微"], ["企微好友未注册", "企微好友未注册"]]
-      };
-      const active = groups[state.filterCategory] || groups.level;
-      const side = Object.entries(groups).map(([key, value]) => '<button class="' + (state.filterCategory === key ? "active" : "") + '" type="button" data-filter-category="' + key + '">' + value[0] + '</button>').join("");
-      const options = active.slice(1).map(([value, label]) => '<button class="filter-option' + (state.filters[state.filterCategory] === value ? " active" : "") + '" type="button" data-filter-value="' + value + '"><span>' + label + '</span><span>' + (state.filters[state.filterCategory] === value ? "已选" : "") + '</span></button>').join("");
-      return appShell({
-        title: "客户筛选",
-        back: true,
-        showTabbar: false,
-        body: '<div class="filter-layout"><div class="filter-side">' + side + '</div><div class="filter-pane">' + options + '</div></div><div class="sticky-actions"><button class="secondary" type="button" data-reset-filter>重置</button><button class="primary" type="button" data-route="clients">应用筛选</button></div>'
-      });
-    }
-
-    function c360Page() {
-      const client = customerById(state.selectedClient);
-      const canContact = client.contact === "已添加企微";
-      return appShell({
-        title: "客户详情",
-        back: true,
-        showTabbar: false,
-        body: '<section class="card detail-head" data-info-capability="identity relationship"><div style="display:flex;gap:12px;align-items:start"><div class="avatar">' + client.name.slice(0,1) + '</div><div style="flex:1;min-width:0"><h1 class="detail-title">' + client.name + '</h1><div class="meta" style="margin-top:4px">' + client.owner + ' · ' + client.contact + '</div><div class="badge-row"><span class="badge">' + client.level + '</span><span class="badge">' + client.lifecycle + '</span></div></div></div></section><section class="section" data-info-capability="value recency">' + sectionHead("价值与近期动态", "") + '<div class="card kv-grid"><span>消费摘要</span><strong>' + client.amount + '</strong><span>最近互动</span><strong>' + client.last + '</strong><span>数据更新</span><strong>今日 09:20</strong></div></section><section class="section" data-info-capability="operating-context">' + sectionHead("当前经营动作", "") + '<button class="card task-card" type="button" data-task="t1"><div class="task-top"><div><h3>' + client.next + '</h3><div class="meta" style="margin-top:6px">客户状态触发 · 今日 18:00 前完成 · 需记录结果</div></div><span class="section-link">查看任务 ' + icon("chevron") + '</span></div></button></section><section class="section" data-info-capability="customer-knowledge">' + sectionHead("客户认知", "") + '<div class="card kv-grid"><span>偏好</span><strong>' + client.preference + '</strong><span>服务备注</span><strong>优先一对一沟通，到店前确认需求</strong></div></section><section class="section" data-info-capability="history">' + sectionHead("互动与服务历史", "") + '<div class="tabs"><button class="pill active">互动</button><button class="pill">交易</button><button class="pill">任务</button><button class="pill">预约</button></div><div class="card timeline"><div class="timeline-row"><span>7/10</span><strong>完成上次企微触达</strong></div><div class="timeline-row"><span>7/08</span><strong>浏览活动内容</strong></div><div class="timeline-row"><span>7/01</span><strong>门店消费记录更新</strong></div></div></section><div class="sticky-actions" data-info-capability="actions">' + (canContact ? '<button class="secondary" type="button" data-toast="已唤起企微沟通">企微沟通</button>' : '<button class="secondary" type="button" data-toast="客户未满足企微沟通条件">不可沟通</button>') + '<button class="primary" type="button" data-route="apptNew">新建预约</button></div>'
-      });
-    }
-
-    function tasksPage() {
-      const list = state.taskType === "all" ? tasks : tasks.filter((task) => task.type === state.taskType);
-      return appShell({
-        title: "任务",
-        tab: "tasks",
-        body: '<div class="tabs">' + taskPill("all", "全部任务") + taskPill("1v1", "1v1") + taskPill("native", "企微群发") + taskPill("moments", "朋友圈") + '</div>' + list.map(taskCard).join("")
-      });
-    }
-
-    function taskPill(value, label) {
-      return '<button class="pill' + (state.taskType === value ? " active" : "") + '" type="button" data-task-type="' + value + '">' + label + '</button>';
-    }
-
-    function taskDetailPage() {
-      const task = taskById(state.selectedTask);
-      const targets = task.targetIds.map(customerById);
-      const nativeAction = task.type === "native";
-      return appShell({
-        title: "任务详情",
-        back: true,
-        showTabbar: false,
-        body: '<section class="card detail-head" data-info-capability="definition"><div class="badge-row" style="margin-top:0"><span class="badge">类型 ' + task.type + '</span><span class="badge">来源 ' + task.source + '</span></div><h1 class="detail-title" style="margin-top:10px">' + task.title + '</h1><div class="kv-grid"><span>目标颗粒度</span><strong>' + task.detail + '</strong><span>负责人</span><strong>' + activeRoleLabel() + '</strong><span>截止时间</span><strong>' + task.due + '</strong><span>成功指标</span><strong>完成触达并记录客户反馈</strong></div></section><section class="section" data-info-capability="progress">' + sectionHead("执行进度", "") + '<div class="card"><div class="progress"><i style="--p:' + task.progress + '%"></i></div><div class="meta" style="display:flex;justify-content:space-between;margin-top:8px"><span>已处理 ' + task.progress + '%</span><span>待处理与异常需逐项回填</span></div></div></section><section class="section" data-info-capability="audience">' + sectionHead("目标客户", "") + (targets.length ? targets.map(clientCard).join("") : '<div class="disabled-note">该任务不使用逐客户目标名单，完成状态以发布或记录结果为准。</div>') + '</section><section class="section" data-info-capability="guidance assets">' + sectionHead("话术与素材", "") + '<div class="card timeline"><div class="timeline-row"><span>话术预览</span><strong>新品已到店，可根据客户偏好调整邀请内容。</strong></div><div class="timeline-row"><span>内容资产</span><strong>总部素材 · 已审核 · 有效至本月末 · 可预览编辑</strong></div></div></section><section class="section" data-info-capability="result-capture">' + sectionHead("结果回填", "") + '<div class="card kv-grid"><span>可选结果</span><strong>已发送 / 已回复 / 无响应 / 已预约 / 拒绝</strong><span>后续要求</span><strong>记录备注与下一跟进日期，写回客户时间线</strong></div></section><div class="sticky-actions" data-info-capability="execution"><button class="secondary" type="button" data-toast="请选择跳过原因并记录">跳过并记录原因</button>' + (nativeAction ? '<button class="primary" type="button" data-route="nativeBroadcast">' + icon("send") + '进入企微群发</button>' : '<button class="primary" type="button" data-toast="请先选择结果后完成">执行并回填</button>') + '</div>'
-      });
-    }
-
-    function nativeBroadcastPage() {
-      const task = taskById(state.selectedTask);
-      const count = task.targetIds.length || 18;
-      return nativeShell('<div class="native-exec"><div class="native-head"><button type="button" data-back>取消</button><div class="native-head-title">新建群发</div><span></span></div><div class="native-content"><button class="native-recipient" type="button" data-toast="查看客户名单"><span>分别发送给</span><span>' + count + ' 位客户 ›</span></button><div class="native-label-row"><span>将发送以下内容</span><button class="native-link" type="button" data-toast="从素材库选择">从素材库选择</button></div><div class="native-message-card"><div class="native-message-text">新品系列即将上市，诚邀您优先预览。我可以为您预留合适的到店时间。</div><div class="native-attachment"><div class="native-asset"><div class="native-brand-tile">品牌</div><div class="native-asset-title">品牌小程序卡片</div><span class="native-chain">' + icon("link") + '</span></div><div class="native-add">+</div></div></div><div class="native-send-wrap"><button class="native-primary" type="button" data-native-send>发送</button></div></div><div class="native-note">每位客户每天可接收1条群发消息</div></div>');
-    }
-
-    function appointmentPage() {
-      return appShell({
-        title: "预约",
-        tab: "appointment",
-        body: '<section class="card detail-head"><div class="task-top"><div><h1 class="detail-title">今日预约</h1><div class="meta" style="margin-top:6px">按时间、客户、服务内容和回填状态管理。</div></div><span class="badge">' + appointments.length + ' 条</span></div></section><div class="tabs"><button class="pill active">今日</button><button class="pill">待确认</button><button class="pill">待回填</button></div>' + appointments.map(appointmentRow).join("") + '<div class="sticky-actions"><button class="primary" type="button" data-route="apptNew">' + icon("plus") + '新建预约</button></div>'
-      });
-    }
-
-    function appointmentDetailPage() {
-      const appt = appointments.find((item) => item.id === state.selectedAppointment) || appointments[0];
-      const customer = customerById(appt.customerId);
-      return appShell({
-        title: "预约详情",
-        back: true,
-        showTabbar: false,
-        body: '<section class="card detail-head" data-info-capability="schedule"><h1 class="detail-title">' + appt.service + '</h1><div class="kv-grid"><span>日期与时间</span><strong>今日 ' + appt.time + ' - 11:30</strong><span>状态</span><strong>' + appt.status + '</strong><span>确认状态</span><strong>待客户确认</strong></div></section><section class="section" data-info-capability="people-place">' + sectionHead("客户与接待", "") + '<div class="card kv-grid"><span>客户</span><strong>' + customer.name + '</strong><span>负责人</span><strong>' + appt.owner + '</strong><span>门店/地点</span><strong>当前门店 · 客户服务区</strong></div></section><section class="section" data-info-capability="service-resource">' + sectionHead("服务与资源", "") + '<div class="card kv-grid"><span>服务内容</span><strong>' + appt.service + '</strong><span>资源</span><strong>顾问时段已预留 · 无冲突</strong><span>准备事项</span><strong>按客户偏好准备产品与尺码</strong></div></section><section class="section" data-info-capability="customer-context">' + sectionHead("客户背景", "") + '<div class="card kv-grid"><span>客户偏好</span><strong>' + customer.preference + '</strong><span>关联任务</span><strong>' + customer.next + '</strong><span>最近互动</span><strong>' + customer.last + '</strong></div></section><section class="section" data-info-capability="preparation-communication">' + sectionHead("准备与沟通", "") + '<div class="card kv-grid"><span>预约备注</span><strong>' + appt.note + '</strong><span>确认方式</span><strong>企微消息 · 尚未发送</strong><span>接待清单</span><strong>确认需求、资源与到店时间</strong></div></section><section class="section" data-info-capability="outcome-follow-up">' + sectionHead("结果与后续", "") + '<div class="card kv-grid"><span>可选结果</span><strong>已到店 / 已完成 / 未到店 / 已取消</strong><span>后续动作</span><strong>记录服务结果并生成下一跟进</strong></div></section><div class="sticky-actions" data-info-capability="actions-exceptions"><button class="secondary" type="button" data-toast="已发送预约确认">发送确认</button><button class="primary" type="button" data-toast="请选择到店结果并填写备注">回填结果</button></div>'
-      });
-    }
-
-    function appointmentNewPage() {
-      const client = customerById(state.selectedClient);
-      return appShell({
-        title: "新建预约",
-        back: true,
-        showTabbar: false,
-        body: '<section class="card detail-head"><h1 class="detail-title">预约信息</h1><div class="kv-grid"><span>客户</span><strong>' + client.name + '</strong><span>服务内容</span><strong>到店体验 / 咨询</strong><span>门店时间</span><strong>今日 16:30</strong><span>确认方式</span><strong>企微消息</strong></div></section><section class="section">' + sectionHead("冲突校验", "") + '<div class="disabled-note">当前时间段可用。若资源不可用，应展示冲突原因并提供重选入口。</div></section><div class="sticky-actions"><button class="secondary" type="button" data-back>取消</button><button class="primary" type="button" data-toast="预约已创建并生成跟进记录">创建预约</button></div>'
-      });
-    }
-
-    function dashboardPage() {
-      const manager = state.role !== "frontline";
-      const term = frontlineTerm();
-      const data = managerData();
-      const staffPreview = staffPerformanceRows.slice(0, 3).map((staff) => '<button class="card task-card" type="button" data-staff-performance="' + staff.id + '"><div class="task-top"><div><h3>' + staff.name + ' · ' + staff.scope + '</h3><div class="meta" style="margin-top:6px">销售 ' + staff.sales.toLocaleString() + ' · 任务 ' + staff.completed + '/' + staff.tasks + ' · 企微绑定 ' + staff.binding + '%</div></div><span class="section-link">' + term + '表现 ' + icon("chevron") + '</span></div><div class="progress"><i style="--p:' + staff.target + '%"></i></div><div class="meta" style="display:flex;justify-content:space-between;margin-top:8px"><span>目标达成 ' + staff.target + '%</span><span>待协助 ' + Math.max(0, staff.tasks - staff.completed) + '</span></div></button>').join("");
-      const body = manager
-        ? '<section class="card detail-head"><div class="task-top"><div><h1 class="detail-title">管理层视图</h1><div class="meta" style="margin-top:6px">' + managerScopeText() + ' · 按经营周期查看销售、客户运营、邀约、任务和企微连接。</div></div><span class="badge">' + activeRoleLabel() + '</span></div></section><div class="manager-period-row"><div class="manager-period-copy"><div class="manager-period-label">经营周期</div><div class="manager-period-meta">数据截至今日 · ' + managerPeriodLabel(state.managerPeriod) + '</div></div>' + managerPeriodPills() + '</div>' + managerDashboardCard("销售表现", "经营贡献", data.target, [["销售额", data.sales], ["日均销售额", data.dailySales], ["订单数", data.orders]], [[data.basket, "客单价"], [data.unit, "连带件数"]], "目标达成率") + managerDashboardCard("客户运营", "客户发展", data.newRate, [["新增客户", data.newCustomers], ["复购/回流客户", data.returning]], [[data.newRate + "%", "新增达成"], [data.returnRate + "%", "回流达成"]], "客户运营进度") + managerDashboardCard("到店邀约", "预约转化", data.conversion, [["已到店", data.arrived], ["销售贡献", data.contribution], ["待到店", data.coming]], [], "转化率") + managerDashboardCard("任务完成", "团队执行", data.completion, [["已完成", data.completed], ["待完成", data.toComplete]], [], "完成率") + managerDashboardCard("企微运营", "客户连接", data.binding, [["新增联系人", data.contacts], ["流失/删除", data.lost], ["触达次数", data.outreach]], [[data.reply, "回复率"]], "绑定率") + '<section class="section">' + sectionHead("按" + term + "表现", "staffPerformance") + staffPreview + '</section><button class="staff-entry" type="button" data-route="staffPerformance"><div><strong>' + term + '表现明细</strong><span>查看当前周期内销售、客户、邀约、任务和企微表现。</span></div>' + icon("chevron") + '</button>'
-        : '<section class="metric-grid"><article class="card metric-card"><span class="meta">任务完成率</span><strong>72%</strong></article><article class="card metric-card"><span class="meta">触达客户</span><strong>186</strong></article><article class="card metric-card"><span class="meta">预约转化</span><strong>24%</strong></article><article class="card metric-card"><span class="meta">内容使用</span><strong>43</strong></article></section>';
-      return appShell({
-        title: manager ? "管理看板" : "看板",
-        back: true,
-        tab: "__tool",
-        body
-      });
-    }
-
-    function staffPerformancePage() {
-      if (state.role === "frontline") {
-        return appShell({
-          title: "顾问表现",
-          back: true,
-          showTabbar: false,
-          body: '<div class="disabled-note">当前角色无管理看板权限。请切换到店长或总部视角查看该结构页。</div>'
-        });
-      }
-      const term = frontlineTerm();
-      const staff = staffById(state.selectedStaff);
-      const taskRate = Math.round(staff.completed / staff.tasks * 100);
-      const pending = Math.max(0, staff.tasks - staff.completed);
-      const tabs = '<div class="staff-tabs">' + staffPerformanceRows.map((row) => '<button type="button" class="' + (row.id === staff.id ? "active" : "") + '" data-staff-performance="' + row.id + '">' + row.name + '</button>').join("") + '</div>';
-      const header = '<section class="card detail-head"><div class="task-top"><div><h1 class="detail-title">' + staff.name + '</h1><div class="meta" style="margin-top:6px">' + staff.scope + ' · ' + managerPeriodLabel(state.managerPeriod) + ' · ' + term + '表现</div></div><span class="badge">' + activeRoleLabel() + '</span></div></section><div class="manager-period-row"><div class="manager-period-copy"><div class="manager-period-label">经营周期</div><div class="manager-period-meta">随管理看板周期联动</div></div>' + managerPeriodPills() + '</div>';
-      const sales = '<section class="card staff-section"><div class="staff-section-head"><b>销售表现</b><span>Sales KPIs</span></div><div class="staff-sales-grid"><div class="staff-primary"><div class="staff-primary-label">销售进度</div><div class="staff-primary-main"><div class="manager-ring" style="--pdeg:' + staff.target * 3.6 + 'deg"><strong>' + staff.target + '%</strong></div><div class="staff-value"><strong>¥' + staff.sales.toLocaleString() + '</strong><span>销售额<br>目标达成率</span></div></div></div><div class="staff-primary"><div class="staff-primary-label">日均贡献</div><div class="staff-value" style="margin-top:18px"><strong>' + staff.basket + '</strong><span>客单价<br>' + staff.orders + ' 个订单</span></div></div></div><div class="staff-mini-grid">' + staffMini("订单数", staff.orders) + staffMini("连带件数", staff.unit) + staffMini("目标达成", staff.target + "%") + '</div></section>';
-      const customer = '<section class="card staff-section"><div class="staff-section-head"><b>客户运营</b><span>Client Development</span></div><div class="staff-progress-grid">' + staffProgress("新增客户", staff.newCustomers, staff.newRate, "目标达成 " + staff.newRate + "%") + staffProgress("复购/回流", staff.returning, staff.returnRate, "目标达成 " + staff.returnRate + "%") + staffProgress("企微绑定率", staff.binding + "%", staff.binding, "客户连接") + '</div></section>';
-      const appointment = '<section class="card staff-section"><div class="staff-section-head"><b>到店邀约</b><span>Appointment</span></div><div class="staff-data-layout"><div class="staff-data-list">' + staffDataRow("已到店邀约", staff.arrived) + staffDataRow("转化率", staff.conversion + "%") + staffDataRow("销售贡献", staff.contribution) + '</div><div class="staff-focus-card"><strong>' + staff.coming + '</strong><span>待到店邀约</span></div></div></section>';
-      const operation = '<section class="card staff-section"><div class="staff-section-head"><b>任务与企微运营</b><span>Execution</span></div><div class="staff-operation-grid"><div class="staff-task-block"><div class="staff-block-label">任务完成</div><div class="staff-task-content"><div class="manager-ring" style="--pdeg:' + taskRate * 3.6 + 'deg"><strong>' + taskRate + '%</strong></div><div class="staff-task-list"><div><span>已完成</span><strong>' + staff.completed + '</strong></div><div><span>待完成</span><strong>' + pending + '</strong></div></div></div></div><div class="staff-wecom-block"><div class="staff-block-label">企微运营</div><div class="staff-wecom-grid"><div><span>新增联系人</span><strong>' + staff.contacts + '</strong></div><div><span>流失/删除</span><strong>' + staff.lost + '</strong></div><div><span>触达次数</span><strong>' + staff.outreach + '</strong></div><div><span>回复率</span><strong>' + staff.reply + '</strong></div></div></div></div></section>';
-      return appShell({
-        title: term + "表现",
-        back: true,
-        showTabbar: false,
-        body: tabs + header + '<div class="staff-board">' + sales + customer + appointment + operation + '</div>'
-      });
-    }
-
-    function contentPage() {
-      return appShell({
-        title: "素材库",
-        back: true,
-        showTabbar: false,
-        body: '<div class="toolbar"><label class="search">' + icon("search") + '<input placeholder="搜索素材名称、活动、标签" /></label><button class="filter-btn" type="button" data-toast="素材筛选结构页">' + icon("filter") + '</button></div><div class="tabs"><button class="pill active">全部</button><button class="pill">活动</button><button class="pill">产品</button><button class="pill">话术</button></div><section class="card detail-head"><div class="task-top"><div><h1 class="detail-title">新品预览小程序卡片</h1><div class="meta" style="margin-top:6px">可用于 1v1、1vN 或企微原生群发。</div></div><span class="badge">已就绪</span></div></section><section class="card detail-head"><div class="task-top"><div><h1 class="detail-title">到店邀约话术</h1><div class="meta" style="margin-top:6px">根据客户生命周期和偏好调整表达与利益点。</div></div><span class="badge">话术</span></div></section>'
-      });
-    }
-
-    function transferPage() {
-      return appShell({
-        title: "客户转移",
-        back: true,
-        tab: "__tool",
-        body: state.role === "frontline" ? '<div class="disabled-note">当前角色无客户转移权限。请切换到管理角色查看此结构页。</div>' : '<section class="card detail-head"><h1 class="detail-title">转移确认</h1><div class="kv-grid"><span>来源顾问</span><strong>顾问 A</strong><span>接收顾问</span><strong>顾问 B</strong><span>客户数量</span><strong>12 位</strong><span>失败处理</span><strong>权限或锁定客户需单独处理</strong></div></section><div class="sticky-actions"><button class="secondary" type="button" data-toast="已取消">取消</button><button class="primary" type="button" data-toast="转移已提交">确认转移</button></div>'
-      });
-    }
-
-    function toolPanel() {
-      if (!state.toolOpen) return "";
-      const managerTool = state.role === "frontline" ? "" : toolCell("transfer", "客户转移", "users");
-      const dashboardLabel = state.role === "frontline" ? "个人看板" : "管理看板";
-      return '<div class="tool-mask" data-close-tool></div><section class="tool-panel"><strong>快捷工具 · ' + activeRoleLabel() + '</strong><div class="tool-grid">' + toolCell("content", "素材库", "bag") + toolCell("dashboard", dashboardLabel, "chart") + managerTool + '</div></section>';
-    }
-
-    function toolCell(route, label, iconName) {
-      return '<button class="tool-cell" type="button" data-route="' + route + '">' + icon(iconName) + '<span>' + label + '</span></button>';
+    function renderKitPreview() {
+      const body = `
+        <div class="page-stack">
+          <section class="kit-intro">
+            <p class="kit-eyebrow">PROJECT CANVAS</p>
+            <h1>Start with the operating model.</h1>
+            <p>This preview contains no clienteling IA, no default tabs, and no business data.</p>
+          </section>
+          <section class="kit-sample" aria-label="Shell primitive preview">
+            <div class="media-frame"><span>PAGE LAYER</span><strong>Build the visual anchor only after the work surface is clear.</strong></div>
+            <div class="surface-panel metric-strip" style="--metric-count:3">
+              <div class="metric"><span>Surface</span><strong>01</strong></div>
+              <div class="metric"><span>Density</span><strong>02</strong></div>
+              <div class="metric"><span>Action</span><strong>03</strong></div>
+            </div>
+          </section>
+          <p class="kit-hint">Keep the frame and helpers. Replace this preview with a project-specific route map and connected data.</p>
+        </div>`;
+      return appShell({ title: 'Shell Kit', body });
     }
 
     function render() {
-      const pages = {
-        home: homePage,
-        clients: clientsPage,
-        filter: filterPage,
-        c360: c360Page,
-        tasks: tasksPage,
-        taskDetail: taskDetailPage,
-        nativeBroadcast: nativeBroadcastPage,
-        appointment: appointmentPage,
-        apptDetail: appointmentDetailPage,
-        apptNew: appointmentNewPage,
-        dashboard: dashboardPage,
-        staffPerformance: staffPerformancePage,
-        content: contentPage,
-        transfer: transferPage
-      };
-      const app = document.getElementById("app");
-      app.innerHTML = (pages[state.route] || homePage)();
-      bindAppEvents(app);
-      mountIcons(document);
-      syncControls();
-      requestAnimationFrame(fitDesktopPhone);
+      mountReviewControls(kitReviewConfig);
+      document.getElementById('app').innerHTML = renderKitPreview();
+      fitDesktopPhone();
     }
 
-    function bindAppEvents(root) {
-      root.querySelectorAll("[data-route]").forEach((button) => button.addEventListener("click", () => navigate(button.dataset.route)));
-      root.querySelectorAll("[data-tab]").forEach((button) => button.addEventListener("click", () => goTab(button.dataset.tab)));
-      root.querySelectorAll("[data-back]").forEach((button) => button.addEventListener("click", goBack));
-      root.querySelectorAll("[data-client]").forEach((button) => button.addEventListener("click", () => navigate("c360", { client: button.dataset.client })));
-      root.querySelectorAll("[data-task]").forEach((button) => button.addEventListener("click", () => navigate("taskDetail", { task: button.dataset.task })));
-      root.querySelectorAll("[data-appt]").forEach((button) => button.addEventListener("click", () => { state.selectedAppointment = button.dataset.appt; navigate("apptDetail"); }));
-      root.querySelectorAll("[data-toast]").forEach((button) => button.addEventListener("click", () => toast(button.dataset.toast)));
-      root.querySelectorAll("[data-scope]").forEach((button) => button.addEventListener("click", () => { state.clientScope = button.dataset.scope; render(); }));
-      root.querySelectorAll("[data-task-type]").forEach((button) => button.addEventListener("click", () => { state.taskType = button.dataset.taskType; render(); }));
-      root.querySelectorAll("[data-filter-category]").forEach((button) => button.addEventListener("click", () => { state.filterCategory = button.dataset.filterCategory; render(); }));
-      root.querySelectorAll("[data-filter-value]").forEach((button) => button.addEventListener("click", () => { state.filters[state.filterCategory] = button.dataset.filterValue; render(); }));
-      root.querySelectorAll("[data-reset-filter]").forEach((button) => button.addEventListener("click", () => { state.filters = { level: "all", lifecycle: "all", contact: "all" }; render(); }));
-      root.querySelectorAll("[data-manager-period]").forEach((button) => button.addEventListener("click", () => { state.managerPeriod = button.dataset.managerPeriod; render(); }));
-      root.querySelectorAll("[data-staff-performance]").forEach((button) => button.addEventListener("click", () => { state.selectedStaff = button.dataset.staffPerformance; navigate("staffPerformance"); }));
-      root.querySelectorAll("[data-close-tool]").forEach((button) => button.addEventListener("click", () => { state.toolOpen = false; render(); }));
-      root.querySelectorAll("[data-native-send]").forEach((button) => button.addEventListener("click", () => { state.route = "taskDetail"; toast("群发已发送，任务结果已写回"); }));
-      root.querySelectorAll("[data-journey-prev]").forEach((button) => button.addEventListener("click", journeyPrev));
-      root.querySelectorAll("[data-journey-next]").forEach((button) => button.addEventListener("click", journeyNext));
-      root.querySelectorAll("[data-journey-exit]").forEach((button) => button.addEventListener("click", exitJourney));
-      const search = root.querySelector("#clientSearch");
-      if (search) search.addEventListener("input", (event) => { state.query = event.target.value; render(); });
+    function detectViewportMode() {
+      const requested = new URLSearchParams(window.location.search).get('view');
+      return requested === 'mobile' || (!requested && window.matchMedia('(max-width: 620px), (max-height: 760px)').matches) ? 'mobile' : 'desktop';
     }
 
-    function syncControls() {
-      const roleSelect = document.getElementById("roleSelect");
-      if (roleSelect) {
-        roleSelect.innerHTML = roles.map((role) => '<option value="' + role + '"' + (state.role === role ? " selected" : "") + '>' + PROJECT.roleLabels[role] + '</option>').join("");
-        roleSelect.disabled = state.journeyMode && !!state.activeJourney;
+    function fitDesktopPhone() {
+      const mobile = detectViewportMode() === 'mobile';
+      document.body.classList.toggle('mobile', mobile);
+      if (mobile) return;
+      const availableHeight = Math.max(420, window.innerHeight - 94);
+      const availableWidth = Math.max(320, window.innerWidth - 32);
+      const scale = Math.min(1, availableHeight / 844, availableWidth / 390);
+      document.documentElement.style.setProperty('--desktop-phone-scale', scale.toFixed(3));
+      document.querySelector('.phone-wrap').style.height = `${844 * scale}px`;
+    }
+
+    document.addEventListener('click', (event) => {
+      const stageAction = event.target.closest('[data-stage-action]')?.dataset.stageAction;
+      if (stageAction === 'fit') fitDesktopPhone();
+      const reviewControl = event.target.closest('[data-review-control]')?.dataset.reviewControl;
+      if (reviewControl === 'mode') {
+        reviewConfig = { ...reviewConfig, mode: reviewConfig.mode === 'journey' ? 'browse' : 'journey' };
+        if (reviewConfig.mode === 'browse') reviewConfig.activeJourney = '';
+        mountReviewControls(reviewConfig);
+        emitReviewChange('mode', reviewConfig.mode);
       }
-      const modeBtn = document.getElementById("modeBtn");
-      if (modeBtn) modeBtn.textContent = "模式：" + (state.journeyMode ? "Journey 演示" : "自由浏览");
-      const journeySelect = document.getElementById("journeySelect");
-      if (journeySelect) {
-        journeySelect.disabled = !state.journeyMode;
-        journeySelect.innerHTML = '<option value="">选择 Journey</option>' + Object.entries(journeys).map(([id, journey]) => '<option value="' + id + '"' + (state.activeJourney === id ? " selected" : "") + '>' + journey.name + '</option>').join("");
+      if (reviewControl === 'journey-reset') emitReviewChange('journey-reset', reviewConfig.activeJourney);
+      const entry = event.target.closest('[data-review-entry]')?.dataset.reviewEntry;
+      if (entry) emitReviewChange('entry', entry);
+      const journeyAction = event.target.closest('[data-journey-action]')?.dataset.journeyAction;
+      if (journeyAction) emitReviewChange(`journey-${journeyAction}`, reviewConfig.activeJourney);
+    });
+    document.addEventListener('change', (event) => {
+      const control = event.target.dataset.reviewControl;
+      if (control === 'role') {
+        reviewConfig = { ...reviewConfig, activeRole: event.target.value };
+        emitReviewChange('role', event.target.value);
       }
-      const reset = document.getElementById("resetJourneyBtn");
-      if (reset) reset.disabled = !state.journeyMode || !state.activeJourney;
-    }
-
-    function startJourneyStep() {
-      const journey = journeys[state.activeJourney];
-      if (!journey) return;
-      const step = journey.steps[state.journeyStep] || journey.steps[0];
-      state.role = journey.role;
-      if (step.client) state.selectedClient = step.client;
-      if (step.task) state.selectedTask = step.task;
-      state.route = step.route;
-      state.toolOpen = false;
-      location.hash = state.route;
-      render();
-    }
-
-    function journeyPrev() {
-      if (state.journeyStep > 0) { state.journeyStep -= 1; startJourneyStep(); }
-    }
-
-    function journeyNext() {
-      const journey = journeys[state.activeJourney];
-      if (!journey) return;
-      if (state.journeyStep < journey.steps.length - 1) {
-        state.journeyStep += 1;
-        startJourneyStep();
-      } else {
-        toast("Journey 已完成");
-      }
-    }
-
-    function exitJourney() {
-      state.journeyMode = false;
-      state.activeJourney = "";
-      state.journeyStep = 0;
-      state.route = "home";
-      render();
-    }
-
-    document.querySelectorAll("[data-route]").forEach((button) => button.addEventListener("click", () => navigate(button.dataset.route)));
-    document.getElementById("roleSelect").addEventListener("change", (event) => {
-      if (state.journeyMode && state.activeJourney) {
-        toast("Journey 模式下角色由场景控制");
-        syncControls();
-        return;
-      }
-      state.role = event.target.value;
-      render();
-    });
-    document.getElementById("modeBtn").addEventListener("click", () => {
-      state.journeyMode = !state.journeyMode;
-      if (!state.journeyMode) { state.activeJourney = ""; state.journeyStep = 0; }
-      render();
-    });
-    document.getElementById("journeySelect").addEventListener("change", (event) => {
-      state.activeJourney = event.target.value;
-      state.journeyStep = 0;
-      if (state.activeJourney) startJourneyStep();
-      else render();
-    });
-    document.getElementById("resetJourneyBtn").addEventListener("click", () => {
-      state.journeyStep = 0;
-      if (state.activeJourney) startJourneyStep();
-    });
-
-    window.addEventListener("hashchange", () => {
-      const next = location.hash.replace("#", "") || "home";
-      if (next !== state.route) {
-        state.route = next;
-        render();
+      if (control === 'journey') {
+        reviewConfig = { ...reviewConfig, activeJourney: event.target.value };
+        emitReviewChange('journey', event.target.value);
       }
     });
-    window.addEventListener("resize", () => { detectViewportMode(); fitDesktopPhone(); });
-
-    detectViewportMode();
+    window.addEventListener('resize', fitDesktopPhone);
     render();
   </script>
 </body>

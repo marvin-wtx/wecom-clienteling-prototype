@@ -16,7 +16,18 @@ Ask only what is needed for the current fidelity:
 
 For product UI work, use real references first when available. If Lazyweb or another design-reference tool is available, search relevant patterns before designing: client list, C360, task detail, appointment calendar, content library, dashboard, transfer flow, or industry-specific workbench.
 
-For HTML/clickable prototypes, the bundled shell already defines a neutral operational base. Keep that base unless the user provides a stronger design system.
+For HTML/clickable prototypes, the bundled V3 shell kit defines a modern neutral operational base and reusable mechanics, not a default app layout. Keep its protected frame and primitives unless the user provides a stronger design system; design the actual navigation, page composition, data story, and module grammar for the project.
+
+## V3 Modern Baseline
+
+The shell kit is intentionally more refined than the former generic demo without becoming a hidden brand skin:
+
+- The desktop stage uses a quiet technical canvas, compact review controls, a lighter device frame, and restrained elevation so the prototype reads as a reviewed product rather than a wireframe inside a heavy mock phone.
+- The mini-program frame uses translucent navigation/tab materials, hairline boundaries, precise type hierarchy, and controlled panel depth. These improve perceived quality while preserving WeCom geometry and scanning speed.
+- The page utility layer supplies compact surfaces, metric strips, row patterns, media frames, search/filter controls, action bars, and dynamic tab counts. It does not prescribe a hero, KPI grid, center action, card stack, tab order, or business module.
+- Treat the provided preview as a visual component specimen only. Remove it before delivery and construct the visual rhythm from the selected operating model and actual brand evidence.
+
+Modern does not mean universally glossy, blue, rounded, or image-heavy. Brand evidence may change the page-layer palette, type, material, imagery, density, and geometry; the neutral shell only protects the operating frame.
 
 ## Visual Generation Workflow
 

@@ -142,6 +142,7 @@ def validate(data: dict[str, Any]) -> list[str]:
             "check_prototype_block_layout.py",
             "check_prototype_case_evaluation.py",
             "check_delivery_review.py",
+            "check_prototype_delivery_bundle.py",
         ):
             if required not in automated:
                 errors.append(f"automatedChecks must include {required}")

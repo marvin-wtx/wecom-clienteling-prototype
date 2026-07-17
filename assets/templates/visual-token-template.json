@@ -48,50 +48,49 @@
   "structureGeneration": {
     "layoutAuthority": "open-generative",
     "authoritySources": [],
-    "variationSeed": "queue-led / balanced / frequency-first",
+    "variationSeed": "select a variation seed after evidence and archetype comparison; do not inherit a prior case",
     "businessAxis": {
-      "id": "daily-priority-queue",
-      "rationale": "The sparse brief does not establish a proprietary workflow, so the layout organizes neutral customer, task, and appointment priorities around today's queue."
+      "id": "replace-with-selected-operating-axis",
+      "rationale": "Explain the positive business tension that makes this axis credible. Sparse input alone is never a reason to choose a queue."
     },
     "navigationLogic": {
-      "type": "frequency-first",
-      "rationale": "Order top-level destinations by recurring frontline frequency and journey continuity, not by the starter shell."
+      "type": "replace-with-selected-navigation-model",
+      "rationale": "Explain why this navigation follows the selected operating axis and recurring journey rather than a prior case."
     },
     "homeNarrative": {
-      "type": "triage-board",
+      "type": "replace-with-selected-home-narrative",
       "blockOrder": [
-        "priority summary",
-        "exception queue",
-        "customer next actions",
-        "appointments"
+        "replace-with-project-specific-first-block",
+        "replace-with-project-specific-operational-block",
+        "replace-with-project-specific-decision-block"
       ],
-      "rationale": "The first viewport should answer what needs attention, why, and where the user acts next."
+      "rationale": "Explain the order as a response to the selected operating tension, not as a generic workbench stack."
     },
     "informationDensity": {
       "level": "balanced",
       "rationale": "Show enough evidence for decisions while preserving mobile scan speed."
     },
     "moduleGrammars": {
-      "home": "triage-board",
-      "customers": "ranked-ledger",
-      "c360": "timeline-dossier",
-      "tasks": "guided-checklist",
-      "appointments": "agenda",
-      "dashboard": "exception-matrix"
+      "home": "replace-with-project-specific-grammar",
+      "customers": "replace-with-project-specific-grammar",
+      "c360": "replace-with-project-specific-grammar",
+      "tasks": "replace-with-project-specific-grammar",
+      "appointments": "replace-with-project-specific-grammar",
+      "dashboard": "replace-with-project-specific-grammar"
     },
     "visualAnchor": {
-      "type": "data-display",
-      "rationale": "Use hierarchy and data rhythm as the anchor when approved brand assets are absent."
+      "type": "replace-with-selected-visual-anchor",
+      "rationale": "Explain how this anchor comes from reference evidence or an explicit neutral style decision."
     },
     "signatureInteraction": {
-      "id": "priority-to-followup",
-      "stateChange": "Opening a priority item routes to customer context and creates or updates a measurable follow-up state.",
-      "rationale": "The signature interaction advances the selected business axis rather than adding decorative novelty."
+      "id": "replace-with-useful-state-changing-interaction",
+      "stateChange": "Describe the route, state, handoff, or write-back change caused by the selected interaction.",
+      "rationale": "Explain how the interaction advances this case's business axis rather than adding decorative novelty."
     },
     "candidateDirections": [
       {
         "id": "direction-a",
-        "summary": "Queue-led triage board",
+        "summary": "Candidate A selected from this project's operating tensions",
         "scores": {
           "operationalFit": 5,
           "evidenceFit": 4,
@@ -102,7 +101,7 @@
       },
       {
         "id": "direction-b",
-        "summary": "Customer radar with relationship pulse",
+        "summary": "Candidate B selected from this project's operating tensions",
         "scores": {
           "operationalFit": 4,
           "evidenceFit": 3,
@@ -113,7 +112,7 @@
       },
       {
         "id": "direction-c",
-        "summary": "Appointment-led service agenda",
+        "summary": "Candidate C selected from this project's operating tensions",
         "scores": {
           "operationalFit": 3,
           "evidenceFit": 3,
@@ -123,86 +122,85 @@
         }
       }
     ],
-    "selectedDirectionId": "direction-a",
-    "selectionRationale": "Direction A best supports neutral daily operations and complete information without inventing a brand-specific internal model.",
+    "selectedDirectionId": "replace-with-direction-a-b-or-c-after-comparison",
+    "selectionRationale": "Replace with the business and evidence rationale for the winner; do not select a direction because it is present in this template.",
     "rejectedDirections": [
       {
         "id": "direction-b",
-        "reason": "The sparse brief does not establish relationship scoring as the dominant workflow."
+        "reason": "Replace with a concrete reason grounded in this project's operating tension."
       },
       {
         "id": "direction-c",
-        "reason": "Appointments are important but not evidenced as the primary daily axis."
+        "reason": "Replace with a concrete reason grounded in this project's operating tension."
       }
     ]
   },
   "archetypeSelection": {
-    "primaryArchetypeId": "priority-queue",
+    "primaryArchetypeId": "replace-with-selected-valid-archetype",
     "candidateArchetypeIds": [
-      "priority-queue",
-      "appointment-atelier",
-      "product-interest-studio"
+      "replace-with-first-valid-archetype",
+      "replace-with-second-valid-archetype",
+      "replace-with-third-valid-archetype"
     ],
-    "operationalTension": "The frontline advisor must resolve customer, appointment, and deadline signals throughout the trading day before follow-up opportunities become stale.",
-    "selectionRationale": "The baseline is a priority queue because the recurring work combines time-sensitive follow-up, customer context, and appointment readiness into one continuous daily decision flow.",
-    "antiConvergenceCommitment": "This is only one operating model: future cases will select home composition, navigation, detail architecture, and interaction from their own archetype rather than inherit this queue stack.",
-    "priorityQueueJustification": "Daily store operations require advisors to rank multiple customer, task, and appointment signals by urgency and next action, so a visible triage surface improves recurring frontline decisions.",
+    "operationalTension": "Replace with the recurring decision, constraint, and consequence that selects this project's operating model.",
+    "selectionRationale": "Replace with why the selected archetype fits the evidence better than the rejected alternatives.",
+    "antiConvergenceCommitment": "Replace with the navigation, home, detail, and interaction choices that keep this case distinct after brand styling is removed.",
     "rejectedArchetypes": [
       {
-        "id": "appointment-atelier",
-        "reason": "Appointments are present but the baseline does not establish service preparation as the dominant daily operating decision."
+        "id": "replace-with-rejected-valid-archetype",
+        "reason": "Replace with a concrete rejection reason."
       },
       {
-        "id": "product-interest-studio",
-        "reason": "The baseline has no evidence that product discovery or recommendation is the main workbench entry point."
+        "id": "replace-with-rejected-valid-archetype",
+        "reason": "Replace with a concrete rejection reason."
       }
     ]
   },
   "creativeDivergence": {
-    "creativeThesis": "This prototype treats the brand's clienteling workbench as a service concierge because sparse evidence favors neutral customer care, task follow-up, and appointment readiness over a proprietary internal workflow.",
+    "creativeThesis": "Replace with an operating metaphor that describes how this project organizes real clienteling work without borrowing a prior case.",
     "inspirationTranspositions": [
       {
-        "referencePattern": "task inbox triage",
-        "extractedMechanism": "Group urgent work by status, deadline, owner, and next action.",
-        "clientelingTranslation": "Use the home page to turn customer signals, task deadlines, and appointments into a prioritized frontline work queue.",
-        "rejectionBoundary": "Do not copy generic productivity app navigation or claim the brand uses an internal task-inbox system."
+        "referencePattern": "Replace with a real reference pattern",
+        "extractedMechanism": "Replace with the abstract interaction or information mechanism.",
+        "clientelingTranslation": "Replace with a clienteling translation that fits the selected business axis.",
+        "rejectionBoundary": "State what is deliberately not copied and which unsupported business claims stay out of UI."
       },
       {
-        "referencePattern": "account dossier",
-        "extractedMechanism": "Combine identity, value, history, preferences, and action options into one decision surface.",
-        "clientelingTranslation": "Use C360 as a compact customer dossier with relationship context, operating state, recent interactions, and next best action.",
-        "rejectionBoundary": "Do not invent confirmed loyalty tiers, private rooms, or CRM field names without user evidence."
+        "referencePattern": "Replace with a second real reference pattern",
+        "extractedMechanism": "Replace with a second abstract interaction or information mechanism.",
+        "clientelingTranslation": "Replace with a second clienteling translation that fits the selected business axis.",
+        "rejectionBoundary": "State what is deliberately not copied and which unsupported business claims stay out of UI."
       }
     ],
     "divergenceLevers": [
       {
         "lever": "businessAxis",
-        "decision": "daily-priority-queue",
-        "rationale": "A queue-led axis is a safe neutral choice when no proprietary workflow is confirmed."
+        "decision": "Replace with the selected axis.",
+        "rationale": "Explain why this business tension calls for the selected axis."
       },
       {
         "lever": "navigationModel",
-        "decision": "frequency-first with optional quick action",
-        "rationale": "Top-level items should follow frontline frequency and journey continuity, not the starter shell order."
+        "decision": "Replace with the selected top-level model and center-action policy.",
+        "rationale": "Explain why this navigation supports the selected axis."
       },
       {
         "lever": "homeNarrative",
-        "decision": "triage board",
-        "rationale": "The first viewport should explain what needs attention, why, and where the user acts next."
+        "decision": "Replace with the selected home narrative and first-viewport order.",
+        "rationale": "Explain why the sequence supports the operating tension."
       },
       {
         "lever": "detailArchitecture",
-        "decision": "timeline dossier for C360 and guided checklist for task detail",
-        "rationale": "Customer understanding and task execution have different jobs, so they should not share one repeated card grammar."
+        "decision": "Replace with the distinct detail-page architectures chosen for this case.",
+        "rationale": "Explain why these architectures fit different clienteling jobs."
       },
       {
         "lever": "signatureInteraction",
-        "decision": "priority-to-followup",
-        "rationale": "The signature interaction should route from a priority signal to customer context and measurable follow-up state."
+        "decision": "Replace with the selected state-changing interaction.",
+        "rationale": "Explain how the interaction advances the selected operating axis."
       }
     ],
     "portfolioContrast": {
-      "comparisonTarget": "no prior case available in this template",
+      "comparisonTarget": "Replace with a real prior/likely comparison case or no-prior-case statement.",
       "differentDimensions": [
         "business axis",
         "navigation logic",
@@ -210,15 +208,15 @@
         "detail architecture",
         "signature interaction"
       ],
-      "debrandedDifference": "Without brand styling, the case should still be identifiable through its queue-led operating model, triage home, mixed detail architectures, and priority-to-followup interaction."
+      "debrandedDifference": "Replace with the business-axis, navigation, page-architecture, and interaction differences that remain without brand styling."
     },
     "coherenceProof": {
-      "navigationFollowsAxis": "Navigation order prioritizes recurring frontline work surfaces connected to the selected daily queue axis.",
-      "homeSupportsThesis": "The home page uses triage, exception, customer action, and appointment blocks to support a service concierge workbench.",
-      "detailArchitecturesFit": "C360 uses a dossier/timeline structure while task detail uses guided execution, matching each page's job.",
-      "signatureInteractionChangesWork": "The priority-to-followup action changes route and follow-up state rather than acting as a decorative CTA.",
-      "workbenchStillScannable": "Brand expression is limited to page-layer hierarchy while search, filters, due dates, actions, and appointment facts remain readable.",
-      "evidenceBoundaryRespected": "Internal-sounding terms remain neutral unless user-confirmed, and assumptions stay outside the delivered UI."
+      "navigationFollowsAxis": "Replace with proof that the selected navigation follows the actual business axis.",
+      "homeSupportsThesis": "Replace with proof that the first viewport supports the selected operating metaphor.",
+      "detailArchitecturesFit": "Replace with proof that each full-detail page's structure fits its job.",
+      "signatureInteractionChangesWork": "Replace with proof of a route, state, handoff, or result change.",
+      "workbenchStillScannable": "Replace with proof that repeated work surfaces remain legible and fast.",
+      "evidenceBoundaryRespected": "Replace with proof that unsupported internal terms and claims remain out of UI."
     }
   },
   "palette": {
@@ -320,11 +318,9 @@
   "structuralDifferentiation": {
     "navigationModel": {
       "topLevelItems": [
-        "首页",
-        "客户",
-        "快捷",
-        "任务",
-        "预约"
+        "replace-with-project-top-level-item",
+        "replace-with-project-top-level-item",
+        "replace-with-project-top-level-item"
       ],
       "orderRationale": "Replace with a journey-frequency and role-based rationale. Do not keep the starter order automatically.",
       "centerAction": "none, quick-create, quick-send, scan, or another justified cross-module action",
@@ -345,12 +341,12 @@
     ]
   },
   "implementationContract": {
-    "navigationId": "starter-five",
-    "homeArchitectureId": "queue-first-workbench",
-    "customerArchitectureId": "sectioned-dossier",
-    "taskArchitectureId": "guided-execution",
-    "appointmentArchitectureId": "preparation-led-service",
-    "signatureInteractionId": "priority-to-followup"
+    "navigationId": "replace-with-visible-project-navigation-id",
+    "homeArchitectureId": "replace-with-visible-project-home-id",
+    "customerArchitectureId": "replace-with-visible-project-customer-id",
+    "taskArchitectureId": "replace-with-visible-project-task-id",
+    "appointmentArchitectureId": "replace-with-visible-project-appointment-id",
+    "signatureInteractionId": "replace-with-visible-project-interaction-id"
   },
   "deliveryDiscipline": {
     "positioning": "brand-aware WeCom Clienteling demo prototype plus solution blueprint",

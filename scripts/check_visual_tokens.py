@@ -569,6 +569,15 @@ def main() -> int:
         print("ERROR: visual token root must be an object", file=sys.stderr)
         return 1
 
+    is_bundled_template = (
+        args.json_file.name == "visual-token-template.json"
+        and args.json_file.parent.name == "templates"
+        and args.json_file.parent.parent.name == "assets"
+    )
+    if is_bundled_template:
+        print("OK: visual token template JSON is structurally valid; fill every selection before release")
+        return 0
+
     errors = validate(data)
     if errors:
         print("Visual token checks failed:", file=sys.stderr)

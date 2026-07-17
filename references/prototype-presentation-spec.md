@@ -45,6 +45,8 @@ Use stage controls only in desktop review mode:
 - Reset journey: restart the current preset journey.
 - Language toggle may live inside the app shell or stage if required by the prototype.
 
+The V3 shell kit already supplies `mountReviewControls(config)` and emits `wecom-review-change` events for role, mode, Journey, reset, entry, and HUD actions. Replace its empty kit configuration with project values and bind the emitted events to connected prototype state. Do not remove the controls when creating a custom page architecture.
+
 In mobile full-screen mode, hide stage controls. Do not let review controls look like production app features.
 
 ## Role Switching

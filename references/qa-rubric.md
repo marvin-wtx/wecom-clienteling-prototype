@@ -42,8 +42,9 @@ Use this to review prototype coverage and readiness.
 - Quality scores for brand fit, workbench usability, business credibility, structural originality, evidence integrity, and demo readiness are all 4 or higher.
 - Self-critique answers identify concrete structural differences, brand-clienteling logic, thin-page risk, evidence-backed terms, assumptions kept out of UI, and debranded distinctiveness.
 - Anti-generic flags are all false before delivery: starter navigation copied, default home order, thin detail pages, style-only differentiation, unconfirmed internal terms, campaign hero displacement, one card grammar everywhere, and debranded generic structure.
-- HTML/clickable prototypes start from `assets/prototype-shell/index.html` or directly port its shell structure and behavior.
+- HTML/clickable prototypes start from `assets/prototype-shell/index.html` or directly port its shell structure and behavior, then remove `renderKitPreview` and build project-specific pages. `assets/prototype-shell-demo/` is never a valid project starting point.
 - `scripts/check_prototype_shell.py` passes for generated HTML.
+- `scripts/check_prototype_delivery_bundle.py <case-directory>` passes; the directory contains the prototype, visual token, delivery review, case evaluation, and referenced rendered screenshots.
 - For branded HTML/clickable prototypes, `scripts/check_workbench_implementation.py` passes so token-level workbench balance is visible in the implemented pages.
 - Navigation matches the page inventory.
 - Page depth matches A/B/C commitments.
@@ -112,6 +113,7 @@ Use this to review prototype coverage and readiness.
 - Desktop review stage shows a complete 390px by 844px mini-program frame with iPhone-style notch, scaled to fit; top bar and bottom tabbar are not cropped.
 - Desktop top shell has separated status and nav rows: `9:41` and `5G` sit in the status row, while the page title and WeCom capsule are centered in the nav row below it with no crowding.
 - Desktop review controls are compact and outside the phone, not a large rough control panel inside or around the app.
+- Desktop controls include configured role scope, free-browse/Journey mode, Journey selection/reset, and relevant entry routes; changing a control visibly updates the connected prototype state or route.
 - Desktop/mobile behavior is code-level responsive or URL-driven for QA, not a visible selector.
 - `scripts/check_page_information.py` passes for prototypes containing home metrics or A-level detail pages.
 - Mobile full-screen mode is nonblank, hides decorative phone hardware such as notch/statusbar, and does not hide the phone/screen/body container.

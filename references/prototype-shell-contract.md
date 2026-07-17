@@ -4,9 +4,11 @@ Use this contract whenever the output is an HTML or clickable prototype for a We
 
 ## Mandatory Source Asset
 
-- Start from `assets/prototype-shell/index.html` unless the user explicitly requests another stack.
+- Start from `assets/prototype-shell/index.html` unless the user explicitly requests another stack. It is a **shell kit**, not a sample product.
 - Keep the shell structure intact: `stage`, `stage-header`, `stage-controls`, `phone-wrap`, `phone`, `statusbar`, `screen`, `wx-nav`, `wx-capsule`, `body`, `tabbar`, `journey-hud`, and native page containers.
-- Build pages by filling the shell's content slots, route map, data fixtures, role labels, and journey definitions. Do not rebuild a different phone frame or mini-program top bar. Keep the bottom-navigation mechanics and safe area, but adapt its information architecture and visual treatment.
+- Remove `renderKitPreview` and replace it with project data, route map, page components, role labels, and journey definitions. Do not rebuild a different phone frame or mini-program top bar. Keep the bottom-navigation mechanics and safe area, but adapt its information architecture and visual treatment.
+- Keep `mountReviewControls`, `journeyHud`, and the `wecom-review-change` event contract. Configure the shell kit with project-specific permission/data-scope roles, Journey definitions, and entry buttons; listen for shell events and connect them to the project's route and state model. Do not remove reviewer controls just because the page-layer IA is custom.
+- `assets/prototype-shell-demo/index.html` is an isolated V2 neutral example used for structural comparison only. Do not copy its navigation, data, page functions, route order, or visual stack into a project.
 - If using React/Vue/Svelte or another framework, port the shell classes and behavior directly instead of inventing new layout rules.
 
 ## Viewport Behavior
@@ -29,7 +31,7 @@ Use this contract whenever the output is an HTML or clickable prototype for a We
 - Status text should show `9:41` on the left and `5G` on the right without fake signal-dot placeholders. The compact notch should remain centered above the status row in desktop review mode.
 - Long titles must truncate before colliding with the capsule.
 - Bottom tabs appear only on top-level mini-program pages. Secondary flows may hide the tabbar and provide a back path.
-- The bundled Home, Customers, center quick action, Tasks, and Appointments order is only a neutral starter example.
+- There is no bundled default product navigation in the shell kit. Select the tab set, order, labels, and optional center action from the project's operating model.
 - Choose 3-5 top-level items from the project's highest-frequency journeys. Home is optional when another workbench entry is clearer. Customers, Tasks, Appointments, Content, Dashboard, Opportunities, or a role-specific queue may become top-level according to scope.
 - The center quick-action entry is optional. Use it only when cross-module creation or execution is a dominant workflow.
 - Tab order, labels, icon style, active treatment, indicator style, and background/material may vary by brand and role. Preserve touch targets, safe area, state clarity, and route behavior.
@@ -40,7 +42,7 @@ Use this contract whenever the output is an HTML or clickable prototype for a We
 - Management dashboard routes for store manager, regional, or HQ roles must include a reporting period control, role/scope copy, grouped KPI modules, progress or target attainment, and a link into by-frontline-role performance. Do not represent management tracking as only four generic summary cards.
 - The by-frontline-role performance route should be reachable from the management dashboard and use the confirmed frontline term. It should show sales/contribution, customer operation, appointment/service conversion, task execution, and WeCom connection metrics, with labels adapted to the user's source material.
 - Native WeCom replicas, such as `新建群发`, must be visually separated from custom mini-program pages and must preserve the native flow sequence.
-- Desktop review controls, role controls, journey controls, and QA controls must live outside the phone screen.
+- Desktop review controls, role controls, journey controls, and QA controls must live outside the phone screen. Every HTML/clickable demo has configured controls for role scope, free browse/Journey mode, Journey selection/reset, and relevant entry routes unless the user explicitly requests static screens only.
 
 ## Interaction Baseline
 
@@ -51,7 +53,7 @@ Use this contract whenever the output is an HTML or clickable prototype for a We
 - Preset journeys should drive route, role, highlighted step, and expected outcome while still allowing free browsing.
 - Baseline prototypes must use connected sample data. Customer, task, appointment, content, and dashboard screens should reference the same underlying objects where possible.
 - Do not ship generic repeated pages where every module uses the same card layout with different titles.
-- The bundled shell may include small interactive sample pages to demonstrate routing and controls, but those examples are not a substitute for project-specific page content.
+- The shell-kit preview is deliberately content-free and must not remain in delivery. The isolated starter demo is only a regression/comparison fixture, never a substitute for project-specific page content.
 
 ## Role And Vocabulary
 
@@ -66,7 +68,7 @@ Use this contract whenever the output is an HTML or clickable prototype for a We
 
 ## Visual Rules
 
-- Treat the bundled shell as a protected frame, not a frozen visual style. The protected layer is: desktop review stage, desktop phone frame and notch, mobile/desktop responsive behavior, WeCom mini-program container, nav title/capsule geometry, bottom-navigation mechanics and safe area, role/journey controls, sticky CTA behavior, native WeCom replica structure, and QA guardrails.
+- Treat the bundled shell as a protected frame and modern utility layer, not a frozen visual style or fixed product. The protected layer is: desktop review stage, desktop phone frame and notch, mobile/desktop responsive behavior, WeCom mini-program container, nav title/capsule geometry, bottom-navigation mechanics and safe area, role/journey controls, sticky CTA behavior, native WeCom replica structure, and QA guardrails.
 - Treat page composition as an adaptable layer. A project may change page density, content hierarchy, card/list/table patterns, brand accents, typography scale within shell limits, icons, imagery, data fields, and module-specific layouts when source material or visual references justify it.
 - Adaptable page design must still pass the shell contract: no broken mobile full-screen mode, no in-app viewport selector, no FA/SA/BA runtime selector, no emoji UI, no duplicated quick tools, no floating secondary CTA, and no custom redesign of native WeCom pages.
 - For branded prototypes, map visual references into a brand visual token before coding. Apply brand skin through CSS variables such as `--brand-primary`, `--brand-primary-strong`, `--brand-accent`, `--brand-on-primary`, `--bg`, `--surface`, `--surface-soft`, `--line`, `--text`, and `--muted`.
@@ -80,6 +82,25 @@ Use this contract whenever the output is an HTML or clickable prototype for a We
 - Keep review controls visually modest: compact select fields and buttons, small labels, and no large decorative control panels.
 
 ## QA Requirements
+
+A branded HTML/clickable delivery uses this directory shape:
+
+```text
+case-directory/
+  prototype/index.html
+  docs/visual-token.json
+  docs/prototype-delivery-review.json
+  docs/prototype-case-evaluation.json
+  docs/screens/...
+```
+
+Run the complete bundle gate after the individual checks:
+
+```bash
+python3 scripts/check_prototype_delivery_bundle.py case-directory
+```
+
+This gate rejects missing evidence artifacts, the shell-kit preview, and a copied starter demo. A standalone `index.html` is an intermediate artifact, not a release.
 
 Run the static shell checker before delivery:
 

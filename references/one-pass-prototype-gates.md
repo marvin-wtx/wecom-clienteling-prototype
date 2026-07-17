@@ -61,6 +61,9 @@ Apply brand evidence after the operational skeleton is complete:
 ## Gate 5: Native And Shell Boundaries
 
 - Preserve phone-frame, status-bar, capsule, safe-area, responsive, sticky-action, and native WeCom mechanics.
+- Start from the V3 shell kit, then remove `renderKitPreview` and build the project's data, routes, pages, navigation, and state transitions. The kit supplies a frame and primitives, not an acceptable default home, tab order, or page composition.
+- Do not use `assets/prototype-shell-demo/` as a starting point. It is a comparison fixture whose full V2 business stack is intentionally quarantined from generation.
+- Configure `mountReviewControls` for the desktop stage with project roles, free-browse/Journey mode, preset journeys, reset, and relevant entry routes. Bind `wecom-review-change` to the project's route/state model and use `journeyHud` during guided review. These demo controls are protected shell capability, not page-layer IA.
 - Choose 3-5 top-level navigation items from the project's primary journeys. Their set, order, labels, icons, center-action policy, active treatment, and visual style are adaptable.
 - Do not copy the default five-item order automatically. Explain the chosen navigation in the visual token.
 - Keep mini-program navigation titles short: prefer Chinese titles of 2-6 characters. Keep ASCII titles to 8 characters or fewer; move longer English branding into the page body.
@@ -79,9 +82,10 @@ python3 scripts/check_workbench_implementation.py prototype/index.html
 python3 scripts/check_page_information.py prototype/index.html
 python3 scripts/check_token_implementation.py docs/visual-token.json prototype/index.html
 python3 scripts/check_prototype_block_layout.py docs/visual-token.json prototype/index.html
+python3 scripts/check_prototype_delivery_bundle.py .
 ```
 
-Treat every failure as blocking. Do not add empty `data-*` markers, hidden labels, duplicate text, or irrelevant keywords to satisfy a checker.
+Treat every failure as blocking. The bundle gate requires `prototype/index.html`, visual token, delivery review, case evaluation, and real screenshot files; a standalone HTML file cannot pass release. Do not add empty `data-*` markers, hidden labels, duplicate text, or irrelevant keywords to satisfy a checker.
 
 ## Gate 7: Rendered QA
 

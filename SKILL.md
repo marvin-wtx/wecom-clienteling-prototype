@@ -52,7 +52,7 @@ Then classify the deliverable into one or more work modes:
 17. Read `references/wecom-mini-program-constraints.md` when designing pages, flows, interactions, integrations, or prototype implementation.
 18. Read `references/wecom-native-page-replication.md` when a flow enters WeCom native compose, broadcast, recipient, or send-result behavior, or when source material mentions 新建群发, 群发, 原生企微页面, native WeCom, broadcast, or mass send.
 19. Read `references/prototype-shell-contract.md` before producing, revising, or reviewing an HTML/clickable prototype.
-20. Use `assets/prototype-shell/index.html` as the starting source for HTML prototypes unless the user explicitly requires another stack.
+20. Use `assets/prototype-shell/index.html` as the **shell kit** for HTML prototypes unless the user explicitly requires another stack. Preserve its frame, responsive behavior, helpers, and protected native mechanics; replace its preview and build project-specific data, routes, navigation, page architecture, and interactions. Never use `assets/prototype-shell-demo/` as a client-project starting point.
 21. Read `references/prototype-presentation-spec.md` when producing an HTML/clickable prototype, demo shell, or prototype execution brief.
 22. Read `references/terminology.md` when role naming, industry vocabulary, customer/member field names, or Chinese/English labels affect credibility.
 23. Read `references/visual-design-reference.md` when producing or briefing a visual prototype.
@@ -61,15 +61,16 @@ Then classify the deliverable into one or more work modes:
 26. Run `scripts/check_creative_divergence.py <visual-token.json>` on open-generative or evidence-derived branded tokens.
 27. Use `assets/templates/prototype-delivery-review-template.json` when producing the delivery review. Run `scripts/check_delivery_review.py` before delivery.
 28. Read `references/prototype-quality-evaluation.md` and use `assets/templates/prototype-case-evaluation-template.json` after rendered QA. Run `scripts/check_prototype_case_evaluation.py <case-evaluation.json>` before delivery.
-29. Run `scripts/check_workbench_implementation.py` on branded HTML prototypes to verify the visual token's workbench-balance promises are actually implemented.
-30. Run `scripts/check_page_information.py` on HTML prototypes with home metrics, C360, task detail, or appointment detail pages. Treat failures as page-depth defects, not optional polish.
-31. Run `scripts/check_token_implementation.py <visual-token.json> <prototype.html>` on every branded HTML prototype.
-32. Run `scripts/check_prototype_block_layout.py <visual-token.json> <prototype.html>` on every branded prototype.
-33. Run `scripts/check_structural_similarity.py <prototype.html> --token <visual-token.json> --reference <prior-case.html>` when prior brand cases are available or multiple cases are produced together.
-34. Run `scripts/check_portfolio_diversity.py <case-evaluation.json> --reference <prior-case-evaluation.json>` against every available prior case when open-generative or evidence-derived cases are compared. When `prototype-portfolio-index.json` exists, use it with `--portfolio` so every indexed case is included.
-35. Read `references/intake-questionnaire.md` when source material is missing actors, integration scope, page depth, demo goals, visual direction, terminology, WeCom mini-program constraints, native page replication, presentation mode, interaction standards, task execution details, or acceptance criteria.
-36. Read `references/qa-rubric.md` when reviewing coverage or validating an existing prototype.
-37. Use `assets/templates/` files as output skeletons when the user wants a structured deliverable.
+29. Deliver every branded HTML/clickable case as `prototype/index.html` plus the required `docs/` artifacts. Run `scripts/check_prototype_delivery_bundle.py <case-directory>` as the final release gate; a standalone `index.html` is incomplete.
+30. Run `scripts/check_workbench_implementation.py` on branded HTML prototypes to verify the visual token's workbench-balance promises are actually implemented.
+31. Run `scripts/check_page_information.py` on HTML prototypes with home metrics, C360, task detail, or appointment detail pages. Treat failures as page-depth defects, not optional polish.
+32. Run `scripts/check_token_implementation.py <visual-token.json> <prototype.html>` on every branded HTML prototype.
+33. Run `scripts/check_prototype_block_layout.py <visual-token.json> <prototype.html>` on every branded prototype.
+34. Run `scripts/check_structural_similarity.py <prototype.html> --token <visual-token.json> --reference <prior-case.html>` when prior brand cases are available or multiple cases are produced together.
+35. Run `scripts/check_portfolio_diversity.py <case-evaluation.json> --reference <prior-case-evaluation.json>` against every available prior case when open-generative or evidence-derived cases are compared. When `prototype-portfolio-index.json` exists, use it with `--portfolio` so every indexed case is included.
+36. Read `references/intake-questionnaire.md` when source material is missing actors, integration scope, page depth, demo goals, visual direction, terminology, WeCom mini-program constraints, native page replication, presentation mode, interaction standards, task execution details, or acceptance criteria.
+37. Read `references/qa-rubric.md` when reviewing coverage or validating an existing prototype.
+38. Use `assets/templates/` files as output skeletons when the user wants a structured deliverable.
 
 ## Domain Rule
 
@@ -108,7 +109,8 @@ Keep Opportunity Follow-Up separate from the default core model. Only consider i
 - Determine FA/SA/BA during intake or from industry context. Do not expose FA/SA/BA as a runtime selector in the prototype shell.
 - Do not default to project-specific customer/member field names. If source material does not confirm field labels, use neutral business labels such as customer identifier, member identifier, contact method, customer grouping, member level, profile label, and lifecycle state.
 - For prototypes, separate **full-detail pages**, **structural pages**, and **navigation/skeleton pages**.
-- For HTML/clickable prototypes, start from `assets/prototype-shell/index.html` or port its classes and behavior directly. Do not recreate the phone frame, WeCom mini-program container, top bar, capsule, safe-area behavior, or bottom-navigation mechanics from scratch. Do redesign the bottom-navigation item set, order, center-action policy, icon treatment, and active state when business journeys and brand evidence support it.
+- For HTML/clickable prototypes, start from `assets/prototype-shell/index.html` or port its classes and behavior directly. It is a shell kit, not a predesigned clienteling application: delete `renderKitPreview`, then implement the project data model, route map, page components, navigation model, and business interactions. Do not recreate the phone frame, WeCom mini-program container, top bar, capsule, safe-area behavior, or bottom-navigation mechanics from scratch. Do redesign the bottom-navigation item set, order, center-action policy, icon treatment, and active state when business journeys and brand evidence support it.
+- Deliver branded HTML/clickable work in a complete case directory: `prototype/index.html`, `docs/visual-token.json`, `docs/prototype-delivery-review.json`, `docs/prototype-case-evaluation.json`, and screenshot files referenced by the evaluation. A text-only completion claim or a bare HTML file is not a finished delivery.
 - For HTML/clickable prototypes, keep the desktop review shell as a compact console around a 390px by 844px mini-program viewport, scaled to fit the desktop window without cropping.
 - For HTML/clickable prototypes, preserve the desktop phone frame including the iPhone-style notch. Hide decorative phone hardware only in mobile full-screen mode.
 - Preserve the protected top shell geometry: 38px status bar, nav title and WeCom capsule centered in the nav row below it, compact notch, and status text showing `9:41` and `5G` without decorative signal-dot placeholders.
@@ -122,7 +124,7 @@ Keep Opportunity Follow-Up separate from the default core model. Only consider i
 - For high-fidelity branded prototypes or UI restoration, produce a compact evidence table and brand visual token before implementation. Map visual evidence into page-layer CSS variables, component rules, imagery rules, module-specific layout choices, and a workbench balance plan.
 - Strong brand visual expression is allowed and often desirable, but keep customer lists, task execution, appointment rows, dashboard drilldowns, search/filter controls, and native WeCom handoffs faster to scan than decorative brand moments.
 - Do not invent exact brand assets, proprietary UI details, product imagery, membership terms, or campaign copy. Use provided/public evidence, neutral defaults, or explicit assumptions.
-- Include role switching, permission-driven show/hide rules, free-browse mode, and preset journey mode when the user asks for an interactive review prototype.
+- For every HTML/clickable demo unless the user explicitly asks for static screens only, include the shell kit's desktop review controls: configured role scope, free-browse mode, preset Journey selection, Journey reset, and project-relevant entry buttons. Keep them outside the phone and hide them in mobile full-screen mode. Role switching changes only permission/data-scope roles, not FA/SA/BA terminology.
 - For manager, regional, or HQ roles, include a management dashboard structure and a by-frontline-role performance drilldown when dashboard/tracking is in scope. Reuse generic metric groups such as sales or contribution, customer operation, appointment/service conversion, task execution, and WeCom connection; adapt names and formulas to the user's source material.
 - Keep desktop-only review controls, role controls, and preset journey controls outside the mini-program screen; hide them in mobile presentation.
 - Preserve required WeCom native replicas, including 新建群发, recipient summary, message/content payload, asset selection entry, send action, frequency note, and return-to-business result state when the flow requires them.

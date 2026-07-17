@@ -81,7 +81,8 @@
     "check_token_implementation.py",
     "check_prototype_block_layout.py",
     "check_prototype_case_evaluation.py",
-    "check_delivery_review.py"
+    "check_delivery_review.py",
+    "check_prototype_delivery_bundle.py"
   ],
   "renderedChecks": [
     "home first viewport",
