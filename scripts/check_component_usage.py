@@ -27,6 +27,17 @@ def digest(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def strip_non_runtime_markup(source: str) -> str:
+    return re.sub(r"<template\b[\s\S]*?</template>", "", source, flags=re.I)
+
+
+def marker_only_template_errors(source: str) -> list[str]:
+    for match in re.finditer(r"<template\b[^>]*>([\s\S]*?)</template>", source, flags=re.I):
+        if re.search(r"data-(?:page-id|common-field|ux-component|ux-state|visible-claim|content-provenance)", match.group(1)):
+            return ["marker-only templates are forbidden; component markers must render in the active product route"]
+    return []
+
+
 def has_class(source: str, name: str) -> bool:
     return bool(re.search(rf"(?:class\s*=\s*['\"][^'\"]*|className\s*=\s*['\"][^'\"]*)\b{re.escape(name)}\b", source))
 
@@ -68,12 +79,13 @@ def main() -> int:
         page_contract = load(paths["pageContract"])
         contracts = load(paths["contracts"])
         recipes = load(paths["recipes"])
-        source = paths["html"].read_text(encoding="utf-8") + "\n" + paths["runtime"].read_text(encoding="utf-8")
+        raw_source = paths["html"].read_text(encoding="utf-8") + "\n" + paths["runtime"].read_text(encoding="utf-8")
+        source = strip_non_runtime_markup(raw_source)
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"Component usage check failed:\n- cannot read input: {exc}", file=sys.stderr)
         return 1
 
-    errors: list[str] = []
+    errors: list[str] = marker_only_template_errors(raw_source)
     if manifest.get("skillVersion") != "4.0":
         errors.append('skillVersion must remain "4.0"')
     build_hash = manifest.get("buildHash")

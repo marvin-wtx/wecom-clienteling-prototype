@@ -21,6 +21,14 @@ def has_marker(source: str, name: str, value: str) -> bool:
     return bool(re.search(rf"\b{re.escape(name)}\s*=\s*['\"]{re.escape(value)}['\"]", source))
 
 
+def strip_non_runtime_markup(source: str) -> str:
+    return re.sub(r"<template\b[\s\S]*?</template>", "", source, flags=re.I)
+
+
+def marker_only_template_present(source: str) -> bool:
+    return any(re.search(r"data-(?:page-id|common-field|ux-component|ux-state|visible-claim|content-provenance)", match.group(1)) for match in re.finditer(r"<template\b[^>]*>([\s\S]*?)</template>", source, flags=re.I))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("case_dir", type=Path)
@@ -35,7 +43,8 @@ def main() -> int:
         print("Design foundation implementation check failed:\n- missing prototype HTML, executable UI kit, or design intake", file=sys.stderr)
         return 1
     try:
-        source = html_path.read_text(encoding="utf-8")
+        raw_source = html_path.read_text(encoding="utf-8")
+        source = strip_non_runtime_markup(raw_source)
         style_source = css_path.read_text(encoding="utf-8")
         runtime_source = runtime_path.read_text(encoding="utf-8")
         layout_source = layout_path.read_text(encoding="utf-8")
@@ -44,6 +53,8 @@ def main() -> int:
         print(f"Design foundation implementation check failed:\n- cannot read input: {exc}", file=sys.stderr)
         return 1
     errors: list[str] = []
+    if marker_only_template_present(raw_source):
+        errors.append("marker-only templates are forbidden for UX foundation evidence")
     for component in intake.get("foundationComponents", []):
         if not has_marker(source, "data-ux-component", component):
             errors.append(f"confirmed UX component is not marked in HTML: {component}")

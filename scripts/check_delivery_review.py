@@ -32,6 +32,10 @@ def valid_screenshot(root: Path, value: Any) -> bool:
     return header.startswith(b"\x89PNG\r\n\x1a\n") or header.startswith(b"\xff\xd8\xff") or (header.startswith(b"RIFF") and header[8:12] == b"WEBP")
 
 
+def status_pass(item: Any) -> bool:
+    return isinstance(item, dict) and item.get("status") == "pass"
+
+
 def validate(data: dict[str, Any], root: Path) -> list[str]:
     errors: list[str] = []
     if data.get("skillVersion") != "4.0":
@@ -64,6 +68,58 @@ def validate(data: dict[str, Any], root: Path) -> list[str]:
         for page_id, shot in page_shots.items():
             if not valid_screenshot(root, shot):
                 errors.append(f"pageScreenshots.{page_id} must be an existing relative PNG, JPEG, or WebP screenshot")
+    runtime_pages = data.get("runtimePages") if isinstance(data.get("runtimePages"), list) else []
+    runtime_by_id = {item.get("pageId"): item for item in runtime_pages if isinstance(item, dict)}
+    if set(runtime_by_id) != set(pages):
+        errors.append("runtimePages must include one visible #app assertion for every selected page")
+    else:
+        for page_id in pages:
+            item = runtime_by_id[page_id]
+            if item.get("actualPageId") != page_id or item.get("visibleInApp") is not True or item.get("renderedMarkersInApp") is not True:
+                errors.append(f"runtimePages.{page_id} must prove #app rendered the expected page and markers")
+            if not meaningful(item.get("routeEntry"), 2):
+                errors.append(f"runtimePages.{page_id}.routeEntry must name the navigation path used in Chrome")
+            if not valid_screenshot(root, item.get("screenshot")):
+                errors.append(f"runtimePages.{page_id}.screenshot must be an existing relative image")
+    tested = data.get("testedControlsByPage") if isinstance(data.get("testedControlsByPage"), dict) else {}
+    if set(tested) != set(pages):
+        errors.append("testedControlsByPage must list controls tested for every selected page")
+    else:
+        for page_id, controls in tested.items():
+            if not isinstance(controls, list) or not controls or not all(isinstance(item, str) and item.strip() for item in controls):
+                errors.append(f"testedControlsByPage.{page_id} must contain at least one tested visible control")
+    controls = data.get("controlAssertions") if isinstance(data.get("controlAssertions"), list) else []
+    if not controls or not all(status_pass(item) for item in controls):
+        errors.append("controlAssertions must record passing before/action/after checks for visible controls")
+    for item in controls:
+        if not isinstance(item, dict):
+            continue
+        if item.get("pageId") not in pages:
+            errors.append("controlAssertions may only reference selected pages")
+        if not meaningful(item.get("control"), 2) or not meaningful(item.get("action"), 4) or not meaningful(item.get("after"), 4):
+            errors.append("each control assertion must name the control, action, and observable after-state")
+        if item.get("before") == item.get("after"):
+            errors.append(f"controlAssertions.{item.get('control')} appears inert because before and after match")
+    identities = data.get("objectIdentityAssertions") if isinstance(data.get("objectIdentityAssertions"), list) else []
+    if not identities or not all(status_pass(item) for item in identities):
+        errors.append("objectIdentityAssertions must prove clicked IDs are rendered on detail/result pages")
+    for item in identities:
+        if not isinstance(item, dict):
+            continue
+        if item.get("clickedId") != item.get("renderedId"):
+            errors.append("objectIdentityAssertions clickedId must match renderedId")
+    provenance = data.get("provenanceSamples") if isinstance(data.get("provenanceSamples"), list) else []
+    if len(provenance) < 3 or not all(status_pass(item) for item in provenance):
+        errors.append("provenanceSamples must include at least three passing visible structure/value provenance checks")
+    for item in provenance:
+        if not isinstance(item, dict):
+            continue
+        if item.get("structureProvenance") == item.get("valueProvenance") == "common-structure":
+            errors.append("provenanceSamples must separate common field structure from mock visible values")
+    if data.get("inertControls") not in ([], None):
+        errors.append("inertControls must be empty")
+    if data.get("wrongRouteControls") not in ([], None):
+        errors.append("wrongRouteControls must be empty")
     shots = data.get("screenshots") if isinstance(data.get("screenshots"), list) else []
     if shots and not all(valid_screenshot(root, item) for item in shots):
         errors.append("screenshots, when present, must contain existing relative image paths")

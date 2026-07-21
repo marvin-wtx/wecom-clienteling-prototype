@@ -85,11 +85,14 @@ Seed the protected runtime with `scripts/seed_runtime_shell.py`, then implement 
 
 - Build every selected page to its confirmed depth.
 - Mark each implemented page with `data-page-id`, `data-module`, `data-selection`, and `data-page-depth`; mark every contracted common field with `data-common-field` so the build can be checked against the confirmed scope.
-- Make every visible control work.
-- Keep common fields plain and demonstrative; mark the product once as using demo data.
-- Preserve source context on back navigation.
+- Attach page, field, component, and state markers only to content rendered inside `#app` for the corresponding route. Markers inside `<template>`, comments, scripts, hidden containers, zero-size marker-only elements, review metadata, or outside the currently rendered product page do not count and must fail validation.
+- Make every visible control work. A visible control works only when it produces an observable, semantically correct result: search changes the displayed records, filters change active state and records, detail actions open the selected object ID, selection persists, cancel returns to the correct source, and a button may not navigate to its current route unless it also creates a meaningful state change.
+- Keep common fields plain and demonstrative; mark the product once as using demo data. Separate structure provenance from value provenance: a wrapper may mark `data-common-field`, but visible mock names, mock metrics, mock tiers, sample locations, advisor names, and generated examples need `data-content-provenance="mock-value"`; public brand words need `data-content-provenance="public-brand"`.
+- Preserve source context and selected object IDs on navigation. Detail pages must read the clicked row's ID instead of defaulting to the first record.
 - Complete the primary Journey end to end.
 - Do not add desktop review controls, visual rationale, or multi-Journey HUD inside the phone.
+
+Minimum `clickable-structure` standard: the page must be reachable through a semantically correct route, render its contracted fields at runtime inside `#app`, use incoming selected IDs, implement every visible control, preserve filters/source context, include default plus one meaningful state when the page has state, and avoid a generic key-value layout when the page contract requires a distinct hierarchy.
 
 Use the frozen native group-send page only for recipient count, message, image or mini-program material, material selection, cancel, and send completion. Mount `renderWecomExecute()` directly in `#app`; never wrap it in an app shell or `.wx-nav`.
 
@@ -160,13 +163,13 @@ Record one concise `docs/prototype-delivery-review.json` bound to the tested URL
 
 - first mobile viewport and responsive desktop phone;
 - scroll and navigation;
-- every selected page and visible control;
-- the primary Journey and state persistence;
+- every selected page and visible control, with runtime evidence that `#app [data-page-id]` equals the expected page after navigation;
+- the primary Journey, selected object IDs, and state persistence;
 - native cancel/send behavior;
 - console errors and broken images;
 - page-specific visual hierarchy, component reuse, CTA placement, sticky-action clearance, bottom-tab clearance, empty/success/error states, and whether the page still reads as a designed product screen rather than a generic card stack.
 
-Static documents are inputs or gates, never quality proof. Token, review, or case-evaluation files cannot substitute for visible Chrome screenshots and observed behavior.
+Static documents are inputs or gates, never quality proof. Token, review, or case-evaluation files cannot substitute for visible Chrome screenshots and observed behavior. Save runtime evidence in `docs/prototype-delivery-review.json`: `runtimePages`, `testedControlsByPage`, `controlAssertions`, `objectIdentityAssertions`, and `provenanceSamples`.
 
 ## Release gates
 
@@ -186,4 +189,4 @@ python3 scripts/check_prototype_delivery_bundle.py case-directory
 python3 scripts/check_skill_version_consistency.py path/to/wecom-clienteling-prototype
 ```
 
-Reject a delivery that hid the exact page list, skipped either intake, merged design intake with acceptance, styled all pages before representative-screen acceptance, recreated protected UI-kit mechanics, silently borrowed another brand, changed protected UX structure, generated unselected modules, used unsupported or untraceable brand claims, used placeholder product imagery, left visible controls inert, allowed sticky actions to cover content, or wrapped native group send in a business shell.
+Reject a delivery that hid the exact page list, skipped either intake, merged design intake with acceptance, styled all pages before representative-screen acceptance, recreated protected UI-kit mechanics, silently borrowed another brand, changed protected UX structure, generated unselected modules, used marker-only templates, used unsupported or untraceable brand claims, used placeholder product imagery, left visible controls inert, allowed sticky actions to cover content, dropped selected object IDs, made a detail action always open the first record, made a filter or preview button navigate to the wrong module, or wrapped native group send in a business shell.

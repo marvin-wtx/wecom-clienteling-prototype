@@ -29,5 +29,50 @@
   "observation": "REPLACE_WITH_SHORT_OBSERVED_RESULT",
   "pageScreenshots": {
     "home-workbench": "screenshots/home-workbench.png"
-  }
+  },
+  "runtimePages": [
+    {
+      "pageId": "home-workbench",
+      "routeEntry": "home",
+      "actualPageId": "home-workbench",
+      "visibleInApp": true,
+      "renderedMarkersInApp": true,
+      "screenshot": "screenshots/home-workbench.png"
+    }
+  ],
+  "testedControlsByPage": {
+    "home-workbench": [
+      "open-task"
+    ]
+  },
+  "controlAssertions": [
+    {
+      "pageId": "home-workbench",
+      "control": "open-task",
+      "before": "home-workbench with task t1 visible",
+      "action": "click priority task action",
+      "after": "task-detail opens with taskId t1",
+      "status": "pass"
+    }
+  ],
+  "objectIdentityAssertions": [
+    {
+      "fromPage": "clients-list",
+      "toPage": "client-profile",
+      "clickedId": "client-id-example",
+      "renderedId": "client-id-example",
+      "status": "pass"
+    }
+  ],
+  "provenanceSamples": [
+    {
+      "text": "客户 A",
+      "field": "display-name",
+      "structureProvenance": "common-structure",
+      "valueProvenance": "mock-value",
+      "status": "pass"
+    }
+  ],
+  "inertControls": [],
+  "wrongRouteControls": []
 }
