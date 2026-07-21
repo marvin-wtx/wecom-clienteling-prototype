@@ -14,10 +14,20 @@
     "brokenImages": 0
   },
   "primaryJourneyId": "REPLACE_WITH_CONFIRMED_PRIMARY_JOURNEY_ID",
-  "journey": ["REPLACE_WITH_OBSERVED_STEP_1", "REPLACE_WITH_OBSERVED_STEP_2", "REPLACE_WITH_OBSERVED_STEP_3", "REPLACE_WITH_OBSERVED_STEP_4"],
-  "selectedPagesChecked": ["REPLACE_WITH_EACH_SELECTED_PAGE_ID"],
-  "screenshots": [
-    "REPLACE_WITH_RELATIVE_SCREENSHOT_PATH"
+  "journey": [
+    "REPLACE_WITH_OBSERVED_STEP_1",
+    "REPLACE_WITH_OBSERVED_STEP_2",
+    "REPLACE_WITH_OBSERVED_STEP_3",
+    "REPLACE_WITH_OBSERVED_STEP_4"
   ],
-  "observation": "REPLACE_WITH_SHORT_OBSERVED_RESULT"
+  "selectedPagesChecked": [
+    "REPLACE_WITH_EACH_SELECTED_PAGE_ID"
+  ],
+  "screenshots": [
+    "screenshots/home-workbench.png"
+  ],
+  "observation": "REPLACE_WITH_SHORT_OBSERVED_RESULT",
+  "pageScreenshots": {
+    "home-workbench": "screenshots/home-workbench.png"
+  }
 }

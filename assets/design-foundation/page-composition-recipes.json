@@ -4,35 +4,392 @@
   "recipes": {
     "workbench": {
       "use": "Home for a client advisor",
-      "requiredComponents": ["page-shell", "section-header", "task-card", "list-row", "bottom-navigation"],
-      "requiredOrder": ["current-work", "supporting-queue"],
+      "requiredComponents": [
+        "page-shell",
+        "section-header",
+        "task-card",
+        "list-row",
+        "bottom-navigation"
+      ],
+      "requiredOrder": [
+        "current-work",
+        "supporting-queue"
+      ],
       "primaryActionCount": 1,
-      "forbidden": ["decorative-hero-before-work", "equal-weight-card-wall", "default-kpi-strip-without-confirmed-performance-scope"],
-      "expressiveZones": ["page-background", "priority-task-surface", "section-typography", "sourced-supporting-image"]
+      "forbidden": [
+        "decorative-hero-before-work",
+        "equal-weight-card-wall",
+        "default-kpi-strip-without-confirmed-performance-scope"
+      ],
+      "expressiveZones": [
+        "page-background",
+        "priority-task-surface",
+        "section-typography",
+        "sourced-supporting-image"
+      ]
     },
     "customer-profile": {
       "use": "Customer identity, current work and confirmed profile sections",
-      "requiredComponents": ["page-shell", "customer-summary", "key-value-group", "action-group", "bottom-navigation"],
-      "requiredOrder": ["identity", "current-work", "profile-sections", "actions"],
+      "requiredComponents": [
+        "page-shell",
+        "customer-summary",
+        "key-value-group",
+        "action-group",
+        "bottom-navigation"
+      ],
+      "requiredOrder": [
+        "identity",
+        "current-work",
+        "profile-sections",
+        "actions"
+      ],
       "primaryActionCount": 1,
-      "forbidden": ["fixed-empty-card-height", "unsupported-brand-tier-rules", "actions-before-identity"],
-      "expressiveZones": ["identity-surface", "membership-material", "section-dividers", "sourced-portrait-or-monogram"]
+      "forbidden": [
+        "fixed-empty-card-height",
+        "unsupported-brand-tier-rules",
+        "actions-before-identity"
+      ],
+      "expressiveZones": [
+        "identity-surface",
+        "membership-material",
+        "section-dividers",
+        "sourced-portrait-or-monogram"
+      ]
     },
     "task-execution": {
       "use": "Prepare customers, message and material before native WeCom execution",
-      "requiredComponents": ["page-shell", "task-card", "selection-row", "form-field", "asset-card", "sticky-action-bar", "bottom-navigation"],
-      "requiredOrder": ["task-context", "selection", "message", "material", "commit"],
+      "requiredComponents": [
+        "page-shell",
+        "task-card",
+        "selection-row",
+        "form-field",
+        "asset-card",
+        "sticky-action-bar",
+        "bottom-navigation"
+      ],
+      "requiredOrder": [
+        "task-context",
+        "selection",
+        "message",
+        "material",
+        "commit"
+      ],
       "primaryActionCount": 1,
-      "forbidden": ["sticky-action-over-content", "text-placeholder-as-product-image", "counter-not-bound-to-field", "native-ui-inside-business-shell"],
-      "expressiveZones": ["task-context-accent", "selected-state", "form-focus", "real-asset-crop"]
+      "forbidden": [
+        "sticky-action-over-content",
+        "text-placeholder-as-product-image",
+        "counter-not-bound-to-field",
+        "native-ui-inside-business-shell"
+      ],
+      "expressiveZones": [
+        "task-context-accent",
+        "selected-state",
+        "form-focus",
+        "real-asset-crop"
+      ]
     },
     "native-wecom": {
       "use": "Frozen full-screen group-send execution",
       "requiredComponents": [],
-      "requiredOrder": ["native-header", "recipient-count", "message", "material", "send"],
+      "requiredOrder": [
+        "native-header",
+        "recipient-count",
+        "message",
+        "material",
+        "send"
+      ],
       "primaryActionCount": 1,
-      "forbidden": ["wx-nav", "bottom-navigation", "business-task-title", "parent-shell"],
+      "forbidden": [
+        "wx-nav",
+        "bottom-navigation",
+        "business-task-title",
+        "parent-shell"
+      ],
       "expressiveZones": []
+    },
+    "collection-list": {
+      "use": "Customer, task, appointment, or asset collection with search/filter and openable rows",
+      "requiredComponents": [
+        "page-shell",
+        "search-filter-bar",
+        "list-row",
+        "empty-state",
+        "bottom-navigation"
+      ],
+      "requiredOrder": [
+        "collection-purpose",
+        "search-or-filter",
+        "active-state",
+        "rows",
+        "empty-or-result-state"
+      ],
+      "primaryActionCount": 1,
+      "forbidden": [
+        "inert-search-or-filter",
+        "equal-weight-card-wall",
+        "rows-without-decision-context",
+        "missing-clear-filter-state"
+      ],
+      "expressiveZones": [
+        "filter-treatment",
+        "row-thumbnail-or-monogram",
+        "active-state",
+        "empty-state-space"
+      ]
+    },
+    "customer-detail-section": {
+      "use": "Membership, transaction, or interaction section reached from a customer profile",
+      "requiredComponents": [
+        "page-shell",
+        "customer-summary",
+        "key-value-group",
+        "timeline",
+        "action-group",
+        "bottom-navigation"
+      ],
+      "requiredOrder": [
+        "customer-context",
+        "section-hero",
+        "detail-or-timeline",
+        "next-action-or-return"
+      ],
+      "primaryActionCount": 1,
+      "forbidden": [
+        "bare-three-row-kv-only",
+        "missing-customer-context",
+        "unsupported-brand-rules",
+        "dead-end-without-return-action"
+      ],
+      "expressiveZones": [
+        "section-hero",
+        "timeline-marker",
+        "membership-material",
+        "return-action"
+      ]
+    },
+    "task-list": {
+      "use": "Task queue with status, due time, related customer, and one next action",
+      "requiredComponents": [
+        "page-shell",
+        "section-header",
+        "task-card",
+        "empty-state",
+        "bottom-navigation"
+      ],
+      "requiredOrder": [
+        "task-scope",
+        "priority-or-filter",
+        "task-rows",
+        "empty-state"
+      ],
+      "primaryActionCount": 1,
+      "forbidden": [
+        "status-hidden-in-meta",
+        "no-next-action",
+        "generic-list-without-due-context"
+      ],
+      "expressiveZones": [
+        "priority-accent",
+        "status-chip",
+        "due-treatment",
+        "empty-state"
+      ]
+    },
+    "task-detail": {
+      "use": "Understand one task and start the selected execution path",
+      "requiredComponents": [
+        "page-shell",
+        "task-card",
+        "key-value-group",
+        "asset-card",
+        "action-group",
+        "bottom-navigation"
+      ],
+      "requiredOrder": [
+        "task-status",
+        "objective",
+        "customers",
+        "prepared-material",
+        "commit"
+      ],
+      "primaryActionCount": 1,
+      "forbidden": [
+        "action-before-task-context",
+        "missing-prepared-material",
+        "multiple-primary-actions"
+      ],
+      "expressiveZones": [
+        "task-context-accent",
+        "prepared-material-preview",
+        "action-surface"
+      ]
+    },
+    "appointment-list": {
+      "use": "Appointment schedule/list with time, customer, type, status and create action",
+      "requiredComponents": [
+        "page-shell",
+        "section-header",
+        "list-row",
+        "empty-state",
+        "sticky-action-bar",
+        "bottom-navigation"
+      ],
+      "requiredOrder": [
+        "date-or-schedule-context",
+        "appointment-rows",
+        "create-action"
+      ],
+      "primaryActionCount": 1,
+      "forbidden": [
+        "schedule-without-time-anchor",
+        "create-action-hidden",
+        "appointment-row-without-status"
+      ],
+      "expressiveZones": [
+        "date-strip",
+        "time-column",
+        "status-treatment",
+        "create-action"
+      ]
+    },
+    "appointment-detail": {
+      "use": "Appointment detail or create flow with schedule context and confirmation state",
+      "requiredComponents": [
+        "page-shell",
+        "customer-summary",
+        "form-field",
+        "key-value-group",
+        "action-group",
+        "bottom-navigation"
+      ],
+      "requiredOrder": [
+        "customer-or-purpose",
+        "date-time",
+        "type-location",
+        "notes-or-confirmation",
+        "action"
+      ],
+      "primaryActionCount": 1,
+      "forbidden": [
+        "bare-kv-only",
+        "missing-confirmation-state",
+        "inactive-create-controls"
+      ],
+      "expressiveZones": [
+        "schedule-hero",
+        "choice-controls",
+        "confirmation-state"
+      ]
+    },
+    "performance-summary": {
+      "use": "Personal performance summary with period, metric interpretation and next action",
+      "requiredComponents": [
+        "page-shell",
+        "section-header",
+        "key-value-group",
+        "list-row",
+        "bottom-navigation"
+      ],
+      "requiredOrder": [
+        "period",
+        "headline-metrics",
+        "interpretation",
+        "drilldown-or-task-action"
+      ],
+      "primaryActionCount": 1,
+      "forbidden": [
+        "number-grid-only",
+        "no-period-context",
+        "no-action-or-interpretation"
+      ],
+      "expressiveZones": [
+        "metric-hierarchy",
+        "period-switch",
+        "trend-or-progress-treatment"
+      ]
+    },
+    "task-performance": {
+      "use": "Task performance page distinct from personal performance when selected",
+      "requiredComponents": [
+        "page-shell",
+        "section-header",
+        "key-value-group",
+        "list-row",
+        "bottom-navigation"
+      ],
+      "requiredOrder": [
+        "task-scope",
+        "assigned-completed-rate",
+        "task-breakdown",
+        "return-or-open-task"
+      ],
+      "primaryActionCount": 1,
+      "forbidden": [
+        "same-route-as-personal-performance",
+        "number-grid-only",
+        "missing-task-breakdown"
+      ],
+      "expressiveZones": [
+        "completion-progress",
+        "task-breakdown",
+        "status-comparison"
+      ]
+    },
+    "asset-library": {
+      "use": "Browse, preview and choose sendable assets",
+      "requiredComponents": [
+        "page-shell",
+        "search-filter-bar",
+        "asset-card",
+        "selection-row",
+        "empty-state",
+        "bottom-navigation"
+      ],
+      "requiredOrder": [
+        "search-filter",
+        "category-state",
+        "asset-preview-list",
+        "selection-state"
+      ],
+      "primaryActionCount": 1,
+      "forbidden": [
+        "placeholder-image",
+        "missing-asset-type",
+        "selected-state-only-as-text",
+        "inert-filter"
+      ],
+      "expressiveZones": [
+        "asset-crop",
+        "selected-treatment",
+        "category-filter",
+        "preview-surface"
+      ]
+    },
+    "result-status": {
+      "use": "Runtime result, empty result, success, or error state after an action",
+      "requiredComponents": [
+        "page-shell",
+        "result-receipt",
+        "action-group",
+        "bottom-navigation"
+      ],
+      "requiredOrder": [
+        "status",
+        "runtime-facts",
+        "snapshot",
+        "return-action"
+      ],
+      "primaryActionCount": 1,
+      "forbidden": [
+        "invented-read-or-reply-status",
+        "crm-writeback-without-source",
+        "generic-success-card-without-runtime-facts"
+      ],
+      "expressiveZones": [
+        "status-mark",
+        "receipt-surface",
+        "return-action"
+      ]
     }
   }
 }

@@ -21,6 +21,17 @@ def marker(source: str, name: str, value: str) -> bool:
     return bool(re.search(rf"\b{re.escape(name)}\s*=\s*['\"]{re.escape(value)}['\"]", source))
 
 
+def rendered_page_container(source: str, page_id: str) -> bool:
+    if page_id == "native-broadcast":
+        return marker(source, "data-native-mount", "direct")
+    literal_container = re.search(rf"<(?:div|section|article|main)\b[^>]*\bdata-page-id\s*=\s*['\"]{re.escape(page_id)}['\"]", source)
+    direct_page_root = re.search(rf"\bpageRoot\(\s*['\"]{re.escape(page_id)}['\"]", source)
+    ternary_page_root = re.search(rf"\bpageRoot\(\s*[^,()]+\?\s*['\"]{re.escape(page_id)}['\"]\s*:", source) or re.search(rf"\bpageRoot\(\s*[^,()]+\?\s*[^,()]+:\s*['\"]{re.escape(page_id)}['\"]", source)
+    page_root_call = direct_page_root or ternary_page_root
+    array_mapped_page = re.search(rf"\[\s*['\"]{re.escape(page_id)}['\"]\s*,", source)
+    return bool(literal_container or page_root_call or array_mapped_page)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("case_dir", type=Path)
@@ -63,6 +74,8 @@ def main() -> int:
         if not isinstance(page, dict):
             continue
         page_id = str(page.get("id", ""))
+        if page_id and not rendered_page_container(source, page_id):
+            errors.append(f"page {page_id} must be implemented on a rendered page container, not only an inventory marker")
         for name, value in (
             ("data-page-id", page_id),
             ("data-module", str(page.get("module", ""))),

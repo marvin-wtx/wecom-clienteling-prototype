@@ -119,7 +119,8 @@ Apply the confirmed direction to two to four representative screens: one home/wo
 
 - Copy `shell-runtime.js`, `layout-audit.js`, and `workbench-visual-primitives.css` unchanged. Apply brand expression through variables and project CSS.
 - Build from a matching composition recipe; do not recreate the page shell, scrolling, sticky actions, bottom navigation, or protected component structure.
-- Create `docs/component-usage.json` from the template. Mark baseline components with `data-ux-component` and meaningful states with `data-ux-state`; in `?review=1`, expose the components actually rendered outside the phone.
+- Create `docs/component-usage.json` from the template during representative design, but do not leave it representative-only. It must include `representativePageIds` and one `pages[]` design-mapping entry for every selected page before release.
+- Mark baseline components with `data-ux-component` and meaningful states with `data-ux-state`; in `?review=1`, expose the components actually rendered outside the phone.
 - Preserve semantic grouping, action order, required states, touch targets, scroll behavior, state transitions, and frozen native UI.
 - Vary brand tokens, typography, density within limits, imagery, surface material, geometry, and motion only where the component contract permits.
 - Use real supplied assets or generated image assets; do not handcraft SVG, CSS, text-symbol, or placeholder art as product imagery.
@@ -128,7 +129,21 @@ Before asking for acceptance, run every representative page at 390 × 844 in vis
 
 ### 4C · Extend the accepted design
 
-After design acceptance, apply the direction to every selected page without changing approved pages, objects, fields, or transitions. Compare each styled screen against its accepted functional counterpart and rerun the business gates before release.
+After explicit user design acceptance, apply the direction to every selected page without changing approved pages, objects, fields, or transitions. Do not style remaining pages when `docs/design-acceptance.json` is missing, `accepted` is not true, `acceptedBy` is not `user`, or `remainingPagesMayBeStyled` is not true.
+
+For every selected page, create a page-level design mapping in `docs/component-usage.json` before writing final CSS/HTML. Each mapping must name the page's `recipe`, `informationHero`, `primaryAction`, `stateCoverage`, `components`, `brandOverrides`, and a short `compositionRationale`. Use `assets/design-foundation/page-composition-recipes.json`; if no recipe fits, stop and add a general reusable recipe to the skill instead of improvising a white-card page.
+
+The full product must not degrade into one repeated card/list/table pattern. Common pages need distinct composition intent:
+
+- customer list: search/filter as the working control, segmented filters with active and clear states, rows with identity plus decision context;
+- customer detail sections: membership, transactions, and interactions must each have their own information hero and state pattern, not only a three-row key/value table;
+- task list and task detail: status, due time, related customer, and next action must drive the hierarchy;
+- appointments: list, detail, and create must separate schedule context, customer identity, editable choice, and confirmation state;
+- performance: personal performance and task performance are separate selected pages when both are contracted; a button may not loop back to the same page;
+- asset library: search/filter, preview/selection, asset type, selected state, and broken-image fallback must be visibly designed;
+- result pages: show only runtime facts and use a distinct success/empty/error state.
+
+Compare each styled screen against its accepted functional counterpart and rerun the business gates before release. A functional structure can pass while the branded prototype still fails; the expected delivery is a brand-aware, polished product prototype, not a complete set of generic fields.
 
 ## Stage 5 · Add the delivery console
 
@@ -141,16 +156,17 @@ Add desktop/mobile presentation and optional role/Journey controls only after mo
 
 ## Stage 6 · Record browser acceptance
 
-Record one concise `docs/prototype-delivery-review.json` bound to the tested URL and build hash. In visible Chrome verify:
+Record one concise `docs/prototype-delivery-review.json` bound to the tested URL and build hash. In visible Chrome verify and screenshot every selected page, not only representative screens or the primary Journey:
 
 - first mobile viewport and responsive desktop phone;
 - scroll and navigation;
 - every selected page and visible control;
 - the primary Journey and state persistence;
 - native cancel/send behavior;
-- console errors and broken images.
+- console errors and broken images;
+- page-specific visual hierarchy, component reuse, CTA placement, sticky-action clearance, bottom-tab clearance, empty/success/error states, and whether the page still reads as a designed product screen rather than a generic card stack.
 
-Static documents are inputs or gates, never quality proof.
+Static documents are inputs or gates, never quality proof. Token, review, or case-evaluation files cannot substitute for visible Chrome screenshots and observed behavior.
 
 ## Release gates
 

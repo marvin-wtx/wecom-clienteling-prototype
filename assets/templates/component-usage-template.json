@@ -12,12 +12,37 @@
       "pageId": "home-workbench",
       "recipe": "workbench",
       "components": [
-        {"id": "page-shell", "selector": ".app-page.ux-page-shell"},
-        {"id": "task-card", "selector": ".ux-task-card[data-ux-component='task-card']"},
-        {"id": "bottom-navigation", "selector": ".tabbar[data-ux-component='bottom-navigation']"}
+        {
+          "id": "page-shell",
+          "selector": ".app-page.ux-page-shell"
+        },
+        {
+          "id": "task-card",
+          "selector": ".ux-task-card[data-ux-component='task-card']"
+        },
+        {
+          "id": "bottom-navigation",
+          "selector": ".tabbar[data-ux-component='bottom-navigation']"
+        }
       ],
-      "brandOverrides": ["color-roles", "typography-rhythm", "surface-material"],
-      "protectedStructureChanged": false
+      "brandOverrides": [
+        "color-roles",
+        "typography-rhythm",
+        "surface-material"
+      ],
+      "protectedStructureChanged": false,
+      "informationHero": "today-priority-work",
+      "primaryAction": "open-task",
+      "stateCoverage": [
+        "default",
+        "selected",
+        "empty"
+      ],
+      "compositionRationale": "Home makes the current work item the visual and interaction lead, then exposes supporting queue context."
     }
-  ]
+  ],
+  "representativePageIds": [
+    "home-workbench"
+  ],
+  "coverageRule": "Before release, pages[] must include every id from docs/page-state-contract.json, not only representative screens."
 }

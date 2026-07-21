@@ -57,9 +57,16 @@ def validate(data: dict[str, Any], root: Path) -> list[str]:
     pages = data.get("selectedPagesChecked") if isinstance(data.get("selectedPagesChecked"), list) else []
     if not pages or len(pages) != len(set(pages)) or not all(isinstance(item, str) and item.strip() for item in pages):
         errors.append("selectedPagesChecked must list each checked selected page once")
+    page_shots = data.get("pageScreenshots") if isinstance(data.get("pageScreenshots"), dict) else {}
+    if set(page_shots) != set(pages):
+        errors.append("pageScreenshots must map every selectedPagesChecked page id to its visible Chrome screenshot")
+    else:
+        for page_id, shot in page_shots.items():
+            if not valid_screenshot(root, shot):
+                errors.append(f"pageScreenshots.{page_id} must be an existing relative PNG, JPEG, or WebP screenshot")
     shots = data.get("screenshots") if isinstance(data.get("screenshots"), list) else []
-    if not 1 <= len(shots) <= 6 or not all(valid_screenshot(root, item) for item in shots):
-        errors.append("screenshots must contain one to six existing relative image paths")
+    if shots and not all(valid_screenshot(root, item) for item in shots):
+        errors.append("screenshots, when present, must contain existing relative image paths")
     if not meaningful(data.get("observation"), 24):
         errors.append("observation must briefly describe what was actually seen")
     return errors
