@@ -22,6 +22,8 @@ CHECKS = (
     "check_blueprint_implementation.py",
     "check_design_intake.py",
     "check_design_foundation_implementation.py",
+    "check_component_usage.py",
+    "check_representative_layout_review.py",
     "check_design_acceptance.py",
 )
 
@@ -64,6 +66,15 @@ def build_positive(case: Path) -> tuple[dict, dict, dict]:
             "source": "user-request",
         }
     ]
+    scope["confirmationPlayback"].update(
+        {
+            "shownToUser": True,
+            "selectedSecondLevelPages": copy.deepcopy(scope["selections"]),
+            "primaryJourney": scope["primaryJourney"],
+            "otherSelectedPagesDepth": scope["pageDepth"]["otherSelectedPages"],
+            "estimatedPageCount": sum(len(items) for items in scope["selections"].values()) + 2,
+        }
+    )
     blueprint["brand"] = scope["brand"]
     blueprint["extensions"] = copy.deepcopy(scope["extensions"])
     page_contract["pages"].extend(
@@ -90,7 +101,24 @@ def build_positive(case: Path) -> tuple[dict, dict, dict]:
     write_json(docs / "business-blueprint.json", blueprint)
     write_json(docs / "page-state-contract.json", page_contract)
 
-    markers = ['<main data-demo-data="true">']
+    markers = [
+        '<!doctype html><html><head><link rel="stylesheet" href="./workbench-visual-primitives.css"></head><body>',
+        '<main data-demo-data="true">',
+        '<article class="app-page ux-page-shell has-tabbar has-actions" data-ux-component="page-shell">',
+        '<div class="body ux-scroll-body"></div>',
+        '<div class="ux-section-head" data-ux-component="section-header"></div>',
+        '<div class="ux-task-card" data-ux-component="task-card"></div>',
+        '<div class="ux-customer-header" data-ux-component="customer-summary"></div>',
+        '<div class="ux-kv" data-ux-component="key-value-group"></div>',
+        '<div class="ux-list-row" data-ux-component="list-row"></div>',
+        '<div class="ux-list-row" data-ux-component="selection-row"></div>',
+        '<div class="ux-field" data-ux-component="form-field"></div>',
+        '<div class="ux-asset-card" data-ux-component="asset-card"><img data-asset-source="generated" src="data:image/png;base64,iVBORw0KGgo="></div>',
+        '<footer class="sticky-actions ux-action-group" data-ux-component="sticky-action-bar"><button class="ux-primary-action">继续</button></footer>',
+        '<nav class="tabbar" data-ux-component="bottom-navigation"><button class="tab">首页</button></nav>',
+        '<div class="ux-action-group" data-ux-component="action-group"><button class="ux-primary-action">继续</button></div>',
+        '</article>',
+    ]
     for page in page_contract["pages"]:
         markers.append(
             '<section data-page-id="{id}" data-module="{module}" '
@@ -111,15 +139,15 @@ def build_positive(case: Path) -> tuple[dict, dict, dict]:
         markers.append(f'<div class="tap" data-ux-component="{component}"></div>')
     for state in design_intake["requiredStates"]:
         markers.append(f'<div data-ux-state="{state}"></div>')
-    markers.append("</main>")
+    markers.extend(("</main>", '<script src="./layout-audit.js"></script>', '<script src="./shell-runtime.js"></script>', "</body></html>"))
     html_path = prototype / "index.html"
     html_path.write_text("\n".join(markers), encoding="utf-8")
-    (prototype / "workbench-visual-primitives.css").write_text(
-        ":root{--ux-touch-min:44px}.tap{min-height:var(--ux-touch-min)}",
-        encoding="utf-8",
-    )
+    shell = ROOT / "assets" / "prototype-shell"
+    for name in ("workbench-visual-primitives.css", "shell-runtime.js", "layout-audit.js"):
+        (prototype / name).write_bytes((shell / name).read_bytes())
 
     design_intake["confirmed"] = True
+    design_intake["intakePlayback"]["shownToUserBeforeRepresentativeBuild"] = True
     design_intake["functionalBuildHash"] = hashlib.sha256(html_path.read_bytes()).hexdigest()
     write_json(docs / "design-intake.json", design_intake)
     screenshot_dir = docs / "qa"
@@ -130,6 +158,61 @@ def build_positive(case: Path) -> tuple[dict, dict, dict]:
         relative = f"qa/{page_id}.png"
         (docs / relative).write_bytes(png)
         screens.append({"pageId": page_id, "screenshot": relative})
+    recipe_by_page = {
+        "home-workbench": "workbench",
+        "client-profile": "customer-profile",
+        "outreach-prepare": "task-execution",
+    }
+    contracts = json.loads((ROOT / "assets" / "design-foundation" / "component-ux-contracts.json").read_text(encoding="utf-8"))
+    recipes = json.loads((ROOT / "assets" / "design-foundation" / "page-composition-recipes.json").read_text(encoding="utf-8"))
+    component_pages = []
+    for page_id in design_intake["representativePages"]:
+        recipe_id = recipe_by_page[page_id]
+        component_pages.append(
+            {
+                "pageId": page_id,
+                "recipe": recipe_id,
+                "components": [
+                    {"id": component_id, "selector": f'[data-ux-component="{component_id}"]'}
+                    for component_id in recipes["recipes"][recipe_id]["requiredComponents"]
+                ],
+                "brandOverrides": ["color-roles", "typography-rhythm"],
+                "protectedStructureChanged": False,
+            }
+        )
+    component_usage = read_template("component-usage-template.json")
+    component_usage["buildHash"] = hashlib.sha256(html_path.read_bytes()).hexdigest()
+    component_usage["pages"] = component_pages
+    write_json(docs / "component-usage.json", component_usage)
+    layout_review = read_template("representative-layout-review-template.json")
+    layout_review.update(
+        {
+            "buildHash": hashlib.sha256(html_path.read_bytes()).hexdigest(),
+            "testedAt": "2026-07-21T18:00:00+08:00",
+            "pages": [
+                {
+                    "pageId": page_id,
+                    "viewport": {"width": 390, "height": 844},
+                    "status": "pass",
+                    "failures": [],
+                    "warnings": [],
+                    "metrics": {
+                        "bodyClientHeight": 620,
+                        "bodyScrollHeight": 980,
+                        "actionHeight": 68,
+                        "tabbarHeight": 64,
+                        "visibleControls": 8,
+                        "brokenImages": 0,
+                    },
+                    "screenshot": f"qa/{page_id}.png",
+                }
+                for page_id in design_intake["representativePages"]
+            ],
+            "observedChecks": {key: True for key in layout_review["observedChecks"]},
+            "observation": "在可见 Google Chrome 的 390 × 844 视口逐页运行布局探针，未发现遮挡、溢出、坏图或计数错误。",
+        }
+    )
+    write_json(docs / "representative-layout-review.json", layout_review)
     design_acceptance.update(
         {
             "acceptedBuildHash": hashlib.sha256(html_path.read_bytes()).hexdigest(),
@@ -198,11 +281,49 @@ def main() -> int:
         if result.returncode == 0 or "may not self-approve" not in result.stderr:
             failures.append("agent self-approval of representative screens was not rejected")
 
+        hidden_expansion = root / "hidden-complete-loop-expansion"
+        build_positive(hidden_expansion)
+        expanded_scope = json.loads((hidden_expansion / "docs" / "scope-intake.json").read_text(encoding="utf-8"))
+        expanded_scope["pageDepth"]["otherSelectedPages"] = "complete-loop"
+        expanded_scope["confirmationPlayback"]["otherSelectedPagesDepth"] = "complete-loop"
+        expanded_scope["confirmationPlayback"]["expansionConfirmed"] = False
+        write_json(hidden_expansion / "docs" / "scope-intake.json", expanded_scope)
+        result = run("check_scope_intake.py", hidden_expansion)
+        if result.returncode == 0 or "explicit expansion confirmation" not in result.stderr:
+            failures.append("large complete-loop scope hidden behind standard modules was not rejected")
+
+        merged_design_intake = root / "merged-design-intake"
+        build_positive(merged_design_intake)
+        merged = json.loads((merged_design_intake / "docs" / "design-intake.json").read_text(encoding="utf-8"))
+        merged["intakePlayback"]["shownToUserBeforeRepresentativeBuild"] = False
+        write_json(merged_design_intake / "docs" / "design-intake.json", merged)
+        result = run("check_design_intake.py", merged_design_intake)
+        if result.returncode == 0 or "before representative screens" not in result.stderr:
+            failures.append("design intake merged into representative-screen acceptance was not rejected")
+
+        tampered_kit = root / "tampered-ui-kit"
+        build_positive(tampered_kit)
+        with (tampered_kit / "prototype" / "workbench-visual-primitives.css").open("a", encoding="utf-8") as stream:
+            stream.write("\n/* arbitrary replacement */\n")
+        result = run("check_component_usage.py", tampered_kit)
+        if result.returncode == 0 or "differs from the skill source" not in result.stderr:
+            failures.append("recreated or modified protected UI-kit mechanics were not rejected")
+
+        failed_geometry = root / "failed-layout-geometry"
+        build_positive(failed_geometry)
+        layout = json.loads((failed_geometry / "docs" / "representative-layout-review.json").read_text(encoding="utf-8"))
+        layout["pages"][0]["status"] = "fail"
+        layout["pages"][0]["failures"] = ["sticky-action-covers-last-content"]
+        write_json(failed_geometry / "docs" / "representative-layout-review.json", layout)
+        result = run("check_representative_layout_review.py", failed_geometry)
+        if result.returncode == 0 or "unresolved layout failures" not in result.stderr:
+            failures.append("sticky CTA overlap in the Chrome geometry report was not rejected")
+
     if failures:
         print("Staged contract forward test failed:", file=sys.stderr)
         print(*[f"- {item}" for item in failures], sep="\n", file=sys.stderr)
         return 1
-    print("OK: staged business/design contracts accept confirmed work and reject unsupported, legacy, borrowed, or self-approved builds")
+    print("OK: staged contracts accept confirmed work and reject unsupported, hidden-scope, merged-intake, tampered-kit, failed-layout, borrowed, legacy, or self-approved builds")
     return 0
 
 

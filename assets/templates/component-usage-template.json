@@ -1,0 +1,23 @@
+{
+  "skillVersion": "4.0",
+  "buildHash": "REPLACE_WITH_REPRESENTATIVE_BUILD_SHA256",
+  "uiKit": {
+    "css": "prototype/workbench-visual-primitives.css",
+    "runtime": "prototype/shell-runtime.js",
+    "layoutAudit": "prototype/layout-audit.js",
+    "copiedUnchanged": true
+  },
+  "pages": [
+    {
+      "pageId": "home-workbench",
+      "recipe": "workbench",
+      "components": [
+        {"id": "page-shell", "selector": ".app-page.ux-page-shell"},
+        {"id": "task-card", "selector": ".ux-task-card[data-ux-component='task-card']"},
+        {"id": "bottom-navigation", "selector": ".tabbar[data-ux-component='bottom-navigation']"}
+      ],
+      "brandOverrides": ["color-roles", "typography-rhythm", "surface-material"],
+      "protectedStructureChanged": false
+    }
+  ]
+}

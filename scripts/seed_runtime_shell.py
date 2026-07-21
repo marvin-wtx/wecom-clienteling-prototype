@@ -19,12 +19,13 @@ def main() -> int:
     args = parser.parse_args()
     case_dir = args.case_dir.resolve()
     prototype = case_dir / "prototype"
-    targets = [prototype / "index.html", prototype / "shell-runtime.js", prototype / "workbench-visual-primitives.css"]
+    runtime_files = ("index.html", "shell-runtime.js", "layout-audit.js", "workbench-visual-primitives.css")
+    targets = [prototype / name for name in runtime_files]
     if any(path.exists() for path in targets):
         print("refusing to overwrite an existing runtime shell", file=sys.stderr)
         return 1
     prototype.mkdir(parents=True, exist_ok=True)
-    for name in ("index.html", "shell-runtime.js", "workbench-visual-primitives.css"):
+    for name in runtime_files:
         shutil.copy2(SHELL / name, prototype / name)
     print(f"Seeded V4.0 runtime shell (not a deliverable): {prototype}")
     return 0

@@ -4,6 +4,11 @@
   "brand": "示例品牌",
   "sourceMaterials": [],
   "demoDataPolicy": "使用通用产品结构与明显 mock 值，不代表品牌真实内部规则",
+  "demoDataAuthorization": {
+    "allowedBrandLikeMock": [],
+    "forbiddenInferences": ["internal-membership-rule", "task-source-rule", "kpi-definition", "appointment-resource", "crm-writeback", "permission-model"],
+    "visibleDisclosure": "演示数据"
+  },
   "roles": ["client-advisor"],
   "selections": {
     "home": ["workbench", "today-list"],
@@ -18,6 +23,20 @@
     "otherSelectedPages": "clickable-structure"
   },
   "primaryJourney": "task-to-wecom-send",
+  "confirmationPlayback": {
+    "shownToUser": false,
+    "selectedSecondLevelPages": {
+      "home": ["workbench", "today-list"],
+      "clients": ["list-search-filter", "profile-basic", "membership", "transactions", "interactions"],
+      "tasks": ["list", "detail", "prepare-outreach", "native-send-result"],
+      "appointments": ["calendar-list", "detail", "create-confirm"],
+      "performance_tools": ["personal-performance", "task-performance", "asset-library"]
+    },
+    "primaryJourney": "task-to-wecom-send",
+    "otherSelectedPagesDepth": "clickable-structure",
+    "estimatedPageCount": 17,
+    "expansionConfirmed": false
+  },
   "briefPlayback": "为示例品牌制作客户顾问使用的标准零售 clienteling 演示框架；包含首页、客户、任务、邀约、个人业绩与素材库，并优先跑通任务到企微发送。",
   "confirmed": false
 }

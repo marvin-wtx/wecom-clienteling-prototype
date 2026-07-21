@@ -15,6 +15,7 @@
     roles: [], activeRole: "", mode: "browse", journeys: [], activeJourney: "", entries: []
   };
   let reviewConfig = { ...kitReviewConfig };
+  let actionObserver = null;
 
   function icon(name) {
     const paths = {
@@ -82,12 +83,12 @@
 
   function tabbar(items = [], activeTab = "") {
     if (!items.length) return "";
-    return `<nav class="tabbar" style="--tab-count:${items.length}" aria-label="Primary navigation">${items.map((item) => `<button class="tab${item.id === activeTab ? " active" : ""}${item.center ? " center" : ""}" type="button" data-route="${escapeHtml(item.id)}"><span class="tab-ic">${icon(item.icon || "grid")}</span><span>${escapeHtml(item.label)}</span></button>`).join("")}</nav>`;
+    return `<nav class="tabbar" data-ux-component="bottom-navigation" data-ux-state="default" style="--tab-count:${items.length}" aria-label="Primary navigation">${items.map((item) => `<button class="tab${item.id === activeTab ? " active" : ""}${item.center ? " center" : ""}" type="button" data-route="${escapeHtml(item.id)}" data-ux-state="${item.id === activeTab ? "selected" : "default"}"><span class="tab-ic">${icon(item.icon || "grid")}</span><span>${escapeHtml(item.label)}</span></button>`).join("")}</nav>`;
   }
 
   function appShell({ title, back = false, body = "", tabs = [], activeTab = "", actions = "" }) {
     const hasTabbar = tabs.length > 0;
-    return `<article class="app-page${hasTabbar ? " has-tabbar" : ""}${actions ? " has-actions" : ""}"><header class="wx-nav"><button class="wx-nav-left${back ? "" : " placeholder"}" type="button" data-back aria-label="Back"></button><div class="wx-nav-title">${escapeHtml(title)}</div>${wecomCapsule()}</header><div class="body${hasTabbar ? "" : " no-tab"}">${body}</div>${actions ? `<footer class="sticky-actions">${actions}</footer>` : ""}${tabbar(tabs, activeTab)}</article>`;
+    return `<article class="app-page ux-page-shell${hasTabbar ? " has-tabbar" : ""}${actions ? " has-actions" : ""}" data-ux-component="page-shell" data-ux-state="default"><header class="wx-nav"><button class="wx-nav-left${back ? "" : " placeholder"}" type="button" data-back aria-label="Back"></button><div class="wx-nav-title">${escapeHtml(title)}</div>${wecomCapsule()}</header><div class="body ux-scroll-body${hasTabbar ? "" : " no-tab"}">${body}</div>${actions ? `<footer class="sticky-actions ux-action-group" data-ux-component="sticky-action-bar">${actions}</footer>` : ""}${tabbar(tabs, activeTab)}</article>`;
   }
 
   function detectViewportMode() {
@@ -130,7 +131,31 @@
     actionHandlers.set(id, handler);
   }
 
-  function afterRender() { requestFit(); }
+  function syncActionReservation() {
+    actionObserver?.disconnect();
+    const page = document.querySelector("#app > .app-page");
+    const actions = page?.querySelector(":scope > .sticky-actions");
+    if (!page || !actions) {
+      page?.style.removeProperty("--actions-h");
+      window.WeComLayoutAudit?.schedule?.();
+      return;
+    }
+    const update = () => {
+      page.style.setProperty("--actions-h", `${Math.ceil(actions.getBoundingClientRect().height)}px`);
+      window.WeComLayoutAudit?.schedule?.();
+    };
+    update();
+    if (typeof ResizeObserver === "function") {
+      actionObserver = new ResizeObserver(update);
+      actionObserver.observe(actions);
+    }
+  }
+
+  function afterRender() {
+    syncActionReservation();
+    requestFit();
+    window.WeComLayoutAudit?.schedule?.();
+  }
 
   document.addEventListener("click", (event) => {
     const stageAction = event.target.closest("[data-stage-action]")?.dataset.stageAction;

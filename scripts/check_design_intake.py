@@ -45,6 +45,13 @@ def main() -> int:
         errors.append("design intake must be confirmed and remain V4.0")
     if intake.get("interaction") != "one-grouped-design-intake":
         errors.append("design intake must use one grouped interaction")
+    playback = intake.get("intakePlayback") if isinstance(intake.get("intakePlayback"), dict) else {}
+    if playback.get("shownToUserBeforeRepresentativeBuild") is not True:
+        errors.append("design intake must be shown and confirmed before representative screens are built")
+    if not isinstance(playback.get("assetAvailability"), str) or len(playback["assetAvailability"].strip()) < 12:
+        errors.append("design intake must state available or missing brand assets")
+    if playback.get("recommendedDirectionShown") is not True:
+        errors.append("design intake must recommend a direction instead of asking the user to design the UI")
     if not isinstance(intake.get("functionalBuildHash"), str) or not SHA256.fullmatch(intake["functionalBuildHash"]):
         errors.append("functionalBuildHash must identify the accepted functional build")
     direction = intake.get("direction") if isinstance(intake.get("direction"), dict) else {}
@@ -53,6 +60,15 @@ def main() -> int:
             errors.append(f"direction.{key} must be concrete")
     if not isinstance(direction.get("dislikedPatterns"), list) or len(direction["dislikedPatterns"]) < 1:
         errors.append("direction.dislikedPatterns must record at least one boundary")
+    plan = intake.get("visualApplicationPlan") if isinstance(intake.get("visualApplicationPlan"), dict) else {}
+    for key in ("typography", "colorRoles", "surfaceAndGeometry", "imagery", "density"):
+        if not isinstance(plan.get(key), str) or len(plan[key].strip()) < 12:
+            errors.append(f"visualApplicationPlan.{key} must be concrete")
+    for key in ("expressiveZones", "protectedZones"):
+        if not isinstance(plan.get(key), list) or not plan[key] or not all(isinstance(item, str) and item for item in plan[key]):
+            errors.append(f"visualApplicationPlan.{key} must be a non-empty list")
+    if not {"page-shell", "scroll-body", "sticky-action-clearance", "bottom-navigation", "native-wecom"}.issubset(set(plan.get("protectedZones", []))):
+        errors.append("visualApplicationPlan must protect shell, scroll, sticky clearance, bottom navigation, and native WeCom")
     strategy = intake.get("referenceStrategy") if isinstance(intake.get("referenceStrategy"), dict) else {}
     awesome = strategy.get("awesomeDesignMd") if isinstance(strategy.get("awesomeDesignMd"), dict) else {}
     mode = awesome.get("referenceMode")
@@ -95,6 +111,20 @@ def main() -> int:
         errors.append("representativePages must contain two to four unique pages")
     if not set(representatives).issubset(page_ids):
         errors.append("representativePages must exist in the page-state contract")
+    recipe_path = Path(__file__).resolve().parents[1] / "assets" / "design-foundation" / "page-composition-recipes.json"
+    try:
+        recipe_data = load(recipe_path)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        errors.append(f"cannot read page composition recipes: {exc}")
+        recipe_data = {}
+    known_recipes = set((recipe_data.get("recipes") or {}).keys())
+    selected_recipes = intake.get("compositionRecipes") if isinstance(intake.get("compositionRecipes"), list) else []
+    if not selected_recipes or not set(selected_recipes).issubset(known_recipes):
+        errors.append("compositionRecipes must select known executable page recipes")
+    if intake.get("componentUsageManifest") != "docs/component-usage.json":
+        errors.append("design intake must require docs/component-usage.json")
+    if intake.get("layoutReview") != "docs/representative-layout-review.json":
+        errors.append("design intake must require the representative Chrome layout review")
     representative_modules = {item.get("module") for item in page_items if item.get("id") in representatives}
     selected_modules = {item.get("module") for item in page_items}
     if "home" in selected_modules and "home" not in representative_modules:

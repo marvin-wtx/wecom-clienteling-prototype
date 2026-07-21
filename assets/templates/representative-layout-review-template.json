@@ -1,0 +1,34 @@
+{
+  "skillVersion": "4.0",
+  "buildHash": "REPLACE_WITH_REPRESENTATIVE_BUILD_SHA256",
+  "browser": "Google Chrome",
+  "source": "window.__wecomLayoutReport",
+  "testedAt": "REPLACE_WITH_ISO_TIMESTAMP",
+  "pages": [
+    {
+      "pageId": "REPLACE_WITH_REPRESENTATIVE_PAGE_ID",
+      "viewport": {"width": 390, "height": 844},
+      "status": "pass",
+      "failures": [],
+      "warnings": [],
+      "metrics": {
+        "bodyClientHeight": 0,
+        "bodyScrollHeight": 0,
+        "actionHeight": 0,
+        "tabbarHeight": 0,
+        "visibleControls": 0,
+        "brokenImages": 0
+      },
+      "screenshot": "qa/REPLACE_WITH_VISIBLE_CHROME_SCREENSHOT.png"
+    }
+  ],
+  "observedChecks": {
+    "lastContentClearsStickyAction": true,
+    "stickyActionClearsBottomNavigation": true,
+    "touchTargetsAtLeast44": true,
+    "noHorizontalOverflow": true,
+    "realAssetsLoaded": true,
+    "boundCountersMatch": true
+  },
+  "observation": "REPLACE_WITH_SHORT_VISIBLE_CHROME_OBSERVATION"
+}

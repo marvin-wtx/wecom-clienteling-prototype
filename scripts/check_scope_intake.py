@@ -89,6 +89,15 @@ def main() -> int:
                 errors.append(f"framework-default is missing recommended {category} pages")
     if data.get("mode") == "source-grounded" and not data.get("sourceMaterials"):
         errors.append("source-grounded mode requires sourceMaterials")
+    authorization = data.get("demoDataAuthorization") if isinstance(data.get("demoDataAuthorization"), dict) else {}
+    allowed_mock = authorization.get("allowedBrandLikeMock")
+    if not isinstance(allowed_mock, list) or not all(isinstance(item, str) and item.strip() for item in allowed_mock):
+        errors.append("demoDataAuthorization.allowedBrandLikeMock must be a list")
+    required_forbidden = {"internal-membership-rule", "task-source-rule", "kpi-definition", "appointment-resource", "crm-writeback", "permission-model"}
+    if not required_forbidden.issubset(set(authorization.get("forbiddenInferences", []))):
+        errors.append("demo data policy must forbid unsupported brand operating rules")
+    if not isinstance(authorization.get("visibleDisclosure"), str) or len(authorization["visibleDisclosure"].strip()) < 2:
+        errors.append("demo data policy needs a visible disclosure label")
     depth = data.get("pageDepth") if isinstance(data.get("pageDepth"), dict) else {}
     if depth.get("primaryJourney") != "complete-loop":
         errors.append("pageDepth.primaryJourney must be complete-loop")
@@ -96,6 +105,21 @@ def main() -> int:
         errors.append("otherSelectedPages must be clickable-structure or complete-loop")
     if not isinstance(data.get("primaryJourney"), str) or not data["primaryJourney"].strip():
         errors.append("one primaryJourney is required")
+    playback = data.get("confirmationPlayback") if isinstance(data.get("confirmationPlayback"), dict) else {}
+    if playback.get("shownToUser") is not True:
+        errors.append("confirmationPlayback must show the exact selected second-level pages to the user")
+    if playback.get("selectedSecondLevelPages") != selections:
+        errors.append("confirmationPlayback.selectedSecondLevelPages must exactly match selections")
+    if playback.get("primaryJourney") != data.get("primaryJourney"):
+        errors.append("confirmationPlayback.primaryJourney must match the confirmed Journey")
+    if playback.get("otherSelectedPagesDepth") != depth.get("otherSelectedPages"):
+        errors.append("confirmationPlayback must state the confirmed depth for other pages")
+    expected_count = sum(len(selections.get(category, [])) for category in CATEGORIES)
+    expected_count += sum(len(item.get("secondLevelPages", [])) for item in extensions if isinstance(item, dict))
+    if playback.get("estimatedPageCount") != expected_count:
+        errors.append(f"confirmationPlayback.estimatedPageCount must equal the exact selected page count ({expected_count})")
+    if depth.get("otherSelectedPages") == "complete-loop" and expected_count > 12 and playback.get("expansionConfirmed") is not True:
+        errors.append("more than 12 complete-loop pages require explicit expansion confirmation after the exact page list is shown")
     if not isinstance(data.get("briefPlayback"), str) or len(data["briefPlayback"].strip()) < 24:
         errors.append("briefPlayback must record the confirmed product frame")
     if PLACEHOLDER.search(json.dumps(data, ensure_ascii=False)):

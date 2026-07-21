@@ -64,6 +64,31 @@ def main() -> int:
             if not isinstance(item, dict) or item.get("provenance") not in ALLOWED_PROVENANCE:
                 errors.append("every role, object, and brand claim needs allowed provenance")
                 break
+    mock_authorization = set((scope.get("demoDataAuthorization") or {}).get("allowedBrandLikeMock", []))
+    visible_claims = blueprint.get("visibleMockClaims")
+    if not isinstance(visible_claims, list):
+        errors.append("visibleMockClaims must be a list")
+        visible_claims = []
+    claim_ids: set[str] = set()
+    for item in visible_claims:
+        if not isinstance(item, dict):
+            errors.append("every visible mock claim must be an object")
+            continue
+        claim_id = item.get("id")
+        if not isinstance(claim_id, str) or not claim_id or claim_id in claim_ids:
+            errors.append("visible mock claims need unique non-empty ids")
+        else:
+            claim_ids.add(claim_id)
+        if item.get("provenance") not in {"mock-value", "public-brand", "user-source"}:
+            errors.append(f"visible mock claim {claim_id} has invalid provenance")
+        if item.get("provenance") == "mock-value":
+            basis = item.get("authorization")
+            if basis not in mock_authorization and basis != "common-plain-mock":
+                errors.append(f"visible mock claim {claim_id} is not covered by scope authorization")
+        if item.get("presentsAsBrandFact") is not False:
+            errors.append(f"visible mock claim {claim_id} must not present as a real brand fact")
+        if not isinstance(item.get("visibleDisclosure"), str) or len(item["visibleDisclosure"].strip()) < 2:
+            errors.append(f"visible mock claim {claim_id} needs visible disclosure")
     for extension in blueprint.get("extensions", []):
         if not isinstance(extension, dict) or extension.get("source") != "user-request":
             errors.append("every extension must preserve user-request provenance")

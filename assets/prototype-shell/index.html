@@ -200,8 +200,9 @@
     .body { position: relative; flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 16px 14px calc(var(--tab-h) + env(safe-area-inset-bottom) + 18px); scrollbar-width: none; }
     .body::-webkit-scrollbar { display: none; }
     .body.no-tab { padding-bottom: calc(env(safe-area-inset-bottom) + 18px); }
-    .app-page.has-actions .body { padding-bottom: calc(var(--tab-h) + 92px + env(safe-area-inset-bottom)); }
-    .app-page.has-actions .body.no-tab { padding-bottom: calc(108px + env(safe-area-inset-bottom)); }
+    .app-page.has-actions { --actions-h: 0px; }
+    .app-page.has-actions .body { padding-bottom: calc(var(--tab-h) + var(--actions-h) + env(safe-area-inset-bottom) + 18px); }
+    .app-page.has-actions .body.no-tab { padding-bottom: calc(var(--actions-h) + env(safe-area-inset-bottom) + 18px); }
 
     .tabbar {
       position: absolute;
@@ -215,7 +216,7 @@
       background: rgba(255, 255, 255, .9);
       backdrop-filter: blur(20px) saturate(130%);
     }
-    .tab { min-width: 0; display: grid; place-items: center; align-content: center; gap: 4px; color: var(--muted); font-size: 10px; font-weight: 680; }
+    .tab { min-width: 0; min-height: var(--ux-touch-min); display: grid; place-items: center; align-content: center; gap: 4px; color: var(--muted); font-size: 10px; font-weight: 680; }
     .tab.active { color: var(--brand-strong); }
     .tab .tab-ic { position: relative; font-size: 20px; }
     .tab.active .tab-ic::after { content: ""; position: absolute; bottom: -4px; left: 50%; width: 4px; height: 4px; transform: translateX(-50%); border-radius: 50%; background: currentColor; }
@@ -225,7 +226,7 @@
     /* Page primitives are optional starting points, not a prescribed information architecture. */
     .page-stack { display: grid; gap: 14px; }
     .section-kicker { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 11px; font-weight: 760; letter-spacing: 0; text-transform: uppercase; }
-    .section-kicker button, .inline-action { color: var(--brand-strong); font-size: 12px; font-weight: 720; }
+    .section-kicker button, .inline-action { min-height: var(--ux-touch-min); color: var(--brand-strong); font-size: 12px; font-weight: 720; }
     .surface-panel { border: 1px solid var(--line); border-radius: 7px; background: var(--surface-raised); box-shadow: 0 2px 7px rgba(23, 33, 45, .025); }
     .surface-panel.padded { padding: 14px; }
     .split-note { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 12px; padding: 13px 14px; }
@@ -251,7 +252,7 @@
     .media-frame { min-height: 116px; overflow: hidden; position: relative; border-radius: 7px; background: linear-gradient(145deg, #17212d, #3b4c60); color: #fff; }
     .media-frame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 38%, rgba(13, 21, 30, .76)); pointer-events: none; }
     .media-frame > * { position: relative; z-index: 1; }
-    .primary, .secondary { min-height: 42px; padding: 0 14px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border-radius: 7px; font-size: 13px; font-weight: 760; }
+    .primary, .secondary { min-height: var(--ux-touch-min); padding: 0 14px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border-radius: 7px; font-size: 13px; font-weight: 760; }
     .primary { flex: 1; background: var(--brand); color: var(--brand-on-primary); box-shadow: 0 6px 14px color-mix(in srgb, var(--brand) 20%, transparent); }
     .secondary { border: 1px solid var(--line); background: var(--surface); color: var(--brand-strong); }
     .sticky-actions { position: absolute; z-index: 26; right: 0; bottom: 0; left: 0; display: flex; gap: 10px; margin: 0; padding: 12px 14px calc(12px + env(safe-area-inset-bottom)); border-top: 1px solid var(--hairline); background: rgba(247, 248, 250, .9); backdrop-filter: blur(20px); }
@@ -299,6 +300,7 @@
     </div>
   </main>
 
+  <script src="./layout-audit.js"></script>
   <script src="./shell-runtime.js"></script>
   <script>
     /* The preview is intentionally content-free. Project code belongs in its own app layer. */
@@ -313,9 +315,42 @@
       return WeComShell.appShell({ title: 'Shell Kit', body });
     }
 
+    function renderLayoutReference() {
+      const message = '你好，这是一份新品预览素材。';
+      const body = `
+        <div class="ux-component-stack" data-page-id="layout-reference" data-module="tasks" data-selection="prepare-outreach" data-page-depth="complete-loop">
+          <section class="ux-task-card" data-ux-component="task-card" data-ux-state="default">
+            <span class="wb-status" data-tone="due">今日任务</span>
+            <h2 class="ux-task-card__title">准备客户与素材</h2>
+            <p class="ux-task-card__context">一位待跟进客户 · 状态：待处理</p>
+          </section>
+          <section class="ux-kv" data-ux-component="key-value-group">
+            <div class="ux-kv__row"><span class="ux-kv__label">客户</span><strong class="ux-kv__value">客户 A（演示）</strong></div>
+            <div class="ux-kv__row"><span class="ux-kv__label">素材</span><strong class="ux-kv__value">新品预览素材</strong></div>
+          </section>
+          <section class="ux-field" data-ux-component="form-field" data-ux-state="default">
+            <label for="layoutReferenceMessage">正文</label>
+            <textarea id="layoutReferenceMessage">${message}</textarea>
+            <span data-count-for="layoutReferenceMessage" data-count-value="${message.length}">${message.length} 字</span>
+          </section>
+          <section class="ux-kv" data-ux-component="key-value-group">
+            ${Array.from({length: 8}, (_, index) => `<div class="ux-kv__row"><span class="ux-kv__label">检查 ${index + 1}</span><strong class="ux-kv__value">用于验证长页可滚动，最后内容不会被操作栏覆盖。</strong></div>`).join('')}
+          </section>
+        </div>`;
+      const actions = '<button class="ux-secondary-action" type="button">返回任务</button><button class="ux-primary-action" type="button">打开企微群发</button>';
+      const tabs = [
+        { id: 'home', label: '首页', icon: 'grid' },
+        { id: 'clients', label: '客户', icon: 'users' },
+        { id: 'tasks', label: '任务', icon: 'list' },
+        { id: 'appointments', label: '邀约', icon: 'calendar' }
+      ];
+      return WeComShell.appShell({ title: '准备触达', back: true, body, actions, tabs, activeTab: 'tasks' });
+    }
+
     function render() {
       WeComShell.mountReviewControls();
-      document.getElementById('app').innerHTML = renderKitPreview();
+      const fixture = new URLSearchParams(location.search).get('fixture');
+      document.getElementById('app').innerHTML = fixture === 'layout' ? renderLayoutReference() : renderKitPreview();
       WeComShell.afterRender();
     }
     render();

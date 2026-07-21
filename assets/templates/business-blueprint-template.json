@@ -29,5 +29,6 @@
     "resultSource": "runtime-receipt"
   },
   "brandSpecificClaims": [],
+  "visibleMockClaims": [],
   "unsupportedClaims": []
 }

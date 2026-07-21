@@ -1,0 +1,38 @@
+{
+  "version": "4.0",
+  "purpose": "Low-freedom mobile compositions built from the executable UI kit. Brand styling may reskin them but may not replace their work hierarchy.",
+  "recipes": {
+    "workbench": {
+      "use": "Home for a client advisor",
+      "requiredComponents": ["page-shell", "section-header", "task-card", "list-row", "bottom-navigation"],
+      "requiredOrder": ["current-work", "supporting-queue"],
+      "primaryActionCount": 1,
+      "forbidden": ["decorative-hero-before-work", "equal-weight-card-wall", "default-kpi-strip-without-confirmed-performance-scope"],
+      "expressiveZones": ["page-background", "priority-task-surface", "section-typography", "sourced-supporting-image"]
+    },
+    "customer-profile": {
+      "use": "Customer identity, current work and confirmed profile sections",
+      "requiredComponents": ["page-shell", "customer-summary", "key-value-group", "action-group", "bottom-navigation"],
+      "requiredOrder": ["identity", "current-work", "profile-sections", "actions"],
+      "primaryActionCount": 1,
+      "forbidden": ["fixed-empty-card-height", "unsupported-brand-tier-rules", "actions-before-identity"],
+      "expressiveZones": ["identity-surface", "membership-material", "section-dividers", "sourced-portrait-or-monogram"]
+    },
+    "task-execution": {
+      "use": "Prepare customers, message and material before native WeCom execution",
+      "requiredComponents": ["page-shell", "task-card", "selection-row", "form-field", "asset-card", "sticky-action-bar", "bottom-navigation"],
+      "requiredOrder": ["task-context", "selection", "message", "material", "commit"],
+      "primaryActionCount": 1,
+      "forbidden": ["sticky-action-over-content", "text-placeholder-as-product-image", "counter-not-bound-to-field", "native-ui-inside-business-shell"],
+      "expressiveZones": ["task-context-accent", "selected-state", "form-focus", "real-asset-crop"]
+    },
+    "native-wecom": {
+      "use": "Frozen full-screen group-send execution",
+      "requiredComponents": [],
+      "requiredOrder": ["native-header", "recipient-count", "message", "material", "send"],
+      "primaryActionCount": 1,
+      "forbidden": ["wx-nav", "bottom-navigation", "business-task-title", "parent-shell"],
+      "expressiveZones": []
+    }
+  }
+}

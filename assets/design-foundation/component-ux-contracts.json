@@ -1,6 +1,12 @@
 {
   "version": "4.0",
   "purpose": "A reusable UX floor for mobile retail clienteling; it protects hierarchy, state and behavior without prescribing a brand theme.",
+  "executableUiKit": {
+    "css": "assets/prototype-shell/workbench-visual-primitives.css",
+    "runtime": "assets/prototype-shell/shell-runtime.js",
+    "layoutAudit": "assets/prototype-shell/layout-audit.js",
+    "rule": "Copy these files unchanged. Apply brand styling with variables and project CSS; do not recreate protected layout mechanics."
+  },
   "global": {
     "minimumTouchTargetPx": 44,
     "protected": [
@@ -27,6 +33,7 @@
   "components": {
     "page-shell": {
       "use": "Every non-native mobile page",
+      "requiredClasses": ["app-page", "ux-page-shell", "body", "ux-scroll-body"],
       "requiredContent": ["page-title", "scroll-container"],
       "behavior": ["content-scrolls-inside-viewport", "bottom-navigation-or-sticky-action-does-not-cover-content"],
       "protected": ["status-safe-area", "scroll-container", "bottom-boundary"],
@@ -34,6 +41,7 @@
     },
     "section-header": {
       "use": "Name one coherent information group",
+      "requiredClasses": ["ux-section-head"],
       "requiredContent": ["section-label"],
       "behavior": ["optional-trailing-action-is-specific-and-clickable"],
       "protected": ["label-before-content", "one-trailing-action-maximum"],
@@ -49,6 +57,7 @@
     },
     "list-row": {
       "use": "Open one object from a collection",
+      "requiredClasses": ["ux-list-row"],
       "requiredContent": ["identity", "decision-context", "row-action-or-disclosure"],
       "behavior": ["whole-row-or-explicit-action-is-clickable", "selection-persists-when-applicable"],
       "states": ["default", "selected", "disabled"],
@@ -57,6 +66,7 @@
     },
     "customer-summary": {
       "use": "Customer list row or profile header",
+      "requiredClasses": ["ux-customer-header"],
       "requiredContent": ["display-name", "customer-id-or-masked-contact", "example-membership-when-selected"],
       "behavior": ["current-actions-remain-visible-on-profile"],
       "protected": ["identity-hierarchy", "masked-sensitive-data", "demo-membership-label"],
@@ -72,6 +82,7 @@
     },
     "task-card": {
       "use": "Priority task or task list item",
+      "requiredClasses": ["ux-task-card"],
       "requiredContent": ["task-title", "status", "due-or-time", "related-object", "next-action"],
       "behavior": ["one-dominant-next-action", "open-and-complete-states-are-distinct"],
       "states": ["default", "disabled", "success"],
@@ -80,6 +91,7 @@
     },
     "key-value-group": {
       "use": "Readable detail information",
+      "requiredClasses": ["ux-kv"],
       "requiredContent": ["labels", "values"],
       "behavior": ["long-values-wrap", "empty-values-use-honest-placeholder"],
       "states": ["default", "empty"],
@@ -96,6 +108,7 @@
     },
     "selection-row": {
       "use": "Choose customers, assets, appointment options, or filters",
+      "requiredClasses": ["ux-list-row"],
       "requiredContent": ["option-identity", "selection-state"],
       "behavior": ["selected-state-is-visible", "disabled-option-cannot-commit"],
       "states": ["default", "selected", "disabled"],
@@ -104,6 +117,7 @@
     },
     "form-field": {
       "use": "Editable message, note, date, time, or appointment input",
+      "requiredClasses": ["ux-field"],
       "requiredContent": ["persistent-label", "current-value"],
       "behavior": ["focus-is-visible", "validation-is-local", "error-explains-recovery"],
       "states": ["default", "disabled", "error"],
@@ -112,6 +126,7 @@
     },
     "asset-card": {
       "use": "Preview and select an image or mini-program material",
+      "requiredClasses": ["ux-asset-card"],
       "requiredContent": ["asset-type", "preview-or-real-fallback", "title", "selection-state"],
       "behavior": ["preview-opens-or-selection-toggles", "broken-image-fallback-is-visible"],
       "states": ["default", "selected", "disabled", "error"],
@@ -120,11 +135,28 @@
     },
     "sticky-action-bar": {
       "use": "Commit the current detail or preparation step",
+      "requiredClasses": ["sticky-actions", "ux-action-group"],
       "requiredContent": ["primary-action"],
       "behavior": ["stays-at-screen-bottom", "does-not-cover-last-content", "disabled-state-explains-missing-input"],
       "states": ["default", "disabled"],
       "protected": ["action-order", "bottom-safe-area", "primary-prominence"],
       "adaptable": ["button-geometry", "surface-depth", "brand-accent"]
+    },
+    "action-group": {
+      "use": "One primary action with at most one secondary action",
+      "requiredClasses": ["ux-action-group", "ux-primary-action"],
+      "requiredContent": ["primary-action"],
+      "behavior": ["one-primary-action", "secondary-action-never-outranks-primary"],
+      "protected": ["action-order", "single-primary-action", "minimum-touch-target"],
+      "adaptable": ["button-geometry", "spacing", "brand-accent"]
+    },
+    "bottom-navigation": {
+      "use": "Selected primary product modules only",
+      "requiredClasses": ["tabbar", "tab"],
+      "requiredContent": ["selected-tabs", "active-tab"],
+      "behavior": ["touches-viewport-bottom", "never-overlaps-sticky-action", "active-state-is-visible"],
+      "protected": ["absolute-bottom-boundary", "active-state", "minimum-touch-target"],
+      "adaptable": ["icon-library", "surface", "active-color"]
     },
     "empty-state": {
       "use": "A collection or result with no current records",

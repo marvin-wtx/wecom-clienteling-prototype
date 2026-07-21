@@ -1,6 +1,8 @@
 {
   "skillVersion": "4.0",
   "designIntakeRef": "docs/design-intake.json",
+  "componentUsageRef": "docs/component-usage.json",
+  "layoutReviewRef": "docs/representative-layout-review.json",
   "acceptedBuildHash": "REPLACE_WITH_REPRESENTATIVE_BUILD_SHA256",
   "accepted": false,
   "acceptedBy": "user",

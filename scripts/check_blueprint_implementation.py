@@ -44,6 +44,20 @@ def main() -> int:
     errors: list[str] = []
     if not marker(source, "data-demo-data", "true"):
         errors.append("mobile product must declare data-demo-data=true once")
+    blueprint_path = case / "docs" / "business-blueprint.json"
+    try:
+        blueprint = load(blueprint_path)
+    except (OSError, json.JSONDecodeError, ValueError) as exc:
+        errors.append(f"cannot read business blueprint for visible claim traceability: {exc}")
+        blueprint = {}
+    for claim in blueprint.get("visibleMockClaims", []):
+        if not isinstance(claim, dict) or not claim.get("id"):
+            continue
+        claim_id = str(claim["id"])
+        if not marker(source, "data-visible-claim", claim_id):
+            errors.append(f"visible mock claim is not traceable in the product: {claim_id}")
+        if not marker(source, "data-content-provenance", str(claim.get("provenance", ""))):
+            errors.append(f"visible mock claim lacks rendered provenance marker: {claim_id}")
     pages = contract.get("pages") if isinstance(contract.get("pages"), list) else []
     for page in pages:
         if not isinstance(page, dict):

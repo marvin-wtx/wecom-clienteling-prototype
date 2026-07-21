@@ -28,13 +28,17 @@ def main() -> int:
     case = args.case_dir.resolve()
     html_path = case / "prototype" / "index.html"
     css_path = case / "prototype" / "workbench-visual-primitives.css"
+    runtime_path = case / "prototype" / "shell-runtime.js"
+    layout_path = case / "prototype" / "layout-audit.js"
     intake_path = case / "docs" / "design-intake.json"
-    if not html_path.is_file() or not css_path.is_file() or not intake_path.is_file():
-        print("Design foundation implementation check failed:\n- missing prototype HTML, visual primitives, or design intake", file=sys.stderr)
+    if any(not path.is_file() for path in (html_path, css_path, runtime_path, layout_path, intake_path)):
+        print("Design foundation implementation check failed:\n- missing prototype HTML, executable UI kit, or design intake", file=sys.stderr)
         return 1
     try:
         source = html_path.read_text(encoding="utf-8")
         style_source = css_path.read_text(encoding="utf-8")
+        runtime_source = runtime_path.read_text(encoding="utf-8")
+        layout_source = layout_path.read_text(encoding="utf-8")
         intake = load(intake_path)
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"Design foundation implementation check failed:\n- cannot read input: {exc}", file=sys.stderr)
@@ -46,11 +50,17 @@ def main() -> int:
     for state in intake.get("requiredStates", []):
         if not has_marker(source, "data-ux-state", state):
             errors.append(f"confirmed UX state is not visibly represented: {state}")
-    combined = source + "\n" + style_source
+    combined = source + "\n" + style_source + "\n" + runtime_source + "\n" + layout_source
     if not re.search(r"--ux-touch-min\s*:\s*44px", combined):
         errors.append("project CSS must declare --ux-touch-min: 44px")
     if not re.search(r"min-height\s*:\s*var\(--ux-touch-min\)", combined):
         errors.append("interactive project CSS must use the 44px touch-target token")
+    if "layout-audit.js" not in source or "window.__wecomLayoutReport" not in layout_source:
+        errors.append("prototype must load the protected visible-layout audit")
+    if "--actions-h" not in runtime_source or "ResizeObserver" not in runtime_source:
+        errors.append("runtime must measure sticky-action height instead of guessing fixed content padding")
+    if re.search(r"has-actions\s+\.body[^}]*\b(?:92|108)px", source + "\n" + style_source):
+        errors.append("fixed sticky-action clearance is forbidden; use the measured --actions-h")
     if errors:
         print("Design foundation implementation check failed:", *[f"- {item}" for item in errors], sep="\n", file=sys.stderr)
         return 1

@@ -26,6 +26,8 @@ Use `assets/templates/scope-intake-template.json` to play back:
 - whether other selected pages need a complete loop or clickable structure;
 - the demo-data policy.
 
+Show the exact selected second-level page list, primary Journey, depth, and estimated page count in the playback. Never hide an expanded scope behind “standard modules.” If more than 12 pages are requested as complete loops, obtain explicit expansion confirmation after showing the exact list.
+
 When the prompt only names a brand, ask one grouped question with recommended defaults. When the prompt already names modules, preserve them and ask only what materially changes role, Journey priority, or depth. If the user explicitly accepts all recommended defaults, continue without another question.
 
 Use a compact playback such as: “我会先按客户顾问的通用零售框架制作：首页工作台与今日事项、客户列表/详情/会员/交易/互动、任务列表/详情/企微触达、邀约、个人业绩与素材库；主链路优先跑通任务到企微发送。请一次告诉我要删加的模块、主要角色，以及其他页面是否也要完整闭环。” Do not turn this into a long questionnaire.
@@ -54,6 +56,8 @@ Every field or claim must use one provenance:
 - `public-brand`: public visual or verbal brand material; never business logic;
 - `runtime`: value created by user interaction;
 - `unsupported`: forbidden.
+
+Record every brand-like visible mock in `visibleMockClaims` with its scope authorization and visible disclosure. Render its `data-visible-claim` and `data-content-provenance` markers. Public product names may label public content or user-authorized mock tone; they do not authorize internal tiers, KPI rules, task sources, appointment resources, or recommendations.
 
 Module selection authorizes that module, not brand-specific rules. Never turn mock membership tiers, task sources, customer segments, consent, KPI definitions, appointment resources, permissions, or CRM write-back into claims about the brand.
 
@@ -93,11 +97,11 @@ Validate this stage in a visible browser before visual design.
 
 ## Stage 4 · Confirm and apply brand design
 
-Start only after the functional mobile prototype passes. Read `references/design-foundation-and-boundaries.md` and use `assets/design-foundation/component-ux-contracts.json` plus `assets/design-foundation/component-reference.html` as the UX and component baseline.
+Start only after the functional mobile prototype passes. Read `references/design-foundation-and-boundaries.md`. Use `assets/design-foundation/component-ux-contracts.json`, `assets/design-foundation/page-composition-recipes.json`, and `assets/design-foundation/component-reference.html` as the executable UX foundation.
 
 ### 4A · Run one design intake
 
-Create `docs/design-intake.json` from `assets/templates/design-intake-template.json`. Ask one grouped question covering available brand assets, desired tone and density, imagery level, fidelity target, and disliked patterns. Recommend a direction instead of asking the user to design the interface.
+Create `docs/design-intake.json` from `assets/templates/design-intake-template.json`. Ask one grouped question covering available brand assets, desired tone and density, imagery level, fidelity target, and disliked patterns. Recommend a direction instead of asking the user to design the interface. Show and confirm this intake before creating representative branded screens; do not merge design intake with design acceptance.
 
 Use design evidence in this order:
 
@@ -113,12 +117,14 @@ Awesome DESIGN.md is an optional visual-language reference, not a runtime depend
 
 Apply the confirmed direction to two to four representative screens: one home/workbench screen when selected, one customer screen when selected, and at least one primary-Journey screen. Preserve the accepted functional screen as the structural source of truth.
 
-- Mark baseline components with `data-ux-component` and meaningful states with `data-ux-state`.
+- Copy `shell-runtime.js`, `layout-audit.js`, and `workbench-visual-primitives.css` unchanged. Apply brand expression through variables and project CSS.
+- Build from a matching composition recipe; do not recreate the page shell, scrolling, sticky actions, bottom navigation, or protected component structure.
+- Create `docs/component-usage.json` from the template. Mark baseline components with `data-ux-component` and meaningful states with `data-ux-state`; in `?review=1`, expose the components actually rendered outside the phone.
 - Preserve semantic grouping, action order, required states, touch targets, scroll behavior, state transitions, and frozen native UI.
 - Vary brand tokens, typography, density within limits, imagery, surface material, geometry, and motion only where the component contract permits.
 - Use real supplied assets or generated image assets; do not handcraft SVG, CSS, text-symbol, or placeholder art as product imagery.
 
-Show the representative screens in a visible browser and ask for acceptance before styling the remaining pages. Save the decision as `docs/design-acceptance.json`; do not self-approve on the user's behalf.
+Before asking for acceptance, run every representative page at 390 × 844 in visible Google Chrome and save `window.__wecomLayoutReport` to `docs/representative-layout-review.json`. Reject overlap, horizontal overflow, controls under 44px, broken or placeholder assets, unbound counters, and native shell nesting. Then show the representative screens and ask for acceptance before styling the remaining pages. Save the decision as `docs/design-acceptance.json`; do not self-approve on the user's behalf.
 
 ### 4C · Extend the accepted design
 
@@ -157,9 +163,11 @@ python3 scripts/check_page_state_contract.py case-directory
 python3 scripts/check_blueprint_implementation.py case-directory
 python3 scripts/check_design_intake.py case-directory
 python3 scripts/check_design_foundation_implementation.py case-directory
+python3 scripts/check_component_usage.py case-directory
+python3 scripts/check_representative_layout_review.py case-directory
 python3 scripts/check_design_acceptance.py case-directory
 python3 scripts/check_prototype_delivery_bundle.py case-directory
 python3 scripts/check_skill_version_consistency.py path/to/wecom-clienteling-prototype
 ```
 
-Reject a delivery that skipped either intake, styled all pages before representative-screen acceptance, silently borrowed another brand, changed protected UX structure, generated unselected modules, used unsupported brand claims, left visible controls inert, or wrapped native group send in a business shell.
+Reject a delivery that hid the exact page list, skipped either intake, merged design intake with acceptance, styled all pages before representative-screen acceptance, recreated protected UI-kit mechanics, silently borrowed another brand, changed protected UX structure, generated unselected modules, used unsupported or untraceable brand claims, used placeholder product imagery, left visible controls inert, allowed sticky actions to cover content, or wrapped native group send in a business shell.

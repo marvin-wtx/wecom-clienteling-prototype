@@ -4,12 +4,26 @@
   "functionalBuildHash": "REPLACE_WITH_ACCEPTED_FUNCTIONAL_HTML_SHA256",
   "interaction": "one-grouped-design-intake",
   "brandAssets": [],
+  "intakePlayback": {
+    "shownToUserBeforeRepresentativeBuild": false,
+    "assetAvailability": "no supplied assets; use exact-brand public evidence or generic foundation",
+    "recommendedDirectionShown": true
+  },
   "direction": {
     "tone": "calm, precise, operational",
     "density": "balanced",
     "imageryLevel": "selective",
     "fidelityTarget": "brand-aware functional prototype",
     "dislikedPatterns": ["decorative hero before work", "equal-weight card stack"]
+  },
+  "visualApplicationPlan": {
+    "typography": "Readable operational sans-serif with one restrained evidence-backed display treatment",
+    "colorRoles": "One primary action color, quiet surfaces, accessible text and state colors",
+    "surfaceAndGeometry": "Consistent radii and dividers derived from the executable UI kit",
+    "imagery": "Use only supplied, public permitted, or generated images in explicit asset slots",
+    "density": "Balanced mobile density with 44px minimum controls",
+    "expressiveZones": ["priority-task-surface", "customer-identity-surface", "real-asset-crop"],
+    "protectedZones": ["page-shell", "scroll-body", "sticky-action-clearance", "bottom-navigation", "native-wecom"]
   },
   "referenceStrategy": {
     "lazyweb": "unavailable",
@@ -39,6 +53,9 @@
     "result-receipt"
   ],
   "requiredStates": ["default", "selected", "disabled", "empty", "error", "success"],
+  "compositionRecipes": ["workbench", "customer-profile", "task-execution"],
+  "componentUsageManifest": "docs/component-usage.json",
+  "layoutReview": "docs/representative-layout-review.json",
   "representativePages": ["home-workbench", "client-profile", "outreach-prepare"],
   "briefPlayback": "先沿用已经通过的移动端信息结构；以品牌证据调整视觉语言，先设计首页、客户和主链路代表页面供确认，再扩展到其余页面。"
 }

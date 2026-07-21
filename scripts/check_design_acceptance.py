@@ -60,6 +60,10 @@ def main() -> int:
     errors: list[str] = []
     if acceptance.get("skillVersion") != "4.0" or acceptance.get("designIntakeRef") != "docs/design-intake.json":
         errors.append("design acceptance must reference the V4.0 design intake")
+    if acceptance.get("componentUsageRef") != "docs/component-usage.json":
+        errors.append("design acceptance must reference executable component usage")
+    if acceptance.get("layoutReviewRef") != "docs/representative-layout-review.json":
+        errors.append("design acceptance must reference the pre-acceptance Chrome layout review")
     if acceptance.get("accepted") is not True or acceptance.get("acceptedBy") != "user":
         errors.append("representative screens require explicit user acceptance; the agent may not self-approve")
     if not isinstance(acceptance.get("acceptedBuildHash"), str) or not SHA256.fullmatch(acceptance["acceptedBuildHash"]):

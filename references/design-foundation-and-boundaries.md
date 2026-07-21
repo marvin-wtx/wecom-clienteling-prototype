@@ -49,9 +49,11 @@ Design may change how the product is perceived. It may not change how the user u
 
 ## Component use
 
-Read `assets/design-foundation/component-ux-contracts.json` before styling. Open `assets/design-foundation/component-reference.html` in a visible browser when selecting baseline hierarchy and states. Treat it as a floor, not a theme to clone.
+Read `assets/design-foundation/component-ux-contracts.json` and `assets/design-foundation/page-composition-recipes.json` before styling. Open `assets/design-foundation/component-reference.html` in a visible browser when selecting baseline hierarchy and states. Treat it as a floor, not a theme to clone.
 
-Every used baseline component must expose `data-ux-component`. Mark meaningful rendered states with `data-ux-state`. A visual change fails if it removes required content, collapses distinct states, weakens the primary action, introduces an inert control, or changes business transitions.
+The foundation is executable, not illustrative. Copy the runtime, layout audit, and visual primitives unchanged; compose pages from their required classes; add brand overrides separately. Every used baseline component must expose `data-ux-component`. Mark meaningful rendered states with `data-ux-state` and declare each representative page in `docs/component-usage.json`.
+
+The shell runtime measures the rendered sticky action height and reserves that exact space in the scroll body. Never replace this with a guessed fixed padding. In review mode, the layout audit must expose the current page, PASS/FAIL result, and rendered component IDs outside the phone.
 
 ## Visual acceptance
 
@@ -65,3 +67,5 @@ Accept representative screens only when all are true:
 - no page, field, action, or transition changed from the accepted functional build.
 
 Static documents are not visual proof. Record user acceptance and representative screenshots, then perform final visible-browser acceptance on the completed build.
+
+Do not ask the user for visual acceptance while the layout audit fails. A screenshot file is evidence only when the 390 × 844 Chrome report for the same build hash passes.
