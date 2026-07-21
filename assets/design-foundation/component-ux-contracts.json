@@ -1,0 +1,146 @@
+{
+  "version": "4.0",
+  "purpose": "A reusable UX floor for mobile retail clienteling; it protects hierarchy, state and behavior without prescribing a brand theme.",
+  "global": {
+    "minimumTouchTargetPx": 44,
+    "protected": [
+      "semantic-grouping",
+      "required-content",
+      "action-order",
+      "state-meaning",
+      "scroll-and-sticky-behavior",
+      "back-context",
+      "business-transitions",
+      "native-wecom-frame"
+    ],
+    "adaptable": [
+      "brand-color-roles",
+      "readable-typography-rhythm",
+      "density-within-touch-limits",
+      "geometry",
+      "surface-and-depth",
+      "evidence-backed-imagery",
+      "non-disruptive-motion"
+    ],
+    "requiredStateVocabulary": ["default", "selected", "disabled", "empty", "error", "success"]
+  },
+  "components": {
+    "page-shell": {
+      "use": "Every non-native mobile page",
+      "requiredContent": ["page-title", "scroll-container"],
+      "behavior": ["content-scrolls-inside-viewport", "bottom-navigation-or-sticky-action-does-not-cover-content"],
+      "protected": ["status-safe-area", "scroll-container", "bottom-boundary"],
+      "adaptable": ["page-background", "title-typography", "surface-rhythm"]
+    },
+    "section-header": {
+      "use": "Name one coherent information group",
+      "requiredContent": ["section-label"],
+      "behavior": ["optional-trailing-action-is-specific-and-clickable"],
+      "protected": ["label-before-content", "one-trailing-action-maximum"],
+      "adaptable": ["type-style", "spacing", "separator-treatment"]
+    },
+    "search-filter-bar": {
+      "use": "Customer, task, appointment, or asset collections",
+      "requiredContent": ["search-label", "filter-state"],
+      "behavior": ["search-updates-visible-results", "filter-has-active-and-clear-states"],
+      "states": ["default", "selected", "empty"],
+      "protected": ["visible-label-or-placeholder", "active-filter-feedback", "clear-path"],
+      "adaptable": ["shape", "surface", "icon-library", "focus-treatment"]
+    },
+    "list-row": {
+      "use": "Open one object from a collection",
+      "requiredContent": ["identity", "decision-context", "row-action-or-disclosure"],
+      "behavior": ["whole-row-or-explicit-action-is-clickable", "selection-persists-when-applicable"],
+      "states": ["default", "selected", "disabled"],
+      "protected": ["identity-first", "context-before-secondary-meta", "minimum-touch-target"],
+      "adaptable": ["divider", "thumbnail-shape", "density", "selected-treatment"]
+    },
+    "customer-summary": {
+      "use": "Customer list row or profile header",
+      "requiredContent": ["display-name", "customer-id-or-masked-contact", "example-membership-when-selected"],
+      "behavior": ["current-actions-remain-visible-on-profile"],
+      "protected": ["identity-hierarchy", "masked-sensitive-data", "demo-membership-label"],
+      "adaptable": ["portrait-or-monogram", "membership-treatment", "surface-material"]
+    },
+    "membership-summary": {
+      "use": "Selected membership page or profile section",
+      "requiredContent": ["tier-demo", "status-demo", "join-date-demo"],
+      "behavior": ["does-not-imply-real-upgrade-rules"],
+      "states": ["default", "disabled"],
+      "protected": ["demo-provenance", "label-value-pairs"],
+      "adaptable": ["card-material", "accent-budget", "typography"]
+    },
+    "task-card": {
+      "use": "Priority task or task list item",
+      "requiredContent": ["task-title", "status", "due-or-time", "related-object", "next-action"],
+      "behavior": ["one-dominant-next-action", "open-and-complete-states-are-distinct"],
+      "states": ["default", "disabled", "success"],
+      "protected": ["task-before-story", "status-and-due-visible", "single-primary-action"],
+      "adaptable": ["priority-accent", "surface", "type-hierarchy", "supporting-imagery"]
+    },
+    "key-value-group": {
+      "use": "Readable detail information",
+      "requiredContent": ["labels", "values"],
+      "behavior": ["long-values-wrap", "empty-values-use-honest-placeholder"],
+      "states": ["default", "empty"],
+      "protected": ["label-value-association", "reading-order"],
+      "adaptable": ["columns", "dividers", "density", "label-tone"]
+    },
+    "timeline": {
+      "use": "Transactions, interactions, task history, or appointment history",
+      "requiredContent": ["event-label", "time", "event-context"],
+      "behavior": ["chronology-is-unambiguous"],
+      "states": ["default", "empty"],
+      "protected": ["time-event-association", "chronological-order"],
+      "adaptable": ["line-treatment", "marker-shape", "density"]
+    },
+    "selection-row": {
+      "use": "Choose customers, assets, appointment options, or filters",
+      "requiredContent": ["option-identity", "selection-state"],
+      "behavior": ["selected-state-is-visible", "disabled-option-cannot-commit"],
+      "states": ["default", "selected", "disabled"],
+      "protected": ["selection-feedback", "minimum-touch-target", "disabled-semantics"],
+      "adaptable": ["control-shape", "selected-color", "thumbnail-treatment"]
+    },
+    "form-field": {
+      "use": "Editable message, note, date, time, or appointment input",
+      "requiredContent": ["persistent-label", "current-value"],
+      "behavior": ["focus-is-visible", "validation-is-local", "error-explains-recovery"],
+      "states": ["default", "disabled", "error"],
+      "protected": ["label", "value", "error-message", "keyboard-safe-layout"],
+      "adaptable": ["border", "fill", "focus-ring", "help-text-style"]
+    },
+    "asset-card": {
+      "use": "Preview and select an image or mini-program material",
+      "requiredContent": ["asset-type", "preview-or-real-fallback", "title", "selection-state"],
+      "behavior": ["preview-opens-or-selection-toggles", "broken-image-fallback-is-visible"],
+      "states": ["default", "selected", "disabled", "error"],
+      "protected": ["type-visible", "selection-feedback", "broken-asset-recovery"],
+      "adaptable": ["media-ratio", "crop", "surface", "selected-treatment"]
+    },
+    "sticky-action-bar": {
+      "use": "Commit the current detail or preparation step",
+      "requiredContent": ["primary-action"],
+      "behavior": ["stays-at-screen-bottom", "does-not-cover-last-content", "disabled-state-explains-missing-input"],
+      "states": ["default", "disabled"],
+      "protected": ["action-order", "bottom-safe-area", "primary-prominence"],
+      "adaptable": ["button-geometry", "surface-depth", "brand-accent"]
+    },
+    "empty-state": {
+      "use": "A collection or result with no current records",
+      "requiredContent": ["what-is-empty", "next-action-when-available"],
+      "behavior": ["does-not-fake-completed-data"],
+      "states": ["empty"],
+      "protected": ["truthful-state", "specific-recovery"],
+      "adaptable": ["illustration-if-sourced", "spacing", "tone"]
+    },
+    "result-receipt": {
+      "use": "Confirm facts produced by a completed runtime action",
+      "requiredContent": ["status", "affected-object-or-count", "snapshot", "runtime-time", "return-action"],
+      "behavior": ["renders-only-runtime-result", "return-preserves-completed-state"],
+      "states": ["success", "error"],
+      "protected": ["runtime-provenance", "result-facts", "return-path"],
+      "adaptable": ["success-emphasis", "surface", "type-hierarchy"]
+    }
+  }
+}

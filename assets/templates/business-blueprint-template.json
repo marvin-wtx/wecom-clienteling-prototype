@@ -1,0 +1,33 @@
+{
+  "skillVersion": "4.0",
+  "mode": "framework-default",
+  "brand": "示例品牌",
+  "demoData": true,
+  "roles": [
+    {"id": "client-advisor", "label": "客户顾问", "provenance": "common-structure"}
+  ],
+  "selectedModules": {
+    "home": ["workbench", "today-list"],
+    "clients": ["list-search-filter", "profile-basic", "membership", "transactions", "interactions"],
+    "tasks": ["list", "detail", "prepare-outreach", "native-send-result"],
+    "appointments": ["calendar-list", "detail", "create-confirm"],
+    "performance_tools": ["personal-performance", "task-performance", "asset-library"]
+  },
+  "extensions": [],
+  "objects": [
+    {"id": "client", "type": "ClientProfile", "provenance": "common-structure"},
+    {"id": "work-item", "type": "WorkItem", "provenance": "common-structure"},
+    {"id": "material", "type": "ContentAsset", "provenance": "common-structure"},
+    {"id": "outreach-draft", "type": "OutreachDraft", "provenance": "common-structure"},
+    {"id": "appointment", "type": "Appointment", "provenance": "common-structure"},
+    {"id": "receipt", "type": "ExecutionReceipt", "provenance": "runtime"}
+  ],
+  "primaryJourney": {
+    "id": "task-to-wecom-send",
+    "role": "client-advisor",
+    "stages": ["task", "prepare", "native-broadcast", "result"],
+    "resultSource": "runtime-receipt"
+  },
+  "brandSpecificClaims": [],
+  "unsupportedClaims": []
+}

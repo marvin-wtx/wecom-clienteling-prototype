@@ -1,0 +1,56 @@
+{
+  "skillVersion": "4.0",
+  "provenance": {
+    "structure": "common-structure",
+    "values": "mock-value",
+    "displayPolicy": "在产品中统一标记一次演示数据，不声称字段或值来自品牌真实系统"
+  },
+  "modules": {
+    "home": {
+      "workbench": ["actor-summary", "today-summary", "next-actions"],
+      "today-list": ["group", "object", "time-or-due", "status", "action"],
+      "performance-summary": ["sales-progress-demo", "task-progress-demo"],
+      "quick-actions": ["find-client", "create-appointment"],
+      "manager-overview": ["scope-label", "team-summary-demo", "staff-entry"]
+    },
+    "clients": {
+      "list-search-filter": ["display-name", "customer-id", "masked-contact", "membership-tier-demo", "recent-activity", "search", "filter", "sort"],
+      "profile-basic": ["display-name", "customer-id", "masked-contact", "membership-tier-demo", "membership-status-demo", "assigned-advisor-demo", "current-actions"],
+      "membership": ["tier-demo", "status-demo", "join-date-demo"],
+      "transactions": ["last-purchase-date-demo", "purchase-summary-demo", "transaction-list-demo"],
+      "interactions": ["last-interaction-demo", "interaction-type-demo", "interaction-list-demo"],
+      "wishlist": ["saved-item-demo", "saved-date-demo", "follow-up-action"],
+      "tags-notes": ["generic-tags-demo", "advisor-note-demo"]
+    },
+    "tasks": {
+      "list": ["task-title", "task-type-demo", "status", "due-demo", "related-client", "action"],
+      "detail": ["task-title", "status", "objective-demo", "related-clients", "prepared-material", "execution-action"],
+      "prepare-outreach": ["client-selection", "material-selection", "message-preview", "draft-summary"],
+      "native-send-result": ["recipient-count", "message-snapshot", "material-snapshot", "sent-status"],
+      "opportunity-list": ["list-title-demo", "customer-count-demo", "status-demo", "customer-entry"]
+    },
+    "appointments": {
+      "calendar-list": ["date", "time", "customer", "appointment-type-demo", "status"],
+      "detail": ["customer", "date", "time", "location-demo", "appointment-type-demo", "status", "notes-demo"],
+      "create-confirm": ["customer-selection", "date-selection", "time-selection", "type-selection", "confirmation"],
+      "attendance-result": ["arrived", "not-arrived", "rescheduled", "runtime-result-only"],
+      "resource-selection": ["resource-type-demo", "resource-option-demo", "availability-demo"]
+    },
+    "performance_tools": {
+      "personal-performance": ["period", "sales-progress-demo", "customer-activity-demo"],
+      "task-performance": ["assigned-count-demo", "completed-count-demo", "completion-rate-demo"],
+      "asset-library": ["category", "asset-type", "status-demo", "search", "filter", "preview"],
+      "management-drilldown": ["scope-label", "team-summary-demo", "staff-list", "staff-detail"],
+      "client-transfer": ["from-advisor", "customer-selection", "to-advisor", "confirmation", "runtime-result"]
+    }
+  },
+  "requiresUserSource": [
+    "real-tier-names-or-upgrade-rules",
+    "real-customer-segmentation",
+    "real-task-source-or-eligibility",
+    "real-performance-definitions-or-targets",
+    "real-appointment-resource-or-approval-rules",
+    "real-organization-or-permission-scope",
+    "real-crm-writeback"
+  ]
+}

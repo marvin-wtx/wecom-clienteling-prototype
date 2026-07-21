@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Validate that a branded WeCom prototype is delivered as a complete evidence bundle."""
+"""Validate the staged V4.0 business, product, visual, and browser delivery."""
 
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import re
 import subprocess
 import sys
@@ -12,9 +14,15 @@ from pathlib import Path
 
 REQUIRED_FILES = {
     "prototype HTML": Path("prototype/index.html"),
+    "protected shell runtime": Path("prototype/shell-runtime.js"),
+    "protected visual primitives": Path("prototype/workbench-visual-primitives.css"),
+    "confirmed scope intake": Path("docs/scope-intake.json"),
+    "business blueprint": Path("docs/business-blueprint.json"),
+    "page-state contract": Path("docs/page-state-contract.json"),
+    "confirmed design intake": Path("docs/design-intake.json"),
+    "representative design acceptance": Path("docs/design-acceptance.json"),
     "visual token": Path("docs/visual-token.json"),
     "delivery review": Path("docs/prototype-delivery-review.json"),
-    "case evaluation": Path("docs/prototype-case-evaluation.json"),
 }
 
 
@@ -51,8 +59,22 @@ def main() -> int:
     prototype = case_dir / REQUIRED_FILES["prototype HTML"]
     token = case_dir / REQUIRED_FILES["visual token"]
     review = case_dir / REQUIRED_FILES["delivery review"]
-    evaluation = case_dir / REQUIRED_FILES["case evaluation"]
     source = prototype.read_text(encoding="utf-8")
+    try:
+        review_data = json.loads(review.read_text(encoding="utf-8"))
+        page_contract = json.loads((case_dir / "docs" / "page-state-contract.json").read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"Prototype delivery bundle failed:\n- cannot read staged review inputs: {exc}", file=sys.stderr)
+        return 1
+    actual_hash = hashlib.sha256(prototype.read_bytes()).hexdigest()
+    if review_data.get("buildHash") != actual_hash:
+        print("Prototype delivery bundle failed:\n- delivery review buildHash does not match prototype/index.html", file=sys.stderr)
+        return 1
+    expected_pages = {item.get("id") for item in page_contract.get("pages", []) if isinstance(item, dict) and item.get("id")}
+    checked_pages = set(review_data.get("selectedPagesChecked", []))
+    if checked_pages != expected_pages:
+        print("Prototype delivery bundle failed:\n- selectedPagesChecked must exactly match the page-state contract", file=sys.stderr)
+        return 1
     incomplete_pattern = re.compile(r"replace(?:\s+with|-with)|\btodo\b|\btbd\b|待补|待确认后补", re.I)
     incomplete_artifacts = [
         label
@@ -83,27 +105,23 @@ def main() -> int:
         return 1
 
     script_dir = Path(__file__).resolve().parent
-    skill_root = script_dir.parent
-    starter_demo = skill_root / "assets/prototype-shell-demo/index.html"
     checks = [
+        ["check_scope_intake.py", str(case_dir)],
+        ["check_business_blueprint.py", str(case_dir)],
+        ["check_page_state_contract.py", str(case_dir)],
+        ["check_blueprint_implementation.py", str(case_dir)],
+        ["check_design_intake.py", str(case_dir)],
+        ["check_design_foundation_implementation.py", str(case_dir)],
+        ["check_design_acceptance.py", str(case_dir)],
         ["check_visual_tokens.py", str(token)],
-        ["check_creative_divergence.py", str(token)],
         ["check_delivery_review.py", str(review)],
         ["check_prototype_shell.py", str(prototype)],
-        ["check_workbench_implementation.py", str(prototype)],
-        ["check_page_information.py", str(prototype)],
+        ["check_review_interaction_wiring.py", str(prototype)],
         ["check_token_implementation.py", str(token), str(prototype)],
-        ["check_prototype_block_layout.py", str(token), str(prototype)],
-        ["check_prototype_case_evaluation.py", str(evaluation)],
-        [
-            "check_structural_similarity.py",
-            str(prototype),
-            "--token",
-            str(token),
-            "--reference",
-            str(starter_demo),
-        ],
+        ["check_operating_language.py", str(token), str(prototype)],
     ]
+    if "native-broadcast-frozen:start" in source or "新建群发" in source:
+        checks.append(["check_native_wecom_broadcast.py", str(case_dir), "--required"])
 
     failures: list[str] = []
     for check in checks:

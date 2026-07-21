@@ -1,0 +1,33 @@
+{
+  "skillVersion": "4.0",
+  "mode": "framework-default",
+  "navigation": ["home", "clients", "tasks", "appointments"],
+  "toolEntries": ["personal-performance", "asset-library"],
+  "pages": [
+    {"id": "home-workbench", "module": "home", "selection": "workbench", "depth": "clickable-structure", "purpose": "看见今日工作与入口", "primaryAction": "open-today"},
+    {"id": "home-today", "module": "home", "selection": "today-list", "depth": "clickable-structure", "purpose": "查看今日事项", "primaryAction": "open-task"},
+    {"id": "clients-list", "module": "clients", "selection": "list-search-filter", "depth": "clickable-structure", "purpose": "查找客户", "primaryAction": "open-client"},
+    {"id": "client-profile", "module": "clients", "selection": "profile-basic", "depth": "clickable-structure", "purpose": "理解客户基础信息", "primaryAction": "open-client-action"},
+    {"id": "client-membership", "module": "clients", "selection": "membership", "depth": "clickable-structure", "purpose": "查看示例会员信息", "primaryAction": "back-to-profile"},
+    {"id": "client-transactions", "module": "clients", "selection": "transactions", "depth": "clickable-structure", "purpose": "查看示例交易", "primaryAction": "open-transaction"},
+    {"id": "client-interactions", "module": "clients", "selection": "interactions", "depth": "clickable-structure", "purpose": "查看示例互动", "primaryAction": "open-interaction"},
+    {"id": "tasks-list", "module": "tasks", "selection": "list", "depth": "complete-loop", "purpose": "查看任务", "primaryAction": "open-task"},
+    {"id": "task-detail", "module": "tasks", "selection": "detail", "depth": "complete-loop", "purpose": "理解任务并开始执行", "primaryAction": "prepare-outreach"},
+    {"id": "outreach-prepare", "module": "tasks", "selection": "prepare-outreach", "depth": "complete-loop", "purpose": "选择客户、素材与正文", "primaryAction": "open-native-broadcast"},
+    {"id": "native-broadcast", "module": "tasks", "selection": "native-send-result", "depth": "complete-loop", "purpose": "核对并发送", "mount": "direct", "primaryAction": "send"},
+    {"id": "send-result", "module": "tasks", "selection": "native-send-result", "depth": "complete-loop", "purpose": "确认运行时发送结果", "resultSource": "runtime-receipt", "primaryAction": "return-to-tasks"},
+    {"id": "appointments-list", "module": "appointments", "selection": "calendar-list", "depth": "clickable-structure", "purpose": "查看邀约", "primaryAction": "open-appointment"},
+    {"id": "appointment-detail", "module": "appointments", "selection": "detail", "depth": "clickable-structure", "purpose": "查看邀约详情", "primaryAction": "edit-or-return"},
+    {"id": "appointment-create", "module": "appointments", "selection": "create-confirm", "depth": "clickable-structure", "purpose": "创建并确认邀约", "primaryAction": "confirm-appointment"},
+    {"id": "personal-performance", "module": "performance_tools", "selection": "personal-performance", "depth": "clickable-structure", "purpose": "查看演示个人业绩", "primaryAction": "open-performance-detail"},
+    {"id": "task-performance", "module": "performance_tools", "selection": "task-performance", "depth": "clickable-structure", "purpose": "查看演示任务表现", "primaryAction": "open-task-list"},
+    {"id": "asset-library", "module": "performance_tools", "selection": "asset-library", "depth": "clickable-structure", "purpose": "浏览和预览素材", "primaryAction": "open-asset"}
+  ],
+  "primaryJourney": {
+    "id": "task-to-wecom-send",
+    "pageOrder": ["tasks-list", "task-detail", "outreach-prepare", "native-broadcast", "send-result"],
+    "preserve": ["taskId", "clientIds", "materialId", "message"],
+    "resultFields": ["status", "recipientCount", "messageSnapshot", "materialSnapshot", "sentAt"]
+  },
+  "reviewConsole": {"allowedAfterMobileAcceptance": true, "insidePhone": false}
+}

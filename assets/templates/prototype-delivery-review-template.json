@@ -1,97 +1,23 @@
 {
-  "deliveryPositioning": "brand-aware WeCom Clienteling demo prototype plus solution blueprint",
-  "deliveryStages": {
-    "evidence": {
-      "status": "complete",
-      "notes": "Evidence ledger completed; assumptions are kept out of UI."
-    },
-    "structure": {
-      "status": "complete",
-      "notes": "Layout authority, structure DNA, selected direction, and rejected alternatives are recorded."
-    },
-    "productLogic": {
-      "status": "complete",
-      "notes": "Business axis, role, journeys, page inventory, and native handoff boundaries are defined."
-    },
-    "dataModel": {
-      "status": "complete",
-      "notes": "Customers, tasks, appointments, metrics, content assets, owners, and states share stable IDs."
-    },
-    "pageContracts": {
-      "status": "complete",
-      "notes": "A/B/C page depth and decision dimensions are assigned before implementation."
-    },
-    "prototype": {
-      "status": "complete",
-      "notes": "Prototype starts from the protected WeCom mini-program shell."
-    },
-    "qa": {
-      "status": "complete",
-      "notes": "Automated QA, rendered QA, self-critique, and anti-generic review are complete."
-    }
+  "skillVersion": "4.0",
+  "browser": "Google Chrome",
+  "testedUrl": "REPLACE_WITH_LOCAL_URL",
+  "buildHash": "REPLACE_WITH_SHA256_OF_PROTOTYPE_HTML",
+  "checkedAt": "REPLACE_WITH_ISO_TIMESTAMP",
+  "checks": {
+    "mobileFirstViewportComplete": false,
+    "tabbarTouchesBottom": false,
+    "longPageScrolls": false,
+    "journeyValuesPersist": false,
+    "allVisibleInteractionsWork": false,
+    "consoleErrors": 0,
+    "brokenImages": 0
   },
-  "qualityScores": {
-    "brandFit": 4,
-    "workbenchUsability": 4,
-    "businessCredibility": 4,
-    "structuralOriginality": 4,
-    "evidenceIntegrity": 4,
-    "demoReadiness": 4
-  },
-  "selfCritique": {
-    "starterShellDifference": "The selected navigation, home narrative, detail-page architecture, and signature interaction are explicitly chosen from the brief rather than inherited from the starter shell.",
-    "priorCaseDifference": "No prior case is used in this template; when cases exist, compare navigation, home order, module grammar, detail architecture, and signature interaction.",
-    "brandClientelingModule": "The primary operating module should express the brand's clienteling model through a business axis such as service, appointment, content, product interest, or priority follow-up.",
-    "thinPageRisk": "C360, task detail, and appointment detail are the highest risk pages because thin information would make the demo feel like a styled shell.",
-    "evidenceBackedTerms": "Visible terms must be user-confirmed, official-public, or generic-default, with internal-sounding terms replaced by neutral fallbacks.",
-    "assumptionsKeptOut": "Unconfirmed segments, programs, rooms, campaigns, workflows, system fields, and proprietary role names remain outside the delivered UI.",
-    "debrandedDistinctiveness": "After removing brand styling, the prototype should still differ through business axis, navigation logic, page architecture, module grammar, and signature interaction."
-  },
-  "creativeDivergenceReview": {
-    "operatingMetaphor": "The prototype uses an explicit business operating metaphor such as service concierge, appointment atelier, relationship pulse, content-to-conversation engine, or manager exception review.",
-    "transposedMechanisms": [
-      "Task-inbox grouping becomes a clienteling priority queue with due dates, status, owner, and next action.",
-      "Account-dossier structure becomes C360 identity, value, preference, history, and action context."
-    ],
-    "highImpactLeversUsed": [
-      "businessAxis",
-      "navigationModel",
-      "homeNarrative",
-      "detailArchitecture",
-      "signatureInteraction"
-    ],
-    "whyThisIsNotJustSkin": "The prototype remains different after removing brand styling because its operating axis, navigation logic, home composition, page architectures, and signature interaction are selected from the brief.",
-    "creativeRiskControl": "Creative choices preserve evidence boundaries, WeCom shell constraints, page depth, scan speed, native handoff clarity, and workbench-first behavior."
-  },
-  "antiGenericReview": {
-    "starterNavigationCopied": false,
-    "homeUsesDefaultOrder": false,
-    "detailPagesAreThin": false,
-    "styleOnlyDifferentiation": false,
-    "unconfirmedInternalTermsVisible": false,
-    "campaignHeroDisplacesWorkbench": false,
-    "singleCardGrammarEverywhere": false,
-    "debrandedPrototypeStillGeneric": false
-  },
-  "automatedChecks": [
-    "check_visual_tokens.py",
-    "check_prototype_shell.py",
-    "check_workbench_implementation.py",
-    "check_page_information.py",
-    "check_token_implementation.py",
-    "check_prototype_block_layout.py",
-    "check_prototype_case_evaluation.py",
-    "check_delivery_review.py",
-    "check_prototype_delivery_bundle.py"
+  "primaryJourneyId": "REPLACE_WITH_CONFIRMED_PRIMARY_JOURNEY_ID",
+  "journey": ["REPLACE_WITH_OBSERVED_STEP_1", "REPLACE_WITH_OBSERVED_STEP_2", "REPLACE_WITH_OBSERVED_STEP_3", "REPLACE_WITH_OBSERVED_STEP_4"],
+  "selectedPagesChecked": ["REPLACE_WITH_EACH_SELECTED_PAGE_ID"],
+  "screenshots": [
+    "REPLACE_WITH_RELATIVE_SCREENSHOT_PATH"
   ],
-  "renderedChecks": [
-    "home first viewport",
-    "customer list and C360",
-    "task list and task detail",
-    "appointment list and appointment detail",
-    "native WeCom handoff when in scope"
-  ],
-  "openQuestions": [
-    "Confirm any internal customer tiers, task types, role names, CRM fields, content assets, and integration boundaries before using them in UI."
-  ]
+  "observation": "REPLACE_WITH_SHORT_OBSERVED_RESULT"
 }

@@ -1,136 +1,165 @@
 ---
 name: wecom-clienteling-prototype
-description: Convert WeCom/WeChat Work ecosystem mini-program clienteling tool materials, or sparse early ideas, into reusable baseline frameworks, capability maps, page inventories, page-level interaction standards, task-execution models, field-vocabulary mapping, prototype briefs, WeCom native replicas such as 新建群发, brand visual evidence extraction, visual tokens, responsive prototype shells, and coverage QA. Use when the user asks to analyze BRDs, feature lists, screenshots, workflows, search/filter/tab/page-state details, task execution, 1v1/1vN/Moments/native broadcast flows, management dashboards, by-staff performance drilldowns, role/permission notes, CRM/CDP/MA/member-system integrations, FA/SA/BA terminology, customer/member field naming, brand visual references, UI restoration, opportunity logic, or existing prototypes for WeCom mini-program Clienteling, retail clienteling, private-domain sales assistant, C360, appointment, content sharing, or dashboard prototype work.
+description: Turn a brand prompt or supplied WeCom clienteling materials into a scoped, operable retail clienteling prototype. Use for workbenches, customer lists and profiles, membership, C360, tasks, appointments, performance, asset tools, native WeCom execution, multi-role review, visual design, or prototype QA.
 ---
 
-# WeCom Clienteling Prototype
+# WeCom Clienteling Prototype · V4.0
 
-Use this skill to turn clienteling inputs into a prototype-ready product plan. Treat any supplied source material as project-specific evidence to generalize from, not as mandatory scope for future work.
+Build a credible clienteling product in stages. Confirm the product frame before creating pages; validate mobile business structure before brand design; add desktop review controls only after the mobile product passes.
 
-## First Split
+## Do not clone a prior product
 
-First route the request by input state:
+Use FSN only as the source of transferable domain principles. Never copy its pages, data, role names, fields, metrics, rules, IA, or visual composition into another brand. `assets/prototype-shell/` supplies runtime mechanics only.
 
-- **Source-backed mode**: the user has existing materials such as BRDs, decks, screenshots, field lists, notes, or prototypes.
-- **Research-led mode**: the user has a brand, industry, market, or objective and needs the assistant to research the context.
-- **Baseline mode**: the user has little or no solid material and wants a reusable WeCom Clienteling starter framework.
-- **Hybrid mode**: the user has a rough prompt and needs public research plus the reusable baseline.
+Read `references/clienteling-domain-blueprint.md` before scoping. Read `references/operating-language.md` before writing UI copy. Read `references/native-wecom-broadcast-contract.md` before implementing native group send.
 
-Then classify the deliverable into one or more work modes:
+## Stage 0 · Run one scope intake before creating files
 
-- **Business extraction**: derive capability modules, actors, objects, states, permissions, and unresolved questions from messy source material.
-- **Baseline framework**: build a reusable starter IA, page inventory, and interaction chain from generic WeCom Clienteling capabilities when the user has little or no solid source material.
-- **Prototype planning**: convert business capabilities into journeys, page inventory, navigation, page-depth levels, and demo flows.
-- **Interaction standardization**: convert search, filter, sort, tab, bottom-sheet, and page-state details into reusable cross-page rules.
-- **Task execution modeling**: define how 1v1, 1vN, Moments, native broadcast, appointment, content, and feedback actions execute.
-- **Prototype execution**: write an execution brief for HTML, Figma, slides, or another prototype surface, with WeCom mini-program and demo-shell constraints.
-- **Prototype shell implementation**: produce or revise an HTML/clickable prototype by reusing the bundled mini-program shell source, not by inventing a new container.
-- **Prototype presentation**: specify desktop review stage, mobile full-screen mode, role switching, control visibility, free browsing, and preset journey demo behavior.
-- **WeCom native replication**: decide when to replicate native WeCom pages, such as 新建群发, instead of designing a custom clienteling page.
-- **Visual direction**: define industry-appropriate naming, prototype style references, brand fit, and reusable visual direction before implementation.
-- **Brand visual extraction**: turn brand references, screenshots, public research, or style examples into evidence-backed visual tokens and page-layer design rules.
-- **Coverage QA**: check an existing prototype against the capability map, flows, states, permissions, and integration assumptions.
+Do not create HTML, tokens, screenshots, or QA documents from the first sparse prompt.
 
-## Required Workflow
+Use `assets/templates/scope-intake-template.json` to play back:
 
-1. Read `references/start-mode-router.md` before choosing a workflow path for an open-ended request.
-2. Inspect the user's source material before inventing structure when source-backed mode is selected.
-3. If source material is weak or missing, read `references/baseline-framework.md` and `references/reference-page-blueprints.md` before proposing a generic baseline.
-4. Read `references/capability-map.md` for the reusable WeCom Clienteling capability model.
-5. Read `references/prototype-pipeline.md` when turning business inputs into prototype outputs.
-6. Read `references/module-to-page-patterns.md` when creating page inventories, IA, demo flows, or prototype briefs.
-7. Read `references/reference-page-blueprints.md` when defining baseline page content, sample data, page-level states, or HTML prototype page structure.
-8. Read `references/page-information-contract.md` when implementing or reviewing home metrics, C360, task detail, appointment detail, or any A-level full-detail page.
-9. Read `references/one-pass-prototype-gates.md` before implementing any HTML/clickable prototype. Complete all seven gates before delivery.
-10. Read `references/evidence-and-implementation-integrity.md` for every branded prototype. Build the evidence ledger before inventing branded business terms or signature interactions.
-11. Read `references/generative-layout-orchestration.md` for every branded prototype. Select reference-led, evidence-derived, or open-generative mode before choosing navigation or page composition.
-12. Read `references/operating-archetype-selection.md` for open-generative or evidence-derived branded HTML/clickable prototypes. Compare at least three archetypes before selecting the operating model.
-13. Read `references/creative-divergence-system.md` for open-generative or evidence-derived branded prototypes where distinctiveness matters. Define a creative thesis, inspiration transpositions, high-impact divergence levers, portfolio contrast, and coherence proof.
-14. Read `references/prototype-delivery-discipline.md` for every branded HTML/clickable prototype. Complete the delivery recipe before treating the result as ready.
-15. Read `references/interaction-patterns.md` when specifying search, filter, sort, tabs, page states, list controls, or reusable page-level interactions.
-16. Read `references/task-execution-patterns.md` when specifying task list/detail behavior, execution methods, target handling, native send handoff, or completion feedback.
-17. Read `references/wecom-mini-program-constraints.md` when designing pages, flows, interactions, integrations, or prototype implementation.
-18. Read `references/wecom-native-page-replication.md` when a flow enters WeCom native compose, broadcast, recipient, or send-result behavior, or when source material mentions 新建群发, 群发, 原生企微页面, native WeCom, broadcast, or mass send.
-19. Read `references/prototype-shell-contract.md` before producing, revising, or reviewing an HTML/clickable prototype.
-20. Use `assets/prototype-shell/index.html` as the **shell kit** for HTML prototypes unless the user explicitly requires another stack. Preserve its frame, responsive behavior, helpers, and protected native mechanics; replace its preview and build project-specific data, routes, navigation, page architecture, and interactions. Never use `assets/prototype-shell-demo/` as a client-project starting point.
-21. Read `references/prototype-presentation-spec.md` when producing an HTML/clickable prototype, demo shell, or prototype execution brief.
-22. Read `references/terminology.md` when role naming, industry vocabulary, customer/member field names, or Chinese/English labels affect credibility.
-23. Read `references/visual-design-reference.md` when producing or briefing a visual prototype.
-24. Read `references/brand-visual-extraction.md` when brand references, public brand research, screenshots, high-fidelity UI generation, UI restoration, or brand-skinned HTML prototypes are in scope.
-25. Use `assets/templates/visual-token-template.json` when producing a brand visual token. If the token is saved as JSON, run `scripts/check_visual_tokens.py` before implementation or delivery.
-26. Run `scripts/check_creative_divergence.py <visual-token.json>` on open-generative or evidence-derived branded tokens.
-27. Use `assets/templates/prototype-delivery-review-template.json` when producing the delivery review. Run `scripts/check_delivery_review.py` before delivery.
-28. Read `references/prototype-quality-evaluation.md` and use `assets/templates/prototype-case-evaluation-template.json` after rendered QA. Run `scripts/check_prototype_case_evaluation.py <case-evaluation.json>` before delivery.
-29. Deliver every branded HTML/clickable case as `prototype/index.html` plus the required `docs/` artifacts. Run `scripts/check_prototype_delivery_bundle.py <case-directory>` as the final release gate; a standalone `index.html` is incomplete.
-30. Run `scripts/check_workbench_implementation.py` on branded HTML prototypes to verify the visual token's workbench-balance promises are actually implemented.
-31. Run `scripts/check_page_information.py` on HTML prototypes with home metrics, C360, task detail, or appointment detail pages. Treat failures as page-depth defects, not optional polish.
-32. Run `scripts/check_token_implementation.py <visual-token.json> <prototype.html>` on every branded HTML prototype.
-33. Run `scripts/check_prototype_block_layout.py <visual-token.json> <prototype.html>` on every branded prototype.
-34. Run `scripts/check_structural_similarity.py <prototype.html> --token <visual-token.json> --reference <prior-case.html>` when prior brand cases are available or multiple cases are produced together.
-35. Run `scripts/check_portfolio_diversity.py <case-evaluation.json> --reference <prior-case-evaluation.json>` against every available prior case when open-generative or evidence-derived cases are compared. When `prototype-portfolio-index.json` exists, use it with `--portfolio` so every indexed case is included.
-36. Read `references/intake-questionnaire.md` when source material is missing actors, integration scope, page depth, demo goals, visual direction, terminology, WeCom mini-program constraints, native page replication, presentation mode, interaction standards, task execution details, or acceptance criteria.
-37. Read `references/qa-rubric.md` when reviewing coverage or validating an existing prototype.
-38. Use `assets/templates/` files as output skeletons when the user wants a structured deliverable.
+- brand and supplied sources;
+- primary role;
+- selected modules and second-level pages;
+- primary Journey;
+- whether other selected pages need a complete loop or clickable structure;
+- the demo-data policy.
 
-## Domain Rule
+When the prompt only names a brand, ask one grouped question with recommended defaults. When the prompt already names modules, preserve them and ask only what materially changes role, Journey priority, or depth. If the user explicitly accepts all recommended defaults, continue without another question.
 
-Assume the target product is a WeCom/WeChat Work ecosystem mini-program clienteling tool unless the user explicitly asks to adapt the method to another channel. Do not design it as a generic SaaS dashboard, consumer shopping app, or standalone mobile app by default. Desktop views are review/demo containers for the mobile mini-program experience, not the primary product surface.
+Use a compact playback such as: “我会先按客户顾问的通用零售框架制作：首页工作台与今日事项、客户列表/详情/会员/交易/互动、任务列表/详情/企微触达、邀约、个人业绩与素材库；主链路优先跑通任务到企微发送。请一次告诉我要删加的模块、主要角色，以及其他页面是否也要完整闭环。” Do not turn this into a long questionnaire.
 
-Treat WeCom native page replicas as a separate surface from clienteling mini-program pages. If a business action leaves the clienteling tool and enters a native WeCom compose/send/broadcast page, replicate the native page pattern instead of redesigning it as branded clienteling UI.
+Never drop a module explicitly named by the user because it is outside the recommended framework. Record it in `extensions` with `source: user-request`, confirm its second-level pages and depth in the same intake, and carry it through the blueprint and page-state contract. The common module contract supplies no invented fields for an extension; use only user-supplied facts plus neutral structural labels.
 
-Keep core WeCom Clienteling capabilities separate from project-specific integrations. Do not assume every clienteling project has a proprietary member-system, loyalty, commerce, content, CRM/CDP/MA, service, appointment-resource, or external ecosystem integration. Ask whether such integrations exist, then model them as extension modules.
+Classify the confirmed scope as:
 
-Keep Opportunity Follow-Up separate from the default core model. Only consider it when the user mentions signals such as opportunity,重点客人, high-value customer, priority client, VIP follow-up, high-potential customer, lead, pipeline, purchase intent, next-best-action, or sustained nurturing. Then ask whether the need is just segmentation/task targeting or a real opportunity lifecycle before adding an Opportunity module.
+- `framework-default`: recommended standard retail demo frame;
+- `module-scoped-demo`: user-selected modules with common structures and mock values;
+- `source-grounded`: supplied material defines brand-specific fields, roles, rules, or workflows.
 
-## Output Principles
+Save the confirmed result as `docs/scope-intake.json`. Do not start Stage 1 without it.
 
-- Produce business-first artifacts before screens: capability map, flow matrix, page inventory, and open questions.
-- If the user has little source material, produce a baseline framework first, then mark assumptions and customization questions.
-- In baseline mode, use `references/reference-page-blueprints.md` to create distinct page structures, connected sample data, and meaningful state/action logic. Do not produce repeated card pages with generic filler.
-- Give every rendered metric a visible label, unit where relevant, period/scope when ambiguous, and drilldown. Bare numbers are a blocking defect even when labels exist in data or source code.
-- For A-level C360, task detail, and appointment detail pages, satisfy the distinct information-region minimums in `references/page-information-contract.md`. Do not present a summary card plus one action as a complete detail page.
-- In HTML prototypes, mark real KPI containers with `data-home-kpi`, visible KPI labels with `data-metric-label`, first-viewport work regions with `data-home-operational`, and A-level detail coverage with `data-info-capability`. Capability markers validate business coverage without fixing section count, order, grouping, or layout.
-- Build one connected data model before page markup. Derive task target counts, customer references, appointment links, states, owners, and due dates from shared objects; never hand-write conflicting copies inside page functions.
-- Build an evidence ledger before branded copy. User-provided material outranks public research; public marketing cannot establish internal customer tiers, CRM fields, room names, task types, or advisor workflows. Assumptions must not enter the delivered UI.
-- Never mark an AI inference, industry convention, public marketing fact, or generic baseline as `user-confirmed`. That status requires a traceable user-provided artifact or explicit user statement.
-- When no authoritative layout reference exists, generate and compare at least three structure directions, select one through operational and brand-fit reasoning, and record rejected alternatives. Do not route brands into fixed industry layouts.
-- For open-generative or evidence-derived branded HTML, compare at least three operating archetypes before page composition. A priority queue needs a positive workload rationale; it is not the default outcome of a sparse brief.
-- When authoritative layout references exist, follow them. Anti-similarity rules must not force gratuitous deviation from supplied designs.
-- For open-generative or evidence-derived branded work, define a creative thesis and at least four high-impact divergence levers. Strong variety should come from business axis, navigation model, home narrative, detail architecture, task model, data story, signature interaction, or visual anchor, not only palette and typography.
-- Treat branded HTML/clickable output as a delivery line: evidence, structure, product logic, data model, page contracts, prototype, and QA must all be complete before final delivery.
-- The deliverable is a brand-aware WeCom Clienteling demo prototype plus solution blueprint. Do not let the output drift into a brand microsite, shopping app, generic CRM dashboard, or final production frontend.
-- Bind structural differentiation promises to visible HTML with navigation, page-architecture, and signature-interaction IDs. Token promises that are not implemented are blocking failures.
-- Bind generative decisions to visible layout-mode, business-axis, module-grammar, navigation, page-architecture, and signature-interaction markers. Brand-prefixed CSS classes are not proof.
-- When using external UI inspiration, transpose mechanisms such as grouping, status, progression, filtering, recovery, and quick action into clienteling jobs. Do not copy the reference look or treat inspiration as target-brand evidence.
-- When prior cases are available, reject open-generative prototypes that retain the same navigation, home block order, module grammar, page architectures, and signature workflow after removing brand copy and styling.
-- Do not expose visual-token rationale, accent budgets, balance badges, QA labels, or implementation notes inside the product UI.
-- Make assumptions explicit when the user has not provided enough material.
-- Preserve local terminology from the user's materials, including module names, role names, field labels, and industry-specific sales-associate terms.
-- Determine FA/SA/BA during intake or from industry context. Do not expose FA/SA/BA as a runtime selector in the prototype shell.
-- Do not default to project-specific customer/member field names. If source material does not confirm field labels, use neutral business labels such as customer identifier, member identifier, contact method, customer grouping, member level, profile label, and lifecycle state.
-- For prototypes, separate **full-detail pages**, **structural pages**, and **navigation/skeleton pages**.
-- For HTML/clickable prototypes, start from `assets/prototype-shell/index.html` or port its classes and behavior directly. It is a shell kit, not a predesigned clienteling application: delete `renderKitPreview`, then implement the project data model, route map, page components, navigation model, and business interactions. Do not recreate the phone frame, WeCom mini-program container, top bar, capsule, safe-area behavior, or bottom-navigation mechanics from scratch. Do redesign the bottom-navigation item set, order, center-action policy, icon treatment, and active state when business journeys and brand evidence support it.
-- Deliver branded HTML/clickable work in a complete case directory: `prototype/index.html`, `docs/visual-token.json`, `docs/prototype-delivery-review.json`, `docs/prototype-case-evaluation.json`, and screenshot files referenced by the evaluation. A text-only completion claim or a bare HTML file is not a finished delivery.
-- For HTML/clickable prototypes, keep the desktop review shell as a compact console around a 390px by 844px mini-program viewport, scaled to fit the desktop window without cropping.
-- For HTML/clickable prototypes, preserve the desktop phone frame including the iPhone-style notch. Hide decorative phone hardware only in mobile full-screen mode.
-- Preserve the protected top shell geometry: 38px status bar, nav title and WeCom capsule centered in the nav row below it, compact notch, and status text showing `9:41` and `5G` without decorative signal-dot placeholders.
-- For HTML/clickable prototypes, implement desktop review stage and mobile full-screen mode as code-level responsive behavior. Do not expose a visible mobile/desktop selector in the product UI.
-- Preserve the protected shell layer, but adapt the page design layer to user-provided business materials, brand references, visual references, and fidelity goals so different projects do not look identical.
-- Before implementation, define a structural differentiation plan covering navigation model, home composition, C360 architecture, task architecture, appointment architecture, dashboard structure, and one signature interaction. A branded prototype that reuses the default ordering and module stack without evidence is incomplete.
-- Before styling, prove debranded distinctiveness: after removing palette, typography, logo, imagery, and brand name, the case should still differ through its operating model and page architecture.
-- Before final delivery, complete a delivery review with quality scores, anti-generic flags, self-critique, automated QA, rendered QA, and open questions. Any quality score below 4 or any anti-generic flag still true is a blocking defect.
-- Capture screenshot-backed case evidence for home, C360, task detail, and appointment detail (or an explicit scope exception), plus observed state-changing interactions. A self-score without visible evidence is not a release gate.
-- When prior open-generative cases are available, compare the candidate against every available case through both HTML structural similarity and material operating-decision differences. Reused archetypes need at least four different high-impact dimensions.
-- For high-fidelity branded prototypes or UI restoration, produce a compact evidence table and brand visual token before implementation. Map visual evidence into page-layer CSS variables, component rules, imagery rules, module-specific layout choices, and a workbench balance plan.
-- Strong brand visual expression is allowed and often desirable, but keep customer lists, task execution, appointment rows, dashboard drilldowns, search/filter controls, and native WeCom handoffs faster to scan than decorative brand moments.
-- Do not invent exact brand assets, proprietary UI details, product imagery, membership terms, or campaign copy. Use provided/public evidence, neutral defaults, or explicit assumptions.
-- For every HTML/clickable demo unless the user explicitly asks for static screens only, include the shell kit's desktop review controls: configured role scope, free-browse mode, preset Journey selection, Journey reset, and project-relevant entry buttons. Keep them outside the phone and hide them in mobile full-screen mode. Role switching changes only permission/data-scope roles, not FA/SA/BA terminology.
-- For manager, regional, or HQ roles, include a management dashboard structure and a by-frontline-role performance drilldown when dashboard/tracking is in scope. Reuse generic metric groups such as sales or contribution, customer operation, appointment/service conversion, task execution, and WeCom connection; adapt names and formulas to the user's source material.
-- Keep desktop-only review controls, role controls, and preset journey controls outside the mini-program screen; hide them in mobile presentation.
-- Preserve required WeCom native replicas, including 新建群发, recipient summary, message/content payload, asset selection entry, send action, frequency note, and return-to-business result state when the flow requires them.
-- Use SVG icons or an approved icon library. Do not use emoji for tabbar icons, quick entrances, task markers, page states, or placeholder illustrations.
-- Standardize reusable page interactions, including search fields, filter groups, sort behavior, tab usage, bottom sheets, disabled-action reasons, and empty/loading/error/no-permission states.
-- Standardize task execution by separating task source, task type, target grain, execution channel, native handoff, completion feedback, and measurable result.
-- Define visual direction before implementation: brand fit, industry convention, reference sources, density, tone, component style, and what should remain generic.
-- Run `scripts/check_prototype_shell.py`, `scripts/check_page_information.py`, `scripts/check_token_implementation.py`, `scripts/check_creative_divergence.py`, `scripts/check_delivery_review.py`, and `scripts/check_prototype_case_evaluation.py` before considering branded HTML complete. Also run `scripts/check_workbench_implementation.py`, `scripts/check_structural_similarity.py`, and `scripts/check_portfolio_diversity.py` when prior cases exist. Then inspect home, C360, task detail, appointment detail, and native handoff in the user-facing browser. Source-level success never overrides a rendered failure.
-- Validate that each important flow has an actor, trigger, customer state, system state, action, result, and recovery/exception path.
+## Stage 1 · Create the business blueprint
+
+Create `docs/business-blueprint.json` from `assets/templates/business-blueprint-template.json`.
+
+Use `assets/templates/common-retail-module-contracts.json` for selected pages. These contracts may supply common structures and plain mock fields such as basic customer information, example membership tier, transactions, interactions, task status, appointment details, performance summaries, and asset metadata.
+
+Every field or claim must use one provenance:
+
+- `user-source`: explicitly requested or supported by supplied materials;
+- `common-structure`: reusable product structure defined by this skill;
+- `mock-value`: visibly demonstrative value;
+- `public-brand`: public visual or verbal brand material; never business logic;
+- `runtime`: value created by user interaction;
+- `unsupported`: forbidden.
+
+Module selection authorizes that module, not brand-specific rules. Never turn mock membership tiers, task sources, customer segments, consent, KPI definitions, appointment resources, permissions, or CRM write-back into claims about the brand.
+
+## Stage 2 · Define pages and state before HTML
+
+Create `docs/page-state-contract.json` from `assets/templates/page-state-contract-template.json`.
+
+- Include every selected second-level page and no unselected module.
+- Give every page one purpose, required information, primary action, and incoming/outgoing state.
+- Mark the depth of each page as `complete-loop` or `clickable-structure`.
+- Pick at least one complete primary Journey.
+- Keep selected IDs stable across pages.
+
+The standard primary Journey is:
+
+`今日任务 → 客户与素材 → 新建群发 → 结果确认`
+
+It is one Journey inside the product, not the whole product. The result may show only facts produced by the send receipt. Do not invent read status, replies, appointments, follow-up rules, or CRM updates after send.
+
+Run the scope, blueprint, and page-contract gates before creating HTML.
+
+## Stage 3 · Build the mobile functional prototype
+
+Seed the protected runtime with `scripts/seed_runtime_shell.py`, then implement the confirmed mobile IA with neutral or weak branding.
+
+- Build every selected page to its confirmed depth.
+- Mark each implemented page with `data-page-id`, `data-module`, `data-selection`, and `data-page-depth`; mark every contracted common field with `data-common-field` so the build can be checked against the confirmed scope.
+- Make every visible control work.
+- Keep common fields plain and demonstrative; mark the product once as using demo data.
+- Preserve source context on back navigation.
+- Complete the primary Journey end to end.
+- Do not add desktop review controls, visual rationale, or multi-Journey HUD inside the phone.
+
+Use the frozen native group-send page only for recipient count, message, image or mini-program material, material selection, cancel, and send completion. Mount `renderWecomExecute()` directly in `#app`; never wrap it in an app shell or `.wx-nav`.
+
+Validate this stage in a visible browser before visual design.
+
+## Stage 4 · Confirm and apply brand design
+
+Start only after the functional mobile prototype passes. Read `references/design-foundation-and-boundaries.md` and use `assets/design-foundation/component-ux-contracts.json` plus `assets/design-foundation/component-reference.html` as the UX and component baseline.
+
+### 4A · Run one design intake
+
+Create `docs/design-intake.json` from `assets/templates/design-intake-template.json`. Ask one grouped question covering available brand assets, desired tone and density, imagery level, fidelity target, and disliked patterns. Recommend a direction instead of asking the user to design the interface.
+
+Use design evidence in this order:
+
+1. supplied brand guidelines, UI screenshots, or design files;
+2. the exact brand's official public sources;
+3. Lazyweb when available;
+4. an exact-brand entry in [Awesome DESIGN.md](https://github.com/VoltAgent/awesome-design-md);
+5. the skill's generic component foundation.
+
+Awesome DESIGN.md is an optional visual-language reference, not a runtime dependency or UX source. Adopt only color roles, typography rhythm, atmosphere, geometry, depth, imagery treatment, and documented responsive principles. Never copy its marketing IA, desktop navigation, content, business rules, or branded identity assets. Never silently use another brand as an analogue; require the user to select that analogue in the design intake.
+
+### 4B · Design representative screens first
+
+Apply the confirmed direction to two to four representative screens: one home/workbench screen when selected, one customer screen when selected, and at least one primary-Journey screen. Preserve the accepted functional screen as the structural source of truth.
+
+- Mark baseline components with `data-ux-component` and meaningful states with `data-ux-state`.
+- Preserve semantic grouping, action order, required states, touch targets, scroll behavior, state transitions, and frozen native UI.
+- Vary brand tokens, typography, density within limits, imagery, surface material, geometry, and motion only where the component contract permits.
+- Use real supplied assets or generated image assets; do not handcraft SVG, CSS, text-symbol, or placeholder art as product imagery.
+
+Show the representative screens in a visible browser and ask for acceptance before styling the remaining pages. Save the decision as `docs/design-acceptance.json`; do not self-approve on the user's behalf.
+
+### 4C · Extend the accepted design
+
+After design acceptance, apply the direction to every selected page without changing approved pages, objects, fields, or transitions. Compare each styled screen against its accepted functional counterpart and rerun the business gates before release.
+
+## Stage 5 · Add the delivery console
+
+Add desktop/mobile presentation and optional role/Journey controls only after mobile business and recorded design acceptance.
+
+- Show only roles and Journeys implemented and tested in the phone product.
+- Keep all review controls outside the phone and behind `?review=1`.
+- Keep normal `?view=desktop` free of version, prototype, QA, and review language.
+- Never let the console change mobile routes, data, or product behavior.
+
+## Stage 6 · Record browser acceptance
+
+Record one concise `docs/prototype-delivery-review.json` bound to the tested URL and build hash. In visible Chrome verify:
+
+- first mobile viewport and responsive desktop phone;
+- scroll and navigation;
+- every selected page and visible control;
+- the primary Journey and state persistence;
+- native cancel/send behavior;
+- console errors and broken images.
+
+Static documents are inputs or gates, never quality proof.
+
+## Release gates
+
+Run, in order:
+
+```bash
+python3 scripts/check_scope_intake.py case-directory
+python3 scripts/check_business_blueprint.py case-directory
+python3 scripts/check_page_state_contract.py case-directory
+python3 scripts/check_blueprint_implementation.py case-directory
+python3 scripts/check_design_intake.py case-directory
+python3 scripts/check_design_foundation_implementation.py case-directory
+python3 scripts/check_design_acceptance.py case-directory
+python3 scripts/check_prototype_delivery_bundle.py case-directory
+python3 scripts/check_skill_version_consistency.py path/to/wecom-clienteling-prototype
+```
+
+Reject a delivery that skipped either intake, styled all pages before representative-screen acceptance, silently borrowed another brand, changed protected UX structure, generated unselected modules, used unsupported brand claims, left visible controls inert, or wrapped native group send in a business shell.

@@ -1,0 +1,40 @@
+{
+  "skillVersion": "4.0",
+  "project": {
+    "name": "REPLACE_WITH_PROJECT_NAME",
+    "brandTreatment": "REPLACE_WITH_BRAND_VISUAL_DIRECTION",
+    "briefMode": "sparse",
+    "sourceBoundFacts": []
+  },
+  "operatingLoop": {
+    "role": "一线顾问",
+    "trigger": "今日待办",
+    "object": "一位待跟进客户",
+    "decision": "选择客户与素材",
+    "action": "发送群发消息",
+    "visibleResult": "显示发送结果"
+  },
+  "assumptions": [],
+  "routes": [
+    { "id": "today", "purpose": "显示一个今日待办与下一步", "objectIds": ["task-example-1"] },
+    { "id": "select", "purpose": "选择示例客户与素材", "objectIds": ["customer-a", "material-preview"] },
+    { "id": "native-broadcast", "purpose": "打开独立的新建群发页", "objectIds": ["draft-example-1"] },
+    { "id": "result", "purpose": "确认刚刚完成的发送结果", "objectIds": ["result-example-1"] }
+  ],
+  "navigation": [
+    { "id": "today", "label": "今日", "icon": "grid" },
+    { "id": "select", "label": "素材", "icon": "list" }
+  ],
+  "primaryJourney": [
+    { "stage": "today", "route": "today", "moment": "查看今日待办", "expectedResult": "看到一个可开始的待办" },
+    { "stage": "select", "route": "select", "moment": "选择客户与素材", "expectedResult": "所选内容进入同一份草稿" },
+    { "stage": "native-broadcast", "route": "native-broadcast", "moment": "确认并发送", "expectedResult": "原生页显示前序选择" },
+    { "stage": "result", "route": "result", "moment": "查看结果", "expectedResult": "看到本次发送已完成" }
+  ],
+  "nativeBroadcast": {
+    "enabled": true,
+    "entryRoute": "native-broadcast",
+    "draftSource": "select",
+    "completionResult": "result"
+  }
+}

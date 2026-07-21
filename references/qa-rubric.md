@@ -1,139 +1,30 @@
-# Prototype QA Rubric
+# WeCom Clienteling QA Rubric
 
-Use this to review prototype coverage and readiness.
+Use this rubric to review the real prototype in a visible browser.
 
-## Coverage Checks
+## Blocking defects
 
-- The deliverable assumes a WeCom ecosystem mini-program clienteling tool unless another channel is explicitly specified.
-- Each in-scope capability has at least one page, flow, or explicit deferral.
-- Each primary demo flow has an entry, action path, result, and exception state.
-- Each A-level page is traceable to a business requirement or demo goal.
-- Opportunity follow-up is included only when priority-customer/opportunity lifecycle scope is confirmed.
-- Each extension integration states source system, signal/state, frontline advisor action, and result/write-back.
-- Each role difference is represented or listed as an assumption.
-- Industry role naming such as FA, SA, BA, advisor, or consultant is confirmed or flagged as an assumption.
-- FA/SA/BA is not exposed as a runtime selector inside the prototype. It is fixed by industry or confirmed during intake.
-- Customer/member field vocabulary is confirmed or uses neutral generic labels rather than project-specific identifiers.
-- Reusable interaction standards are documented for search, filter, sort, tabs, page states, and disabled actions where they appear.
-- Task execution standards are documented for source, type, target grain, execution channel, native handoff, completion feedback, and metrics.
-- The selected start mode is clear: source-backed, research-led, baseline, or hybrid.
-- When public research informs the prototype, researched facts are separated from assumptions and generic defaults.
+- The first viewport is clipped, blank, visibly broken, or dominated by an editorial/campaign surface instead of work.
+- A primary action is inert, only displays cosmetic feedback, or loses its customer/task context.
+- A full-detail page has no decision context, no executable next step, or no visible result.
+- The product exposes unsupported internal terminology or an assumption as fact.
+- The desktop review shell or mobile full-screen behaviour is broken.
 
-## Business Logic Checks
+## Release questions
 
-- Registered/unregistered, bound/unbound, owner/supporting advisor, and store/region visibility are clear where relevant.
-- WeCom contact states drive contact, send, invite, and mini-program card actions.
-- Native WeCom send/broadcast pages are replicated when the flow leaves the clienteling mini-program.
-- Task, appointment, content, transfer, and confirmed opportunity states have realistic transitions.
-- 1v1, 1vN, Moments, native broadcast, appointment, content, and offline task patterns are not collapsed into one generic task detail when their execution differs.
-- Customer actions and system actions are not mixed without explanation.
-- Frequency control, consent, privacy, or customer agreement requirements are surfaced when material implies them.
-- Failure paths are present for binding, sending, resource conflict, transfer, and external integration data.
+| Moment | Reviewer must be able to answer |
+| --- | --- |
+| 10 seconds | Does this open as a coherent, finished workbench? |
+| 60 seconds | Who works here, what requires attention today, and what happens next? |
+| 3 minutes | Can I complete three connected actions and observe real state, route, handoff, or result changes? |
 
-## Prototype Quality Checks
+## Evidence quality
 
-- Branded HTML/clickable prototypes are positioned as brand-aware WeCom Clienteling demo prototypes plus solution blueprints, not brand microsites, shopping apps, generic CRM dashboards, or production frontends.
-- The delivery recipe is complete: evidence, structure, product logic, data model, page contracts, prototype, and QA.
-- A delivery review exists and passes `scripts/check_delivery_review.py`.
-- Open-generative and evidence-derived branded HTML selects one operating archetype after comparing at least three distinct archetypes; priority-queue has a positive workload rationale instead of being the sparse-brief default.
-- A screenshot-backed prototype case evaluation exists and passes `scripts/check_prototype_case_evaluation.py`.
-- The case evaluation contains observed screenshots for home, C360, task detail, and appointment detail or a documented scope exception, plus at least three observed state-changing interactions.
-- When prior cases are available, the case passes `scripts/check_portfolio_diversity.py` against each one; a reused archetype differs in at least four high-impact operating decisions.
-- Quality scores for brand fit, workbench usability, business credibility, structural originality, evidence integrity, and demo readiness are all 4 or higher.
-- Self-critique answers identify concrete structural differences, brand-clienteling logic, thin-page risk, evidence-backed terms, assumptions kept out of UI, and debranded distinctiveness.
-- Anti-generic flags are all false before delivery: starter navigation copied, default home order, thin detail pages, style-only differentiation, unconfirmed internal terms, campaign hero displacement, one card grammar everywhere, and debranded generic structure.
-- HTML/clickable prototypes start from `assets/prototype-shell/index.html` or directly port its shell structure and behavior, then remove `renderKitPreview` and build project-specific pages. `assets/prototype-shell-demo/` is never a valid project starting point.
-- `scripts/check_prototype_shell.py` passes for generated HTML.
-- `scripts/check_prototype_delivery_bundle.py <case-directory>` passes; the directory contains the prototype, visual token, delivery review, case evaluation, and referenced rendered screenshots.
-- For branded HTML/clickable prototypes, `scripts/check_workbench_implementation.py` passes so token-level workbench balance is visible in the implemented pages.
-- Navigation matches the page inventory.
-- Page depth matches A/B/C commitments.
-- Sample data demonstrates real decisions, not filler.
-- Baseline sample data is connected across pages: customer list, C360, task target list, appointment records, content assets, and dashboard drilldowns do not contradict each other.
-- Home, customer list, C360, task list/detail, appointment, content, and dashboard use distinct structures and field sets when they are in scope.
-- Repeated cards are not used as the main structure for every module.
-- Manager/HQ dashboard pages include period control, role/scope copy, grouped KPI modules, progress or target attainment, supporting values, and a by-frontline-role performance entry.
-- By-frontline-role performance pages include a selector or tabs for visible team members plus sales/contribution, customer operation, appointment/service, task execution, and WeCom connection sections.
-- Dashboard terminology uses the confirmed frontline role term. It should not hard-code FA, SA, BA, advisor, or 店员 when the user's industry calls for another term.
-- Operational screens are dense enough for work but still scannable.
-- Home metrics have visible labels, units where relevant, period/scope, and drilldowns. No KPI is rendered as a bare number or explained only by position/color.
-- HTML metric labels use `data-metric-label`, and A-level detail coverage uses truthful `data-info-capability` markers for deterministic QA.
-- Home has at least two real `data-home-kpi` containers and two `data-home-operational` regions; a countdown or campaign card is not counted as either.
-- No more than one campaign/editorial/brand storytelling region appears before the first home operational region.
-- A-level detail pages cover the capability vocabulary from `page-information-contract.md`; layout, grouping, ordering, and interaction remain adaptable.
-- The visual token includes structural differentiation for navigation, home, C360, tasks, appointments, dashboard, and a signature interaction.
-- Navigation set/order and at least two page architectures are justified by brand, role, industry, or journey evidence rather than copied from the starter shell.
-- Implemented navigation labels/order match the visual token, and declared architecture/signature IDs exist on visible HTML.
-- When prior cases are available, structural similarity checks reject prefix/color/copy-only variants.
-- The token declares `reference-led`, `evidence-derived`, or `open-generative` layout authority and the rendered prototype matches it.
-- Open-generative work records at least three candidate directions, a scored selection rationale, and rejected alternatives.
-- Open-generative or evidence-derived branded work includes a creative thesis, at least two inspiration transpositions, at least four high-impact divergence levers, portfolio contrast, and coherence proof.
-- Creative divergence passes `scripts/check_creative_divergence.py`.
-- Inspiration is transposed as mechanisms such as grouping, progression, status, filtering, recovery, or quick action; it is not copied as visual style or treated as target-brand evidence.
-- High-impact variety comes from business axis, navigation model, home narrative, detail architecture, task model, data story, signature interaction, or visual anchor. Palette/font/radius/copy changes do not count by themselves.
-- Structure validation is brand-agnostic. Passing does not depend on a known brand name or brand-prefixed CSS class.
-- `user-confirmed` evidence is traceable to an actual user source; inferred or public facts are not relabeled as confirmation.
-- Navigation, business axis, home narrative, module grammars, page architectures, and signature interaction form one coherent operating story.
-- Shared customer, task, appointment, and asset objects are connected by ID. Counts, states, owners, dates, and names do not conflict across pages.
-- Product UI does not expose QA/debug copy such as brand intensity, workbench density, accent budget, token names, or implementation notes.
-- Mini-program top titles remain readable and untruncated; longer English branding moves into the page body.
-- Secondary, disabled, and outline buttons have visible labels with sufficient foreground/background contrast.
-- Metric labels are visibly rendered at the target viewport; CSS clipping, low contrast, overlap, or hidden overflow do not erase field semantics.
-- A-level C360 pages expose at least four distinct regions across identity/relationship, value/recency, operating context, customer knowledge, history, and actions.
-- A-level task detail pages expose at least five distinct regions across definition, progress, audience, guidance/assets, result capture, and channel-specific execution.
-- A-level appointment detail pages expose at least five distinct regions across schedule, people/place, service/resource, customer context, preparation/communication, outcome/follow-up, and actions/exceptions.
-- Detail-page density comes from decision-supporting dimensions, not repeated cards, decorative labels, or generic filler.
-- Chinese/English terminology matches the client source material.
-- Search placeholders, filters, C360 fields, sample data, dashboard dimensions, and task-targeting labels use the confirmed field vocabulary.
-- Visual direction matches the industry, prototype fidelity, and available reference sources.
-- High-fidelity branded prototypes include a compact evidence table and brand visual token before implementation.
-- Brand visual token decisions are applied through page-layer CSS variables and component rules, not by rebuilding the protected shell.
-- If a JSON visual token is produced, `scripts/check_visual_tokens.py` passes.
-- Brand references are traceable to user-provided materials, public sources, design-reference search, style templates, or explicit assumptions.
-- Branded business terminology is recorded in an evidence ledger. Internal-sounding segments, programs, rooms, task types, and workflows are user-confirmed or replaced with neutral defaults.
-- Assumption claims do not appear in delivered UI.
-- Public marketing sources are not used as proof of internal CRM/customer tiers or advisor workflows.
-- Prior-case brand names, campaigns, products, roles, segments, and content assets are absent.
-- Brand skin does not alter native WeCom replica structure, mini-program top geometry, bottom tabs, role/journey controls, or sticky CTA anchoring.
-- Brand depth is present beyond palette changes: typography hierarchy, geometry, accent rule, and visual anchors are defined and visible where appropriate.
-- Workbench balance is explicit: brand intensity, hero policy, operational priority, accent budget, module differentiation, page-layer-only rule, and readability rules are documented.
-- Workbench balance is implemented: home first viewport shows at least two workbench signals, customer list shows search/filter, task list shows type/status controls and next actions, appointments show time/customer/service/status/action, dashboard shows metric/target/drilldown, and native WeCom handoff stays operational.
-- Expressive brand moments do not compete with search, filters, task due dates, target counts, appointment time/resource rows, dashboard drilldowns, or native WeCom handoff.
-- Strong brand color or high-contrast modules are limited by an accent budget and do not flood every card, chip, tab, or CTA.
-- Home, customer list, C360, task list/detail, appointment, content, dashboard, and transfer pages are visually adapted to their jobs, not only recolored from one repeated pattern.
-- Quiet brands still have recognizable anchors through typography, spacing, imagery discipline, material/detail rhythm, or component shape.
-- Empty, loading, error, no-permission, and success states are covered for high-risk actions.
-- Search and filter states include no result, cleared query, selected filters, role-limited filters, and source failures when relevant.
-- Tabs, segmented controls, status filters, and filter chips are used consistently according to hierarchy.
-- Mini-program navigation, safe areas, bottom-tab visibility, and sticky action bars match the page depth and flow.
-- The WeCom mini-program shell is present on every custom app page: title bar, capsule/safe area, body container, and correct top-level tabbar.
-- Native WeCom replicas, such as 新建群发, hide clienteling bottom navigation and unrelated app tools.
-- Native replicas carry recipient count, message copy, attachment, frequency/compliance note, send/cancel path, and return-to-business result state.
-- Desktop review stage and mobile full-screen behavior are both verified when the prototype is HTML/clickable.
-- Desktop review stage shows a complete 390px by 844px mini-program frame with iPhone-style notch, scaled to fit; top bar and bottom tabbar are not cropped.
-- Desktop top shell has separated status and nav rows: `9:41` and `5G` sit in the status row, while the page title and WeCom capsule are centered in the nav row below it with no crowding.
-- Desktop review controls are compact and outside the phone, not a large rough control panel inside or around the app.
-- Desktop controls include configured role scope, free-browse/Journey mode, Journey selection/reset, and relevant entry routes; changing a control visibly updates the connected prototype state or route.
-- Desktop/mobile behavior is code-level responsive or URL-driven for QA, not a visible selector.
-- `scripts/check_page_information.py` passes for prototypes containing home metrics or A-level detail pages.
-- Mobile full-screen mode is nonblank, hides decorative phone hardware such as notch/statusbar, and does not hide the phone/screen/body container.
-- Stage controls are hidden in mobile full-screen mode and separated from production app UI.
-- Role switching changes permissions, data scope, and available tools.
-- Role switching does not change the industry frontline term. It changes business roles only, such as frontline vs manager.
-- Free browse and preset journey modes both work when scoped.
-- Journey mode controls role when the journey requires a role-specific path.
-- Emoji are absent from tabbars, quick entries, task cards, page states, and placeholder illustrations.
-- Brand color is used as an accent unless the user provides a full design system.
-- A baseline visual style stays neutral and operational unless brand or industry references are confirmed.
+- Inspect the product before writing the review artifact.
+- Save screenshots for home, C360, task detail, and every interaction before/after pair.
+- Describe visible facts; do not use the artifact to certify untested behaviour.
+- Use generic baseline labels whenever the brief lacks an operating fact.
 
-## Output Checks
+## Brand and creativity
 
-- Deliverables include assumptions and open questions.
-- The prototype brief can be handed to a designer or frontend builder without reinterpreting the business.
-- QA findings are prioritized by business risk, not only visual polish.
-- Project-specific modules are not mislabeled as generic WeCom Clienteling capabilities.
-- Project-specific field names are not used as generic defaults.
-- Generic visual templates are adapted to the client's industry rather than copied blindly.
-- Prototype shell requirements are explicit enough for a frontend builder to reproduce the review experience.
-- The final review can explain why this prototype is both brand-specific and operationally credible after removing palette, logo, and image references.
-- The final review can identify the operating metaphor and explain how navigation, home, detail pages, and signature interaction support it.
+Brand design should make the operating surface feel intentional through hierarchy, density, type, color, imagery, and interaction polish. It fails when it becomes an invented internal programme, a poetic operating metaphor, or a reason to hide daily work.

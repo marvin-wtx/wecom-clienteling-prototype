@@ -130,6 +130,7 @@ def expressive_region_count(text: str) -> int:
 
 def collect_errors(source: str) -> list[str]:
     errors: list[str] = []
+    sparse = 'data-brief-mode="sparse"' in source or "data-brief-mode='sparse'" in source
     home = function_segment(source, ("homePage", "renderHome", "homeView"))
     c360 = function_segment(source, ("c360Page", "customerDetailPage", "clientDetailPage"))
     task = function_segment(source, ("taskDetailPage", "taskDetail", "renderTaskDetail"))
@@ -138,7 +139,7 @@ def collect_errors(source: str) -> list[str]:
     )
 
     if home:
-        has_metrics = has(r"metric|stat|kpi|指标|任务|预约|客户|销售|业绩", home)
+        has_metrics = has(r"\b(?:metric|stat|kpi)\b|指标|销售|业绩", home)
         metric_count = len(re.findall(r"\bdata-home-kpi\b", home, re.IGNORECASE))
         label_count = len(re.findall(r"data-metric-label(?:=[\"'][^\"']*[\"'])?", home, re.I))
         if has_metrics and (metric_count < 1 or label_count < metric_count):
@@ -147,8 +148,9 @@ def collect_errors(source: str) -> list[str]:
             )
 
         operational_count = len(re.findall(r"\bdata-home-operational\b", home, re.IGNORECASE))
-        if operational_count < 2:
-            errors.append("home first viewport must include at least two data-home-operational regions")
+        minimum_operational = 1 if sparse else 2
+        if operational_count < minimum_operational:
+            errors.append(f"home first viewport must include at least {minimum_operational} data-home-operational region(s)")
 
         first_operational = re.search(r"\bdata-home-operational\b", home, re.IGNORECASE)
         before_operational = home[: first_operational.start()] if first_operational else home

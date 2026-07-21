@@ -11,7 +11,7 @@ Ask the user to choose one path when the request is open ended:
 3. **Baseline mode**: the user has little material and wants a reusable WeCom Clienteling starter framework quickly.
 4. **Hybrid mode**: the user has a rough brief and also wants public research plus the reusable baseline.
 
-If the user says "先做一个", "先给我一版", or gives a brand with no product material, default to hybrid mode. If the user gives no brand, no industry, and no material, default to baseline mode and clearly mark assumptions.
+If the user says "先做一个", "先给我一版", or gives a brand with no product material, default to hybrid mode. If the user gives no brand, no industry, and no material, default to baseline mode and clearly mark assumptions. In either case, default the product to a neutral core-operating workbench; do not turn public brand research into a specialised operating model.
 
 ## Minimum Intake
 
@@ -50,12 +50,12 @@ Use when the user asks the assistant to research a brand, category, or public bu
 Actions:
 - Confirm research dimensions before deep work, or state a compact default plan when the user wants speed.
 - Research current public facts with sources when brand, product, store, campaign, or policy details matter.
-- Translate research into clienteling assumptions instead of copying marketing language into every screen.
-- Keep public research distinct from product requirements; label it as inferred context.
+- Translate research into visual and category context, not asserted internal workflow.
+- Keep public research distinct from product requirements. It can influence brand treatment and safe generic examples, but cannot establish customer tiers, CRM fields, role names, task types, service locations, or a specialised daily-work model.
 
 Suggested research dimensions:
 - Brand positioning, tone, product/category focus, and campaign language.
-- Retail/service model and likely advisor workflows.
+- Public-facing retail/service model, without treating it as proof of internal advisor workflows.
 - Industry role naming and customer relationship norms.
 - Member/customer vocabulary and likely lifecycle states.
 - Content, appointment, service, event, or consultation opportunities.
@@ -64,8 +64,8 @@ Suggested research dimensions:
 
 Deliverables:
 - Research summary with citations when web research was used.
-- Inferred capability priorities.
-- Prototype data assumptions.
+- Neutral capability priorities and explicit unknowns.
+- Prototype data assumptions that remain outside product UI when unsupported.
 - Page inventory and demo journeys based on public evidence plus reusable baseline rules.
 - Open questions separating facts from assumptions.
 
@@ -100,7 +100,7 @@ Actions:
 - Start with the reusable baseline.
 - Replace generic assumptions with researched or user-provided facts.
 - Keep uncertain items labeled as assumptions.
-- Avoid overfitting the prototype to public marketing content when the product behavior is still unknown.
+- Avoid overfitting the prototype to public marketing content when the product behavior is still unknown. Content is a supporting asset by default, not the application’s main operating axis.
 
 Deliverables:
 - A mixed source table: provided facts, public research, inferred assumptions, and generic baseline defaults.

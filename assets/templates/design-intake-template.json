@@ -1,0 +1,44 @@
+{
+  "skillVersion": "4.0",
+  "confirmed": false,
+  "functionalBuildHash": "REPLACE_WITH_ACCEPTED_FUNCTIONAL_HTML_SHA256",
+  "interaction": "one-grouped-design-intake",
+  "brandAssets": [],
+  "direction": {
+    "tone": "calm, precise, operational",
+    "density": "balanced",
+    "imageryLevel": "selective",
+    "fidelityTarget": "brand-aware functional prototype",
+    "dislikedPatterns": ["decorative hero before work", "equal-weight card stack"]
+  },
+  "referenceStrategy": {
+    "lazyweb": "unavailable",
+    "awesomeDesignMd": {
+      "used": false,
+      "indexUrl": "https://github.com/VoltAgent/awesome-design-md",
+      "referenceMode": "generic-foundation",
+      "designMdUrl": null,
+      "selectionBasis": "No exact-brand reference selected; use official brand evidence and the local component foundation.",
+      "userConfirmedAnalogue": false,
+      "adoptedAspects": [],
+      "rejectedAspects": ["marketing-ia", "desktop-navigation", "source-content", "business-rules", "identity-assets"]
+    }
+  },
+  "foundationComponents": [
+    "page-shell",
+    "section-header",
+    "search-filter-bar",
+    "list-row",
+    "customer-summary",
+    "task-card",
+    "key-value-group",
+    "selection-row",
+    "form-field",
+    "sticky-action-bar",
+    "empty-state",
+    "result-receipt"
+  ],
+  "requiredStates": ["default", "selected", "disabled", "empty", "error", "success"],
+  "representativePages": ["home-workbench", "client-profile", "outreach-prepare"],
+  "briefPlayback": "先沿用已经通过的移动端信息结构；以品牌证据调整视觉语言，先设计首页、客户和主链路代表页面供确认，再扩展到其余页面。"
+}

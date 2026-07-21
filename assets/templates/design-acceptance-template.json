@@ -1,0 +1,22 @@
+{
+  "skillVersion": "4.0",
+  "designIntakeRef": "docs/design-intake.json",
+  "acceptedBuildHash": "REPLACE_WITH_REPRESENTATIVE_BUILD_SHA256",
+  "accepted": false,
+  "acceptedBy": "user",
+  "representativeScreens": [
+    {"pageId": "REPLACE_WITH_REPRESENTATIVE_PAGE_ID", "screenshot": "qa/REPLACE_WITH_SCREENSHOT.png"}
+  ],
+  "criteria": {
+    "workAndPrimaryActionClear": false,
+    "brandExpressionTraceable": false,
+    "componentStatesDistinct": false,
+    "componentConsistency": false,
+    "mobileReadableAt390x844": false,
+    "protectedUxPreserved": false
+  },
+  "structureRegression": false,
+  "feedbackApplied": true,
+  "remainingPagesMayBeStyled": false,
+  "observation": "REPLACE_WITH_USER_DECISION_AND_VISIBLE_BROWSER_OBSERVATION"
+}

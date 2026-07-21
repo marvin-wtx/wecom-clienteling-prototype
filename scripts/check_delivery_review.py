@@ -1,185 +1,85 @@
 #!/usr/bin/env python3
-"""Validate prototype delivery review JSON for branded WeCom prototypes."""
+"""Validate one concise, visible-browser acceptance record for V4.0."""
 
 from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
 
-
-REQUIRED_STAGES = [
-    "evidence",
-    "structure",
-    "productLogic",
-    "dataModel",
-    "pageContracts",
-    "prototype",
-    "qa",
-]
-
-REQUIRED_SCORES = [
-    "brandFit",
-    "workbenchUsability",
-    "businessCredibility",
-    "structuralOriginality",
-    "evidenceIntegrity",
-    "demoReadiness",
-]
-
-REQUIRED_SELF_CRITIQUE = [
-    "starterShellDifference",
-    "priorCaseDifference",
-    "brandClientelingModule",
-    "thinPageRisk",
-    "evidenceBackedTerms",
-    "assumptionsKeptOut",
-    "debrandedDistinctiveness",
-]
-
-REQUIRED_CREATIVE_REVIEW = [
-    "operatingMetaphor",
-    "transposedMechanisms",
-    "highImpactLeversUsed",
-    "whyThisIsNotJustSkin",
-    "creativeRiskControl",
-]
-
-ANTI_GENERIC_FLAGS = [
-    "starterNavigationCopied",
-    "homeUsesDefaultOrder",
-    "detailPagesAreThin",
-    "styleOnlyDifferentiation",
-    "unconfirmedInternalTermsVisible",
-    "campaignHeroDisplacesWorkbench",
-    "singleCardGrammarEverywhere",
-    "debrandedPrototypeStillGeneric",
-]
-
-PLACEHOLDER_REJECTS = ("replace with", "todo", "tbd", "待补", "待确认后补")
+PLACEHOLDER_RE = re.compile(r"replace_with|todo|tbd|待补|待确认", re.I)
+SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 
 
-def nonempty_text(value: Any) -> bool:
-    if not isinstance(value, str):
+def meaningful(value: Any, minimum: int = 12) -> bool:
+    return isinstance(value, str) and len(value.strip()) >= minimum and not PLACEHOLDER_RE.search(value)
+
+
+def valid_screenshot(root: Path, value: Any) -> bool:
+    if not isinstance(value, str) or not value.strip() or Path(value).is_absolute():
         return False
-    text = value.strip()
-    if len(text) < 12:
+    path = (root / value).resolve()
+    try:
+        path.relative_to(root.resolve())
+    except ValueError:
         return False
-    return not any(marker in text.lower() for marker in PLACEHOLDER_REJECTS)
+    if not path.is_file() or path.stat().st_size == 0:
+        return False
+    header = path.read_bytes()[:16]
+    return header.startswith(b"\x89PNG\r\n\x1a\n") or header.startswith(b"\xff\xd8\xff") or (header.startswith(b"RIFF") and header[8:12] == b"WEBP")
 
 
-def validate(data: dict[str, Any]) -> list[str]:
+def validate(data: dict[str, Any], root: Path) -> list[str]:
     errors: list[str] = []
-
-    positioning = data.get("deliveryPositioning")
-    if not isinstance(positioning, str) or "WeCom Clienteling" not in positioning:
-        errors.append("deliveryPositioning must identify the deliverable as a WeCom Clienteling prototype")
-
-    stages = data.get("deliveryStages")
-    if not isinstance(stages, dict):
-        errors.append("deliveryStages must be an object")
-    else:
-        for stage in REQUIRED_STAGES:
-            entry = stages.get(stage)
-            if not isinstance(entry, dict):
-                errors.append(f"deliveryStages.{stage} must be an object")
-                continue
-            if entry.get("status") != "complete":
-                errors.append(f"deliveryStages.{stage}.status must be complete")
-            if not nonempty_text(entry.get("notes")):
-                errors.append(f"deliveryStages.{stage}.notes must explain the completed stage")
-
-    scores = data.get("qualityScores")
-    if not isinstance(scores, dict):
-        errors.append("qualityScores must be an object")
-    else:
-        for key in REQUIRED_SCORES:
-            value = scores.get(key)
-            if not isinstance(value, int) or not 1 <= value <= 5:
-                errors.append(f"qualityScores.{key} must be an integer from 1 to 5")
-            elif value < 4:
-                errors.append(f"qualityScores.{key} must be at least 4 for delivery")
-
-    critique = data.get("selfCritique")
-    if not isinstance(critique, dict):
-        errors.append("selfCritique must be an object")
-    else:
-        for key in REQUIRED_SELF_CRITIQUE:
-            if not nonempty_text(critique.get(key)):
-                errors.append(f"selfCritique.{key} must contain a non-placeholder answer")
-
-    creative = data.get("creativeDivergenceReview")
-    if not isinstance(creative, dict):
-        errors.append("creativeDivergenceReview must be an object")
-    else:
-        for key in REQUIRED_CREATIVE_REVIEW:
-            value = creative.get(key)
-            if key in {"transposedMechanisms", "highImpactLeversUsed"}:
-                if not isinstance(value, list) or len(value) < 2:
-                    errors.append(f"creativeDivergenceReview.{key} must include at least two items")
-            elif not nonempty_text(value):
-                errors.append(f"creativeDivergenceReview.{key} must contain a non-placeholder answer")
-        levers = creative.get("highImpactLeversUsed")
-        if isinstance(levers, list) and len(set(str(item) for item in levers)) < 4:
-            errors.append("creativeDivergenceReview.highImpactLeversUsed must include at least four distinct levers")
-
-    anti_generic = data.get("antiGenericReview")
-    if not isinstance(anti_generic, dict):
-        errors.append("antiGenericReview must be an object")
-    else:
-        for flag in ANTI_GENERIC_FLAGS:
-            if anti_generic.get(flag) is not False:
-                errors.append(f"antiGenericReview.{flag} must be false before delivery")
-
-    automated = data.get("automatedChecks")
-    if not isinstance(automated, list) or len(automated) < 6:
-        errors.append("automatedChecks must list the completed automated checks")
-    else:
-        for required in (
-            "check_visual_tokens.py",
-            "check_prototype_block_layout.py",
-            "check_prototype_case_evaluation.py",
-            "check_delivery_review.py",
-            "check_prototype_delivery_bundle.py",
-        ):
-            if required not in automated:
-                errors.append(f"automatedChecks must include {required}")
-
-    rendered = data.get("renderedChecks")
-    if not isinstance(rendered, list) or len(rendered) < 4:
-        errors.append("renderedChecks must list key browser-inspected surfaces")
-
+    if data.get("skillVersion") != "4.0":
+        errors.append('skillVersion must remain "4.0"')
+    if data.get("browser") != "Google Chrome":
+        errors.append("browser must record Google Chrome visible-browser acceptance")
+    if not meaningful(data.get("testedUrl"), 8) or not meaningful(data.get("checkedAt"), 10):
+        errors.append("testedUrl and checkedAt must be recorded")
+    if not isinstance(data.get("buildHash"), str) or not SHA256_RE.fullmatch(data["buildHash"]):
+        errors.append("buildHash must be the SHA-256 of the tested prototype HTML")
+    checks = data.get("checks") if isinstance(data.get("checks"), dict) else {}
+    for key in ("mobileFirstViewportComplete", "tabbarTouchesBottom", "longPageScrolls", "journeyValuesPersist", "allVisibleInteractionsWork"):
+        if checks.get(key) is not True:
+            errors.append(f"checks.{key} must be true")
+    for key in ("consoleErrors", "brokenImages"):
+        if checks.get(key) != 0:
+            errors.append(f"checks.{key} must be 0")
+    if not meaningful(data.get("primaryJourneyId"), 4):
+        errors.append("primaryJourneyId must identify the confirmed Journey")
+    journey = data.get("journey") if isinstance(data.get("journey"), list) else []
+    if len(journey) < 4 or not all(isinstance(item, str) and len(item.strip()) >= 2 for item in journey):
+        errors.append("journey must record at least four observed steps")
+    pages = data.get("selectedPagesChecked") if isinstance(data.get("selectedPagesChecked"), list) else []
+    if not pages or len(pages) != len(set(pages)) or not all(isinstance(item, str) and item.strip() for item in pages):
+        errors.append("selectedPagesChecked must list each checked selected page once")
+    shots = data.get("screenshots") if isinstance(data.get("screenshots"), list) else []
+    if not 1 <= len(shots) <= 6 or not all(valid_screenshot(root, item) for item in shots):
+        errors.append("screenshots must contain one to six existing relative image paths")
+    if not meaningful(data.get("observation"), 24):
+        errors.append("observation must briefly describe what was actually seen")
     return errors
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Check prototype delivery review JSON.")
-    parser.add_argument("review_json", type=Path, help="Path to prototype-delivery-review JSON")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("review_json", type=Path)
     args = parser.parse_args()
-
     try:
         data = json.loads(args.review_json.read_text(encoding="utf-8"))
-    except FileNotFoundError:
-        print(f"ERROR: file not found: {args.review_json}", file=sys.stderr)
+    except (OSError, json.JSONDecodeError) as exc:
+        print(f"ERROR: cannot read review: {exc}", file=sys.stderr)
         return 2
-    except json.JSONDecodeError as exc:
-        print(f"ERROR: invalid JSON: {exc}", file=sys.stderr)
-        return 1
-
-    if not isinstance(data, dict):
-        print("ERROR: delivery review root must be an object", file=sys.stderr)
-        return 1
-
-    errors = validate(data)
+    errors = validate(data, args.review_json.parent) if isinstance(data, dict) else ["review root must be an object"]
     if errors:
-        print("Delivery review checks failed:", file=sys.stderr)
-        for error in errors:
-            print(f"- {error}", file=sys.stderr)
+        print("Browser acceptance checks failed:", file=sys.stderr)
+        print(*[f"- {error}" for error in errors], sep="\n", file=sys.stderr)
         return 1
-
-    print("OK: delivery review checks passed")
+    print("OK: concise visible-browser acceptance record passed")
     return 0
 
 

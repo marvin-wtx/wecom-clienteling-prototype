@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import os
 import re
 import sys
@@ -21,6 +22,7 @@ REQUIRED_TOKENS = [
     ".stage",
     ".phone-wrap",
     ".phone",
+    "#app { height: 100%; min-height: 0; }",
     "status-network",
     ".wx-nav",
     ".wx-capsule",
@@ -33,15 +35,16 @@ REQUIRED_TOKENS = [
     "fitDesktopPhone",
     "appShell",
     "has-actions",
-    "journey-hud",
-    "journeyHud",
-    "native-send-wrap",
-    "native-brand-tile",
+    "reviewModeEnabled",
+    'get("review") === "1"',
+    "body.review-mode",
 ]
 
-V3_REVIEW_TOKENS = [
+V4_REVIEW_TOKENS = [
     "mountReviewControls",
     "wecom-review-change",
+    "registerAction",
+    "wecom-operating-action",
 ]
 
 FORBIDDEN_PATTERNS = {
@@ -80,6 +83,14 @@ FORBIDDEN_PATTERNS = {
         r"status-dots",
         re.IGNORECASE,
     ),
+    "review guidance must never render inside the phone": re.compile(
+        r"journey-hud|journeyHud",
+        re.IGNORECASE,
+    ),
+    "native group-send must not use the retired parent navigation frame": re.compile(
+        r"nativeSendFrame|native-send-wrap",
+        re.IGNORECASE,
+    ),
 }
 
 
@@ -90,21 +101,54 @@ def load_external_blocklist() -> list[str]:
 
 def collect_errors(source: str, path: Path) -> list[str]:
     errors: list[str] = []
+    is_starter_demo = "data-starter-demo=" in source
+    runtime_source = ""
+
+    if not is_starter_demo:
+        if 'data-wecom-shell-runtime="4.0"' not in source:
+            errors.append("missing protected V4.0 shell-runtime marker")
+        if not re.search(r'<script[^>]+src=["\']\./shell-runtime\.js["\'][^>]*>', source, re.IGNORECASE):
+            errors.append("prototype must load the local protected shell-runtime.js")
+        runtime_path = path.parent / "shell-runtime.js"
+        if not runtime_path.is_file():
+            errors.append("missing protected shell-runtime.js beside index.html")
+        else:
+            runtime_source = runtime_path.read_text(encoding="utf-8")
+            canonical_runtime = Path(__file__).resolve().parent.parent / "assets" / "prototype-shell" / "shell-runtime.js"
+            if canonical_runtime.is_file() and hashlib.sha256(runtime_path.read_bytes()).digest() != hashlib.sha256(canonical_runtime.read_bytes()).digest():
+                errors.append("shell-runtime.js differs from the protected V4.0 runtime")
+        if "WeComShell.afterRender" not in source:
+            errors.append("project render path must call WeComShell.afterRender()")
 
     required_tokens = REQUIRED_TOKENS
-    if "data-starter-demo=" not in source:
-        required_tokens = [*REQUIRED_TOKENS, *V3_REVIEW_TOKENS]
+    if not is_starter_demo:
+        required_tokens = [*REQUIRED_TOKENS, *V4_REVIEW_TOKENS]
 
+    combined_source = source + "\n" + runtime_source
     for token in required_tokens:
-        if token not in source:
+        if token not in combined_source:
             errors.append(f"missing required shell token: {token}")
 
     for message, pattern in FORBIDDEN_PATTERNS.items():
-        if pattern.search(source):
+        if pattern.search(combined_source):
             errors.append(message)
 
     if re.search(r"<option[^>]+value=[\"']mobile[\"']", source, re.IGNORECASE):
         errors.append("viewport mode must not be exposed as an in-app select option")
+
+    if not re.search(
+        r"\.stage-header\s*,\s*\.stage-controls\s*\{\s*display\s*:\s*none",
+        source,
+        re.IGNORECASE,
+    ):
+        errors.append("external review header and controls must be hidden outside ?review=1")
+
+    if not re.search(
+        r"body\.review-mode\s+\.stage-header\s*,\s*body\.review-mode\s+\.stage-controls\s*\{\s*display\s*:\s*flex",
+        source,
+        re.IGNORECASE,
+    ):
+        errors.append("external review controls must be enabled only by review mode")
 
     if not re.search(
         r"svg\s*\{[^}]*width\s*:\s*1em[^}]*height\s*:\s*1em[^}]*fill\s*:\s*none",
@@ -112,6 +156,27 @@ def collect_errors(source: str, path: Path) -> list[str]:
         re.IGNORECASE | re.DOTALL,
     ):
         errors.append("shell icons need a global svg size and fill guardrail")
+
+    if not re.search(
+        r"(?m)^\s*#app\s*\{[^}]*height\s*:\s*100%[^}]*min-height\s*:\s*0",
+        source,
+        re.IGNORECASE | re.DOTALL,
+    ):
+        errors.append("app mount must fill the phone screen so bottom navigation cannot float above blank space")
+
+    if not re.search(
+        r"(?m)^\s*\.body\s*\{[^}]*flex\s*:\s*1\s+1\s+auto[^}]*min-height\s*:\s*0[^}]*overflow-y\s*:\s*auto",
+        source,
+        re.IGNORECASE | re.DOTALL,
+    ):
+        errors.append("page body must be the scroll container inside the fixed phone frame")
+
+    if not re.search(
+        r"(?m)^\s*\.tabbar\s*\{[^}]*position\s*:\s*absolute[^}]*bottom\s*:\s*0",
+        source,
+        re.IGNORECASE | re.DOTALL,
+    ):
+        errors.append("bottom navigation must be absolutely pinned to the phone screen bottom")
 
     if not re.search(
         r"\.sticky-actions\s*\{[^}]*position\s*:\s*absolute[^}]*bottom\s*:\s*0",
@@ -148,8 +213,9 @@ def collect_errors(source: str, path: Path) -> list[str]:
     ):
         errors.append("mobile full-screen mode must hide the decorative phone notch")
 
-    if re.search(r"<script[^>]+src=", source, re.IGNORECASE):
-        errors.append("prototype shell must be portable and avoid external script dependencies")
+    script_sources = re.findall(r"<script[^>]+src=[\"']([^\"']+)[\"']", source, re.IGNORECASE)
+    if any(script != "./shell-runtime.js" for script in script_sources):
+        errors.append("prototype shell may load only the local protected shell-runtime.js")
 
     for term in load_external_blocklist():
         if term and term in source:
